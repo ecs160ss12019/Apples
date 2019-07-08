@@ -10,7 +10,7 @@ The player is a bat trapped in an alternate dimension and is trying to get back 
 
 ## Story Mapping
 
-![Story Mapping](https://github.com/ecs160ss12019/Apples/blob/master/StoryMapping.pdf)
+![Story Mapping](https://github.com/ecs160ss12019/Apples/blob/master/StoryMapping.md)
 
 Link to our repo: 
 https://github.com/ecs160ss12019/Apples
