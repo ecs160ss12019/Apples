@@ -12,4 +12,4 @@ You are a bat lost in an alternate dimension, and you need to destroy all the ob
 |     4| With the three lives I have
 
 ### Sprints:
-![Sprints](sprints.jpg)
+![Sprints](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprints.JPG)
