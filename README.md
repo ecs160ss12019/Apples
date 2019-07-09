@@ -12,6 +12,10 @@ The player is a bat trapped in an alternate dimension and is trying to get back 
 
 [Story Mapping](StoryMapping.md)
 
+[CRC](crc.md)
+
+[Acceptance Tests](AcceptanceTest.md)
+
 Link to our repo: 
 https://github.com/ecs160ss12019/Apples
 
