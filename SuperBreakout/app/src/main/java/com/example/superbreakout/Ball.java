@@ -38,11 +38,13 @@ public class Ball {
 
     // Reverse the horizontal velocity
     public void reverseXvelocity() {
+
         xVelocity = -xVelocity;
     }
 
     // Reverse the vertical velocity
     public void reverseYvelocity() {
+
         yVelocity = -yVelocity;
     }
 
