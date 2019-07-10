@@ -120,7 +120,7 @@ class GameView extends SurfaceView implements Runnable{
                 break;
         }
 
-        balls[0].reset(width, height); // reset the ball
+        balls[0].placeBall(width, height); // place the ball
 
     }
 

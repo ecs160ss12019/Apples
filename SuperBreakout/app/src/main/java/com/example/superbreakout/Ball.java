@@ -16,14 +16,16 @@ public class Ball {
      * that takes in an initial coordinate of the ball
      * which should be randomly generated
      */
-    public Ball(int x, int y) {
-        //spawn ball
+    public Ball() {
+
         //set velocities
     }
 
     /* This function updates the new position of the ball
      * for the draw function in SuperBreakoutGame to draw
      * the new position of the ball
+     *
+     * @fps: frame rate that we are refreshing at
      */
     public void update(long fps) {
         //update frames based on frame rate
@@ -33,19 +35,32 @@ public class Ball {
      * intersects with the bat, sides or obstacles.
      */
     public void bounce() {
-        //bounce off bat, sides or obstacles
+        //bounce off bat, sides (SurfaceHolder??) or obstacles
     }
 
-    // Reverse the horizontal velocity
+    /* Reflect the ball to travel in the opposite
+     * horizontal direction
+     */
     public void reverseXvelocity() {
 
         xVelocity = -xVelocity;
     }
 
-    // Reverse the vertical velocity
+    /* Reflect the ball to travel in the opposite
+     * vertical direction
+     */
     public void reverseYvelocity() {
 
         yVelocity = -yVelocity;
+    }
+
+    /* Reset the position of the ball
+     *
+     * @x: x coordinate of position to be placed
+     * @y: y coordinate of position to be placed
+     */
+    public void placeBall(int x, int y) {
+
     }
 
 }
