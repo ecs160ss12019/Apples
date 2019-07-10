@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.view.Display;
 
 public class SuperBreakoutActivity extends Activity {
-    private SuperBreakoutGame mSuperBreakoutGame;
+    private GameView superBreakoutGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,23 +16,21 @@ public class SuperBreakoutActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
 
-        mSuperBreakoutGame = new SuperBreakoutGame(this, size.x, size.y);
-        setContentView(mSuperBreakoutGame);
+        superBreakoutGame = new GameView(this, size.x, size.y);
+        setContentView(superBreakoutGame);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // More code here later in the chapter
-        mSuperBreakoutGame.resume();
+        superBreakoutGame.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        // More code here later in the chapter
-        mSuperBreakoutGame.pause();
+        
+        superBreakoutGame.pause();
     }
 }
