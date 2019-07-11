@@ -35,7 +35,7 @@ public class Debris {
     /*
      *  This function generates a debris object once an obstacle is destroyed
      */
-    public RectF spawnDebris() {
+    /*public RectF spawnDebris() {
         switch(this.debrisType) {
             case "Harmful":
                 // spawn harmful debris that destroys bat
@@ -48,7 +48,7 @@ public class Debris {
                 break;
         }
         // returns this.debris depending on its type
-    }
+    }*/
 
     /*
      *  Enables the debris to fall once it spawns
