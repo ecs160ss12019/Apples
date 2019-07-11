@@ -9,6 +9,7 @@ public class Obstacle {
     private RectF obstacle; // Holds four float coordinates (left, top, right, bottom) for the obstacle
     private int durability; // Amount of the times the obstacle can be hit by the ball.
     private String effect;  // The obstacle's special effect that can influence adjacent obstacles
+                            // Obstacle may or may not have an effect.
 
 
     /*
@@ -65,5 +66,19 @@ public class Obstacle {
      */
     public String getEffect() {
         return this.effect;
+    }
+
+    /*
+     *   This function applies an effect to the obstacle
+     *   given by effect input provided by another obstacle
+     */
+    public void applyEffect(String effect) {
+        switch (effect) {
+            case "effectName":
+                break;
+            // add more effect cases
+            default:
+                break;
+        }
     }
 }
