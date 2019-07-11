@@ -124,6 +124,14 @@ class GameView extends SurfaceView implements Runnable{
 
     }
 
+    /* Global method to update all objects
+     */
+    public void update() {
+
+        bat.update(FPS);
+        balls[0].update(FPS);
+    }
+
     /* Method called by SuperBreakoutActivity to pause game
      */
     public void pause() {
