@@ -53,4 +53,11 @@ public class Bat {
 	 * based on the movement chosen.
 	 */
 	public void update(long fps){}	
+	
+	/* 
+	 * @debri - the debri that the Bat hit
+	 *
+	 * Update Bat based on the debri that the bat hit
+	 */
+	public void hitDebri(Debris debri){}
 }
