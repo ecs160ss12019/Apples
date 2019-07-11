@@ -7,8 +7,10 @@ public class Ball {
 
     // Variables
     RectF rect; // Square that represents a ball
+
     float xVelocity; // Ball's velocity in the horizontal dimension
     float yVelocity; // Ball's velocity in the vertical dimension
+
     float width; // Ball's width in terms of pixels
     float height; // Ball's height in terms of pixels
 
@@ -16,9 +18,19 @@ public class Ball {
      * that takes in an initial coordinate of the ball
      * which should be randomly generated
      */
-    public Ball() {
+    public Ball(int screenHorizontalWidth) {
+        xVelocity = 0;
+        yVelocity = 0;
 
+        width = screenHorizontalWidth / 50; // sets width thickness of the ball
+        height = screenHorizontalWidth / 50; // sets height thickness of the ball
+
+        rect = new RectF();
         //set velocities
+    }
+
+    RectF getRect() {
+        return rect;
     }
 
     /* This function updates the new position of the ball
@@ -60,7 +72,19 @@ public class Ball {
      * @y: y coordinate of position to be placed
      */
     public void placeBall(int x, int y) {
+        // Initialise the four points of
+        // the rectangle which defines the ball
+        rect.left = x;
+        rect.top = y / 2;
+        rect.right = x + width;
+        rect.bottom = y /2 + height;
 
+        // How fast will the ball travel
+        // You could vary this to suit
+        // You could even increase it as the game progresses
+        // to make it harder
+        yVelocity = -(y / 3);
+        xVelocity = (y / 3);
     }
 
 }
