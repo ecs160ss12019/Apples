@@ -37,12 +37,16 @@ public class Bat {
 	// Return Bat's direction
 	public int getDirection(){return direction;}
 	
-	/*
-	 * @direction - change direction of the bat
-	 *
-	 * setDirection will take change the direction of the Bat, either
-	 * moving left, stopping, or moving right.
-	 */
+
+	// Change bat direction to left
+	public void moveLeft(){ direction = LEFT;}
+
+	// Change bat direction to right
+	public void moveRight(){ direction = RIGHT;}
+
+	// Stop bat
+	public void moveStop(){ direction = STOP;}
+
 	public void setDirection(int direction){
 	}
 	
