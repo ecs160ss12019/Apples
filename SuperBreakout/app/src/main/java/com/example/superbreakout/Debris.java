@@ -15,30 +15,56 @@ public class Debris {
     private float xPos; // x coordinate of debris
     private float yPos; // y coordinate of debris
 
-    private String debrisType; // Debris type
+    private String debrisType; // Debris type (Harmful, Upgrade, Downgrade)
 
+
+    /*
+     * Debris constructor that takes in the initial coordinates
+     * of a destroyed obstacle.
+     */
     public Debris() {
-
+        // sets debrisType
     }
 
-    public void spawnDebris() {
-
+    /*
+     *  This function generates a debris object once an obstacle is destroyed
+     */
+    public RectF spawnDebris() {
+        switch(this.debrisType) {
+            case "Harmful":
+                // spawn harmful debris that destroys bat
+                break;
+            case "Upgrade":
+                // spawn random upgrade
+                break;
+            case "Downgrade":
+                // spawn random downgrade
+                break;
+        }
+        // returns this.debris depending on its type
     }
 
+    /*
+     *  Enables the debris to fall once it spawns
+     */
     public void fall() {
-
+        // decrease the debris' yPos depending on SPEED
     }
 
+    /*
+     *  Destroys the object once it comes in contact
+     *  with the ball, bat, or bottom of the frame
+     */
     public void destroy() {
-
+        // remove debris from frame/game
     }
 
-    public void getDebrisType() {
-
-    }
-
+    /*
+     *  Checks whether the debris is hit by the bat or ball
+     */
     public void hit() {
-
+        // if hit by the ball, call destroy()
+        // if hit by the bat, apply effects depending on debrisType
     }
 
 
