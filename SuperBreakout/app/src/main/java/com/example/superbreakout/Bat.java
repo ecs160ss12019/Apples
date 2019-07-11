@@ -22,12 +22,13 @@ public class Bat {
 	/*
 	 * @posX - Screen's width
 	 * @posY - Screen's height
-	 * 
+	 * @DPI - Dots Per Inch of the screen (Pixel Density)
+	 *
 	 * Instantiate Bat object and place bat's coordinate in the bottom center
 	 * Instantiate rect with x, y, width, and height to represent Bat's 4
 	 * corners.
 	 */
-	public Bat(int posX, int posY){
+	public Bat(int posX, int posY, int DPI){
 	}
 	
 	// Return rect object that represents Bat's 4 corner object
