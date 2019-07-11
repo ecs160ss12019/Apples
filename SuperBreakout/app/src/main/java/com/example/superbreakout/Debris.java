@@ -26,6 +26,12 @@ public class Debris {
         // sets debrisType
     }
 
+    /* This function updates the new position of the debris
+     * for the draw function in SuperBreakoutGame to draw
+     * the new position of the debris
+     */
+    public void update(long fps) {}
+
     /*
      *  This function generates a debris object once an obstacle is destroyed
      */

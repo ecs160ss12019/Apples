@@ -28,6 +28,12 @@ public class Obstacle {
         return this.obstacle;
     }
 
+    /* This function updates the new position of the obstacle
+     * for the draw function in SuperBreakoutGame to draw
+     * the new position of the obstacle
+     */
+    public void update(long fps) {}
+
     /*
      *   This function reduces the durability of an obstacle
      *   if it has been hit by the ball.
