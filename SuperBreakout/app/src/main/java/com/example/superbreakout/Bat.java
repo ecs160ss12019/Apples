@@ -36,7 +36,6 @@ public class Bat {
 	
 	// Return Bat's direction
 	public int getDirection(){return direction;}
-	
 
 	// Change bat direction to left
 	public void moveLeft(){ direction = LEFT;}
@@ -46,9 +45,6 @@ public class Bat {
 
 	// Stop bat
 	public void moveStop(){ direction = STOP;}
-
-	public void setDirection(int direction){
-	}
 	
 	/*
 	 * @fps - frame rate	
