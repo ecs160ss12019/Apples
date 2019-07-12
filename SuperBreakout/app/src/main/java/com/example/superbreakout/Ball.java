@@ -40,7 +40,10 @@ public class Ball {
      * @fps: frame rate that we are refreshing at
      */
     public void update(long fps) {
-        //update frames based on frame rate
+        rect.left = rect.left + (xVelocity / fps);
+        rect.top = rect.left + (yVelocity / fps);
+        rect.right = rect.left + width;
+        rect.bottom = rect.top - height;
     }
 
     /* This function handles all cases when the ball
@@ -75,16 +78,16 @@ public class Ball {
         // Initialise the four points of
         // the rectangle which defines the ball
         rect.left = x;
-        rect.top = y / 2;
+        rect.top = y / 2 + height;
         rect.right = x + width;
-        rect.bottom = y /2 + height;
+        rect.bottom = y /2;
 
         // How fast will the ball travel
         // You could vary this to suit
         // You could even increase it as the game progresses
         // to make it harder
-        yVelocity = -(y / 3);
-        xVelocity = (y / 3);
+        yVelocity = 40;
+        xVelocity = -80;
     }
 
 }
