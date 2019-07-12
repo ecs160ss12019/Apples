@@ -15,7 +15,7 @@ public class Obstacle {
         isVisible = true;
 
         // Padding between bricks
-        int padding = 0;
+        int padding = height/5;
 
         rect = new RectF(column * width + padding,
                 row * height + padding,

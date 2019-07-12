@@ -251,11 +251,12 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         if (ball.getRect().bottom > screenY) {
-            ball.reverseYVelocity();
-            ball.clearObstacleY(screenY - 5);
+            //ball.reverseYVelocity();
+            //ball.clearObstacleY(screenY - 5);
 
             // Lose a life
             lives--;
+            ball.reset(screenX, screenY);
             //soundPool.play(loseLifeID, 1, 1, 0, 0, 1); FIXME
 
             if (lives == 0) {
