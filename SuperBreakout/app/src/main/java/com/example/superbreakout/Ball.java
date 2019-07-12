@@ -19,18 +19,19 @@ public class Ball {
      * which should be randomly generated
      */
     public Ball(int screenHorizontalWidth) {
+        // Sets the value for x and y velocity for the ball
         xVelocity = 0;
         yVelocity = 0;
 
         width = screenHorizontalWidth / 50; // sets width thickness of the ball
         height = screenHorizontalWidth / 50; // sets height thickness of the ball
 
-        rect = new RectF();
+        rect = new RectF(); // creates new rectangle object to draw the rectangle for the objects (ball, bat, obstacle)
         //set velocities
     }
 
     RectF getRect() {
-        return rect;
+        return rect; // getter for rectangle
     }
 
     /* This function updates the new position of the ball

@@ -130,6 +130,7 @@ class GameView extends SurfaceView implements Runnable{
             paint.setColor(Color.argb
                     (255, 255, 255, 255));
 
+            // draws the ball in Canvas
             canvas.drawRect(balls[0].getRect(), paint);
 
 
@@ -167,6 +168,7 @@ class GameView extends SurfaceView implements Runnable{
         Random r = new Random();
         int rWidth = r.nextInt(width);
 
+        // Sets the first ball at random location using the generated random numbers above
         balls[0].placeBall(rWidth, height); // place the ball
 
     }
