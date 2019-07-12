@@ -2,92 +2,84 @@ package com.example.superbreakout;
 
 import android.graphics.RectF;
 
+import java.util.Random;
 
 public class Ball {
+    RectF rect;
+    public float xVelocity;
+    public float yVelocity;
 
-    // Variables
-    RectF rect; // Square that represents a ball
+    // Make it a 10 pixel x 10 pixel square
+    float ballWidth = 10;
+    float ballHeight = 10;
 
-    float xVelocity; // Ball's velocity in the horizontal dimension
-    float yVelocity; // Ball's velocity in the vertical dimension
-
-    float width; // Ball's width in terms of pixels
-    float height; // Ball's height in terms of pixels
-
-    /* This is a constructor of a ball
-     * that takes in an initial coordinate of the ball
-     * which should be randomly generated
-     */
-    public Ball(int screenHorizontalWidth) {
-        xVelocity = 0;
-        yVelocity = 0;
-
-        width = screenHorizontalWidth / 50; // sets width thickness of the ball
-        height = screenHorizontalWidth / 50; // sets height thickness of the ball
-
+    public Ball(int screenX, int screenY) {
         rect = new RectF();
-        //set velocities
+
     }
 
-    RectF getRect() {
+    public RectF getRect() {
         return rect;
     }
 
-    /* This function updates the new position of the ball
-     * for the draw function in SuperBreakoutGame to draw
-     * the new position of the ball
-     *
-     * @fps: frame rate that we are refreshing at
-     */
     public void update(long fps) {
         rect.left = rect.left + (xVelocity / fps);
-        rect.top = rect.left + (yVelocity / fps);
-        rect.right = rect.left + width;
-        rect.bottom = rect.top - height;
+        rect.top = rect.top + (yVelocity / fps);
+        rect.right = rect.left + ballWidth;
+        rect.bottom = rect.top - ballHeight;
     }
 
-    /* This function handles all cases when the ball
-     * intersects with the bat, sides or obstacles.
-     */
-    public void bounce() {
-        //bounce off bat, sides (SurfaceHolder??) or obstacles
-    }
-
-    /* Reflect the ball to travel in the opposite
-     * horizontal direction
-     */
-    public void reverseXvelocity() {
-
-        xVelocity = -xVelocity;
-    }
-
-    /* Reflect the ball to travel in the opposite
-     * vertical direction
-     */
-    public void reverseYvelocity() {
-
+    public void reverseYVelocity() {
         yVelocity = -yVelocity;
     }
 
-    /* Reset the position of the ball
-     *
-     * @x: x coordinate of position to be placed
-     * @y: y coordinate of position to be placed
-     */
-    public void placeBall(int x, int y) {
-        // Initialise the four points of
-        // the rectangle which defines the ball
-        rect.left = x;
-        rect.top = y / 2 + height;
-        rect.right = x + width;
-        rect.bottom = y /2;
-
-        // How fast will the ball travel
-        // You could vary this to suit
-        // You could even increase it as the game progresses
-        // to make it harder
-        yVelocity = 40;
-        xVelocity = -80;
+    public void reverseXVelocity() {
+        xVelocity = -xVelocity + 50;
     }
+
+    public void sameXVelocity() {
+        xVelocity = xVelocity + 50;
+    }
+
+    public void zeroXVelocity() {
+        xVelocity = xVelocity - 50;
+    }
+
+    public void setRandomXVelocity() {
+        Random generator = new Random();
+        int answer = generator.nextInt(2);
+
+        if (answer == 0) {
+            reverseXVelocity();
+        }
+    }
+
+    // a fix for bug in Android RectF Class
+    public void clearObstacleY(float y) {
+        rect.bottom = y;
+        rect.top = y - ballHeight;
+    }
+
+    // a fix for bug in Android RectF Class
+    public void clearObstacleX(float x) {
+        rect.left = x;
+        rect.right = x + ballWidth + 50;
+    }
+
+    public void reset(int x, int y) {
+
+        // Place the ball in the centre of the screen at the bottom
+        rect.left = x / 2;
+        rect.top = y - 200;
+        rect.right = x / 2 + ballWidth;
+        rect.bottom = y - 100 - ballHeight;
+
+        // Start the ball travelling straight up at 400 pixels per second
+        xVelocity = 400;
+        yVelocity = -800;
+
+
+    }
+
 
 }
