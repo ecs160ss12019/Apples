@@ -351,7 +351,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = ourHolder.lockCanvas();
 
             // Draw the background color
-            canvas.drawColor(Color.argb(255, 26, 128, 182));
+            canvas.drawColor(Color.argb(255, 153, 204, 255));
             // canvas.drawColor(getResources().getColor(R.color.deeppurple));
 
             dest = new Rect(0, 0, getWidth(), getHeight());
@@ -400,12 +400,13 @@ public class GameView extends SurfaceView implements Runnable {
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
             // Draw the score
-            //paint.setTextSize(getResources().getDimension(R.dimen.text_size));
+            // paint.setTextSize(getResources().getDimension(R.dimen.text_size));
+            paint.setTextSize(50);
 
             // Score Text
             canvas.drawText(
                     "Score: " + score
-                    , screenX - (densityDpi / 1.50f), screenY / 2, paint);
+                    , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
 
             // Lives Text
             canvas.drawText("Lives: " + lives
@@ -413,7 +414,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Levels Text
             canvas.drawText("Level: " + level
-                    , screenX / 2 - (densityDpi / 5), screenY / 2 + (densityDpi / 5), paint);
+                    , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
 
             // Has the player cleared the screen?
             if (score >= (numBricks * 10 * 3) + 20) {
