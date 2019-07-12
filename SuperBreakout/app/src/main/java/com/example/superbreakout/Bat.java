@@ -4,14 +4,11 @@ import android.graphics.RectF;
 
 public class Bat {
 	
-	public final int LEFT = -1;
-	public final int STOP = 0;
-   	public final int RIGHT = 1;	
+	private final int LEFT = -1;
+	private final int STOP = 0;
+   	private final int RIGHT = 1;	
 
 	RectF rect; // Object to represent Bat's four corners
-	
-	private float x; // Bottom left coordinate of the Bat
-	private float y; // Top coordinate of the Bat
 	
 	private float width; // Width of the bat
 	private float height; // Height of the bat
@@ -19,6 +16,8 @@ public class Bat {
 	private float speed; // Speed of the Bat
 	private int direction; // The bat's current direction
 	
+	private int batDPI;	
+
 	/*
 	 * @posX - Screen's width
 	 * @posY - Screen's height
@@ -28,14 +27,26 @@ public class Bat {
 	 * Instantiate rect with x, y, width, and height to represent Bat's 4
 	 * corners.
 	 */
-	public Bat(int posX, int posY, int DPI){
+	public Bat(int scrWidth, int scrHeight, int DPI){
+
+		width = DPI/2;
+		height = DPI/5;
+		batDPI = DPI;
+
+		int x = scrWidth/2;
+		int y = scrHeight; // Will need to adjust for better position 
+		
+		// Can use rect.left for x position
+		rect = new RectF(x, y, x + width, y + height);
+
+		speed = 500;
 	}
 	
 	// Return rect object that represents Bat's 4 corner object
 	public RectF getRect(){ return rect;}
 	
 	// Return Bat's direction
-	public int getDirection(){return direction;}
+	public int getDirection(){ return direction;}
 
 	// Change bat direction to left
 	public void moveLeft(){ direction = LEFT;}
@@ -52,12 +63,16 @@ public class Bat {
 	 * Update Super Breakout View of the Bat  and change the Bat's coordinate
 	 * based on the movement chosen.
 	 */
-	public void update(long fps){}	
-	
+	public void update(long fps){ 
+	}
+
 	/* 
 	 * @debri - the debri that the Bat hit
 	 *
 	 * Update Bat based on the debri that the bat hit
 	 */
-	public void hitDebri(Debris debri){}
+	public void hitDebri(Debris debri){
+		// Type of debri make changes to bat locally, adjust bat's powe up
+		// table and only allow a buff/debuff to apply once?
+	}
 }
