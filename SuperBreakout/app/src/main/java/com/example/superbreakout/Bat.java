@@ -3,48 +3,47 @@ package com.example.superbreakout;
 import android.graphics.RectF;
 
 public class Bat {
-	
+
 	private final int LEFT = -1;
 	private final int STOP = 0;
-   	private final int RIGHT = 1;	
+	private final int RIGHT = 1;	
 
 	RectF rect; // Object to represent Bat's four corners
-	
+
+	private float x;
 	private float width; // Width of the bat
-	private float height; // Height of the bat
+	private float scrWidth; // With of the screen to prevent the bat from going off screen
 
 	private float speed; // Speed of the Bat
 	private int direction; // The bat's current direction
-	
-	private int batDPI;	
+
 
 	/*
 	 * @posX - Screen's width
 	 * @posY - Screen's height
-	 * @DPI - Dots Per Inch of the screen (Pixel Density)
 	 *
 	 * Instantiate Bat object and place bat's coordinate in the bottom center
 	 * Instantiate rect with x, y, width, and height to represent Bat's 4
 	 * corners.
 	 */
-	public Bat(int scrWidth, int scrHeight, int DPI){
+	public Bat(int scrX, int scrY){
 
-		width = DPI/2;
-		height = DPI/5;
-		batDPI = DPI;
+		scrWidth = scrX;
 
-		int x = scrWidth/2;
-		int y = scrHeight; // Will need to adjust for better position 
-		
+		width = scrWidth/8;
+		float height = scrY/80; // Will need to adjust for better position
+		x = scrWidth/2; // Start in the middle of the screen
+		float y = scrY - height;
+
 		// Can use rect.left for x position
 		rect = new RectF(x, y, x + width, y + height);
 
 		speed = 500;
 	}
-	
+
 	// Return rect object that represents Bat's 4 corner object
 	public RectF getRect(){ return rect;}
-	
+
 	// Return Bat's direction
 	public int getDirection(){ return direction;}
 
@@ -56,14 +55,25 @@ public class Bat {
 
 	// Stop bat
 	public void moveStop(){ direction = STOP;}
-	
+
 	/*
 	 * @fps - frame rate	
 	 *
 	 * Update Super Breakout View of the Bat  and change the Bat's coordinate
 	 * based on the movement chosen.
 	 */
-	public void update(long fps){ 
+	public void update(long fps){
+		if(direction == LEFT)
+			x -= speed/fps;
+		if(direction == RIGHT)
+			x += speed/fps;
+		if(x < 0)
+			x = 0;
+		if(x + width > scrWidth)
+			x = scrWidth - width;
+
+		rect.left = x;
+		rect.right = x + width;
 	}
 
 	/* 
