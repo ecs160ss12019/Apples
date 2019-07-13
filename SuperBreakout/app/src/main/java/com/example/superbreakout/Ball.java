@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class Ball {
     RectF rect;
-    public float xVelocity;
-    public float yVelocity;
+    public double xVelocity;
+    public double yVelocity;
 
     // Make it a 10 pixel x 10 pixel square
     float ballWidth = 10;
@@ -23,8 +23,8 @@ public class Ball {
     }
 
     public void update(long fps) {
-        rect.left = rect.left + (xVelocity / fps);
-        rect.top = rect.top + (yVelocity / fps);
+        rect.left = rect.left + ((float)xVelocity / fps);
+        rect.top = rect.top + ((float)yVelocity / fps);
         rect.right = rect.left + ballWidth;
         rect.bottom = rect.top - ballHeight;
     }

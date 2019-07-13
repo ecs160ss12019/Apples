@@ -22,6 +22,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import java.io.IOException;
+import java.lang.Math;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -227,8 +228,19 @@ public class GameView extends SurfaceView implements Runnable {
 
         ) {
 
+            //normalize intersection
+            float fraction = (ball.getRect().left - bat.getRect().left) / (bat.getRect().right - bat.getRect().left);
+            double angleInDeg = (fraction*160) - 80;
+            double angleInRad = Math.toRadians(angleInDeg);
+            double horizontalChange = ball.xVelocity * Math.cos(angleInRad);
+            double verticalChange = ball.yVelocity * (-Math.sin(Math.abs(angleInRad)));
+            double compensationFactor = Math.sqrt((ball.xVelocity*ball.xVelocity + ball.yVelocity*ball.yVelocity) /
+                                                    (verticalChange*verticalChange + horizontalChange*horizontalChange));
+            ball.xVelocity = compensationFactor*horizontalChange;
+            ball.yVelocity = compensationFactor*verticalChange;
 
-            ball.reverseYVelocity();
+
+            /*ball.reverseYVelocity();
 
             // ReverseX Direction + IncreaseX speed
             if (bat.getMovementState() == bat.RIGHT && ball.xVelocity < 0 || bat.getMovementState() == bat.LEFT && ball.xVelocity > 0) {
@@ -243,7 +255,7 @@ public class GameView extends SurfaceView implements Runnable {
             // Paddle is still, DecreaseX speed
              else if (bat.getMovementState() == bat.STOPPED) {
                 ball.zeroXVelocity();
-            }
+            }*/
 
             ball.clearObstacleY(bat.getRect().top - 20);
 
