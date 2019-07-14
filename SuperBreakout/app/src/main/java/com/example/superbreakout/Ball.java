@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -13,14 +16,21 @@ public class Ball {
     float ballWidth = 10;
     float ballHeight = 10;
 
-    public Ball(int screenX, int screenY) {
+    Bitmap ballBitmap;
+
+    public Ball(Context context, int screenX, int screenY) {
         rect = new RectF();
+
+        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 100, 100, true);
 
     }
 
     public RectF getRect() {
         return rect;
     }
+
+    public Bitmap getBallBitmap() { return ballBitmap; }
 
     public void update(long fps) {
         rect.left = rect.left + (xVelocity / fps);

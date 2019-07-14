@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -68,6 +69,12 @@ public class GameView extends SurfaceView implements Runnable {
     int explodeID = -1;
     */
 
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // TODO Auto-generated constructor stub
+    }
+
+
     public GameView(Context context, int x, int y) {
         super(context);
 
@@ -80,8 +87,8 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
-        bat = new Bat(screenX, screenY, densityDpi);
-        ball = new Ball(screenX, screenY);
+        bat = new Bat(context, screenX, screenY, densityDpi);
+        ball = new Ball(context, screenX, screenY);
 
         /* SOUND FX FIXME
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -364,10 +371,11 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw the ball
             canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
             //canvas.drawBitmap(bitmapBall, ball.getRect().left, ball.getRect().top, null);
+            //canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
 
             // Draw the paddle
-            canvas.drawRect(bat.getRect(), paint);
-            //canvas.drawBitmap(bitmapPaddal, paddle.getRect().left, paddle.getRect().top, null);
+            // canvas.drawRect(bat.getRect(), paint);
+            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
 
 
             // Change the brush color for drawing
