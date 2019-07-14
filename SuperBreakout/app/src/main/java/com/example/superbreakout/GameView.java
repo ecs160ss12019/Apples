@@ -42,6 +42,7 @@ public class GameView extends SurfaceView implements Runnable {
     Ball ball;
     Obstacle[] bricks = new Obstacle[24];
     int numBricks = 0;
+    Debris[] debris = new Debris[24];
 
 
     int score = 0;
@@ -167,6 +168,7 @@ public class GameView extends SurfaceView implements Runnable {
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(row, column, brickWidth, brickHeight);
+                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
@@ -212,6 +214,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
+                    debris[i].setActive();
                     ball.reverseYVelocity();
                     score = score + 10;
 
@@ -406,6 +409,14 @@ public class GameView extends SurfaceView implements Runnable {
                     }*/
 
 
+                }
+            }
+
+            // Draw the debris
+            paint.setColor(Color.argb(255, 255, 0, 0));
+            for(int i = 0; i < numBricks; i++) {
+                if (debris[i].getActive()) {
+                    canvas.drawRect(debris[i].getRect(), paint);
                 }
             }
 

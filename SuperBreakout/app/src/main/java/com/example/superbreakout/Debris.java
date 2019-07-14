@@ -10,12 +10,11 @@ public class Debris {
 
     private final int SPEED = 1; // Constant speed (in Y-direction) of debris
 
-    private RectF debris; // Square/Rect representing the falling debris
+    private RectF rect; // Square/Rect representing the falling debris
 
-    private float xPos; // x coordinate of debris
-    private float yPos; // y coordinate of debris
+    private String debrisType; // Debris type (Harmful, Upgrade, Downgrade, None)
 
-    private String debrisType; // Debris type (Harmful, Upgrade, Downgrade)
+    private boolean active; // If the debris is in frame or not
 
 
     /*
@@ -26,42 +25,44 @@ public class Debris {
 
         int padding = height/5;
 
-        debris = new RectF(column * width + padding,
+        rect = new RectF(column * width + padding,
                 row * height + padding,
                 column * width + width - padding,
                 row * height + height - padding);
 
 
-        // sets the debris type randomly from the 3 types.
-        String[] types = {"Harmful", "Upgrade", "Downgrade"};
+        // sets the debris type randomly from the 4 types.
+        String[] types = {"Harmful", "Upgrade", "Downgrade", "None"};
         Random random = new Random();
 
         debrisType = types[random.nextInt(types.length)];
+
+        active = false;
     }
 
-    /* This function updates the new position of the debris
-     * for the draw function in SuperBreakoutGame to draw
-     * the new position of the debris
+    /*
+     *  This function generates a debris object once an obstacle is destroyed
      */
+    public RectF getRect() {
+        return this.rect;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive() {
+        if (!active) {
+            active = true;
+        }
+    }
+
+//    /* This function updates the new position of the debris
+//     * for the draw function in SuperBreakoutGame to draw
+//     * the new position of the debris
+//     */
 //    public void update(long fps) {}
 //
-//    /*
-//     *  This function generates a debris object once an obstacle is destroyed
-//     */
-//    /*public RectF spawnDebris() {
-//        switch(this.debrisType) {
-//            case "Harmful":
-//                // spawn harmful debris that destroys bat
-//                break;
-//            case "Upgrade":
-//                // spawn random upgrade
-//                break;
-//            case "Downgrade":
-//                // spawn random downgrade
-//                break;
-//        }
-//        // returns this.debris depending on its type
-//    }*/
 //
 //    /*
 //     *  Enables the debris to fall once it spawns
