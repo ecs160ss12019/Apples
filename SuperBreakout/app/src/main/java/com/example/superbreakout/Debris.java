@@ -32,7 +32,7 @@ public class Debris {
 
 
         // sets the debris type randomly from the 4 types.
-        String[] types = {"Harmful", "Upgrade", "Downgrade", "None"};
+        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None"};
         Random random = new Random();
 
         debrisType = types[random.nextInt(types.length)];
@@ -55,6 +55,10 @@ public class Debris {
         if (!active) {
             active = true;
         }
+    }
+
+    public String getDebrisType() {
+        return debrisType;
     }
 
 //    /* This function updates the new position of the debris

@@ -214,7 +214,9 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
-                    debris[i].setActive();
+                    if(!debris[i].getDebrisType().equals("None")) {
+                        debris[i].setActive();
+                    }
                     ball.reverseYVelocity();
                     score = score + 10;
 
@@ -416,6 +418,14 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(Color.argb(255, 255, 0, 0));
             for(int i = 0; i < numBricks; i++) {
                 if (debris[i].getActive()) {
+                    // set color depending on Debris type
+                    if(debris[i].getDebrisType().equals("Harmful")) {
+                        paint.setColor(Color.argb(255, 255, 0, 0));
+                    } else if(debris[i].getDebrisType().equals("Upgrade")) {
+                        paint.setColor(Color.argb(255, 0, 255, 0));
+                    } else if(debris[i].getDebrisType().equals("Downgrade")) {
+                        paint.setColor(Color.argb(255, 0, 0, 255));
+                    }
                     canvas.drawRect(debris[i].getRect(), paint);
                 }
             }
