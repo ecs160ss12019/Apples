@@ -8,13 +8,15 @@ import java.util.Random;
  */
 public class Debris {
 
-    private final int SPEED = 1; // Constant speed (in Y-direction) of debris
+    private final int SPEED = 5; // Constant speed (in Y-direction) of debris
 
     private RectF rect; // Square/Rect representing the falling debris
 
     private String debrisType; // Debris type (Harmful, Upgrade, Downgrade, None)
 
     private boolean active; // If the debris is in frame or not
+
+    private boolean falling;
 
 
     /*
@@ -32,12 +34,15 @@ public class Debris {
 
 
         // sets the debris type randomly from the 4 types.
-        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None"};
+        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None",
+        "None", "None", "None"};
         Random random = new Random();
 
         debrisType = types[random.nextInt(types.length)];
 
         active = false;
+
+        falling = false;
     }
 
     /*
@@ -45,6 +50,10 @@ public class Debris {
      */
     public RectF getRect() {
         return this.rect;
+    }
+
+    public String getDebrisType() {
+        return debrisType;
     }
 
     public boolean getActive() {
@@ -57,8 +66,13 @@ public class Debris {
         }
     }
 
-    public String getDebrisType() {
-        return debrisType;
+    /*
+     * The update method will change the top/bottom coordinates of debris\
+     * to imitate an object "falling" to the bottom of the screen.
+     */
+    public void update(long fps) {
+        rect.top = rect.top + SPEED;
+        rect.bottom = rect.bottom + SPEED;
     }
 
 //    /* This function updates the new position of the debris
