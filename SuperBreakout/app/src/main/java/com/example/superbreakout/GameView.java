@@ -222,7 +222,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
                     if(!debris[i].getDebrisType().equals("None")) {
-                        debris[i].setActive();
+                        debris[i].activate();
                     }
                     ball.reverseYVelocity();
                     score = score + 10;
@@ -231,6 +231,8 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
         }
+
+        // Check for ball colliding with an active debris
 
         // Check for ball colliding with paddle
         if (

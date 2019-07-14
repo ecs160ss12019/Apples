@@ -8,16 +8,13 @@ import java.util.Random;
  */
 public class Debris {
 
-    private final int SPEED = 5; // Constant speed (in Y-direction) of debris
+    private final float SPEED = 2.5f; // Constant speed (in Y-direction) of debris
 
     private RectF rect; // Square/Rect representing the falling debris
 
     private String debrisType; // Debris type (Harmful, Upgrade, Downgrade, None)
 
     private boolean active; // If the debris is in frame or not
-
-    private boolean falling;
-
 
     /*
      * Debris constructor that takes in the initial coordinates
@@ -34,15 +31,12 @@ public class Debris {
 
 
         // sets the debris type randomly from the 4 types.
-        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None",
-        "None", "None", "None"};
+        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None"};
         Random random = new Random();
 
         debrisType = types[random.nextInt(types.length)];
 
         active = false;
-
-        falling = false;
     }
 
     /*
@@ -60,10 +54,18 @@ public class Debris {
         return active;
     }
 
-    public void setActive() {
-        if (!active) {
-            active = true;
-        }
+    /*
+     *  This method is used once the ball hits an obstacle
+     */
+    public void activate() {
+        active = true;
+    }
+
+    /*
+     * this method is used once the ball hits a debris
+     */
+    public void deactivate() {
+        active = false;
     }
 
     /*
