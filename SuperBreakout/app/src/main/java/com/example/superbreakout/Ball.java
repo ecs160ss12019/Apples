@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class Ball {
     private RectF rect;
-    public float xVelocity;
-    public float yVelocity;
+    public double xVelocity;
+    public double yVelocity;
 
     // Make it a 10 pixel x 10 pixel square
     float ballWidth = 10;
