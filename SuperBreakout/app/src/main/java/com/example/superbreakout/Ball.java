@@ -22,7 +22,7 @@ public class Ball {
         rect = new RectF();
 
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
-        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 100, 100, true);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 75, 65, true);
 
     }
 

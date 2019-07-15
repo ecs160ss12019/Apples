@@ -172,7 +172,7 @@ public class GameView extends SurfaceView implements Runnable {
         numBricks = 0;
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
-                bricks[numBricks] = new Obstacle(row, column, brickWidth, brickHeight);
+                bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
@@ -365,27 +365,33 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw bob as background with dest size
             //canvas.drawBitmap(bitmapBob, null, dest, paint);
 
-            // Choose the brush color for drawing
+            // Choose the brush color for drawing white
             paint.setColor(Color.argb(255, 255, 255, 255));
 
             // Draw the ball
-            canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
-            //canvas.drawBitmap(bitmapBall, ball.getRect().left, ball.getRect().top, null);
-            //canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+            // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
+            // canvas.drawBitmap(bitmapBall, ball.getRect().left, ball.getRect().top, null);
+            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+
+            // sets brush color to red
+            paint.setColor(Color.argb(255, 255, 0, 0));
 
             // Draw the paddle
-            // canvas.drawRect(bat.getRect(), paint);
-            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+            canvas.drawRect(bat.getRect(), paint);
+            // canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
 
 
             // Change the brush color for drawing
             // paint.setColor(getResources().getColor(R.color.redorange));
 
+            // sets brush color to white
+            paint.setColor(Color.argb(255, 255, 0, 0));
+
             // Draw the bricks if visible
             for (int i = 0; i < numBricks; i++) {
                 if (bricks[i].getVisibility()) {
-                    canvas.drawRect(bricks[i].getRect(), paint);
-
+                    // canvas.drawRect(bricks[i].getRect(), paint);
+                    canvas.drawBitmap(bricks[i].getBricksBitmap(), bricks[i].getRect().left, bricks[i].getRect().top, paint);
                     /*switch (level) {
                         case 1:
                             canvas.drawBitmap(bitmapBrick1, bricks[i].getRect().left, bricks[i].getRect().top, null);
