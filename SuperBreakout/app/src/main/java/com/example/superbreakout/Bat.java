@@ -27,7 +27,7 @@ public class Bat {
     private int paddleMoving = STOPPED;
     private int MYscreenDPI;
 
-    Bitmap batBitmap;
+    private Bitmap batBitmap;
 
 
     // This the the constructor method
@@ -49,7 +49,7 @@ public class Bat {
         paddleSpeed = 800;
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
-        batBitmap = Bitmap.createScaledBitmap(batBitmap, 250, 100, true);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap, (int)length, (int)height, true);
     }
 
     // This is a getter method to make the rectangle that

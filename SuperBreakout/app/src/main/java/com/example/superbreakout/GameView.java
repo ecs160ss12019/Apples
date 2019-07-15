@@ -52,14 +52,7 @@ public class GameView extends SurfaceView implements Runnable {
     DisplayMetrics dm;
     int densityDpi;
 
-    /* BITMAP FIXME
-    Bitmap bitmapBob;
-    Bitmap bitmapBall;
-    Bitmap bitmapPaddal;
-    Bitmap bitmapBrick1;
-    Bitmap bitmapBrick2;
-    Bitmap bitmapBrick3;
-
+    /*
     SOUND FX FIXME
     SoundPool soundPool;
     int beep1ID = -1;
@@ -118,27 +111,6 @@ public class GameView extends SurfaceView implements Runnable {
             // Print an error message to the console
             Log.e("error", "failed to load sound files");
         }
-
-
-        BITMAP FIXME
-        bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.wall);
-        bitmapBall = BitmapFactory.decodeResource(this.getResources(), R.drawable.ball);
-        bitmapPaddal = BitmapFactory.decodeResource(this.getResources(), R.drawable.ball);
-        bitmapBrick1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_red);
-        bitmapBrick2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_green);
-        bitmapBrick3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_monster);
-
-        int heightX = densityDpi / 8;
-        float length_bat = densityDpi / 1.50f;
-        int height_bat = densityDpi / 7;
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-
-        bitmapBall = getResizedBitmap(bitmapBall, heightX, heightX);
-        bitmapPaddal = getResizedBitmap(bitmapPaddal, length_Paddal, height_Paddal);
-        bitmapBrick1 = getResizedBitmap(bitmapBrick1, brickWidth, brickHeight);
-        bitmapBrick2 = getResizedBitmap(bitmapBrick2, brickWidth, brickHeight);
-        bitmapBrick3 = getResizedBitmap(bitmapBrick3, brickWidth, brickHeight);
         */
 
 
@@ -362,15 +334,12 @@ public class GameView extends SurfaceView implements Runnable {
             // canvas.drawColor(getResources().getColor(R.color.deeppurple));
 
             dest = new Rect(0, 0, getWidth(), getHeight());
-            // Draw bob as background with dest size
-            //canvas.drawBitmap(bitmapBob, null, dest, paint);
 
             // Choose the brush color for drawing white
             paint.setColor(Color.argb(255, 255, 255, 255));
 
             // Draw the ball
             // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
-            // canvas.drawBitmap(bitmapBall, ball.getRect().left, ball.getRect().top, null);
             canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
 
             // sets brush color to red
@@ -453,7 +422,6 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             Log.e("Error:", "joining thread");
         }
-
     }
 
     // If GameActivity is started
@@ -502,24 +470,4 @@ public class GameView extends SurfaceView implements Runnable {
         }
         return true;
     }
-
-    // Resize Bitmap function to Handle all the Images from resources the right size
-    /*public Bitmap getResizedBitmap(Bitmap bm, float newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = newWidth / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }*/
-
-
 }

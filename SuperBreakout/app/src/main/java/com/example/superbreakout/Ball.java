@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class Ball {
-    RectF rect;
+    private RectF rect;
     public float xVelocity;
     public float yVelocity;
 
@@ -16,14 +16,15 @@ public class Ball {
     float ballWidth = 10;
     float ballHeight = 10;
 
-    Bitmap ballBitmap;
+    private Bitmap ballBitmap;
 
     public Ball(Context context, int screenX, int screenY) {
+        // creates new rectangle object for ball
         rect = new RectF();
 
+        // loads in asset and turns it into bitmaps
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
         ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 75, 65, true);
-
     }
 
     public RectF getRect() {

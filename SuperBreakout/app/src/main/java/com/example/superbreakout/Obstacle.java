@@ -13,7 +13,7 @@ public class Obstacle {
 
     private boolean isVisible;
 
-    Bitmap bricksBitmap;
+    private Bitmap bricksBitmap;
 
     public Obstacle(Context context, int row, int column, int width, int height) {
 
@@ -23,7 +23,7 @@ public class Obstacle {
         int padding = height/5;
 
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_grassed);
-        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, 250, 50, true);
+        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, 200, 50, true);
 
 
         rect = new RectF(column * width + padding,
