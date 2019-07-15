@@ -37,14 +37,6 @@ public class Ball {
         xVelocity = -xVelocity + 50;
     }
 
-    public void sameXVelocity() {
-        xVelocity = xVelocity + 50;
-    }
-
-    public void zeroXVelocity() {
-        xVelocity = xVelocity - 50;
-    }
-
     public void setRandomXVelocity() {
         Random generator = new Random();
         int answer = generator.nextInt(2);

@@ -200,6 +200,24 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    public boolean intersect() {
+
+        if(ball.yVelocity < 0) {
+            return false;
+        }
+        if (ball.getRect().intersect(bat.getRect())) {
+            return true;
+        }
+        if(RectF.intersects(bat.getRect(), ball.getRect())) {
+            return true;
+        }
+        if(bat.getRect().intersect(ball.getRect())) {
+            return true;
+        }
+
+        return false;
+    }
+
     public void update() {
 
         bat.update(fps);
@@ -221,19 +239,22 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         // Check for ball colliding with paddle
-        if (
-                ball.getRect().intersect(bat.getRect()) ||
-                        RectF.intersects(bat.getRect(), ball.getRect()) ||
-                        bat.getRect().intersect(ball.getRect())
+        if(intersect()) {
 
-        ) {
-
-            //normalize intersection
-            float fraction = (ball.getRect().left - bat.getRect().left) / (bat.getRect().right - bat.getRect().left);
-            double angleInDeg = (fraction*160) - 80;
+            // Normalize the new velocity
+            float midBall = (ball.getRect().right - ball.getRect().left) / 2;
+            float midBat = (bat.getRect().right - bat.getRect().left) / 2;
+            float fraction = (midBall - midBat) / (bat.getRect().right - midBat);
+            double maxAngle = 80;
+            double angleInDeg = fraction * maxAngle;
             double angleInRad = Math.toRadians(angleInDeg);
-            double horizontalChange = ball.xVelocity * Math.cos(angleInRad);
-            double verticalChange = ball.yVelocity * (-Math.sin(Math.abs(angleInRad)));
+            double horizontalChange = Math.cos(angleInRad);
+            double verticalChange = -Math.sin(angleInRad);
+
+            // Add momentum factor
+
+
+
             double compensationFactor = Math.sqrt((ball.xVelocity*ball.xVelocity + ball.yVelocity*ball.yVelocity) /
                                                     (verticalChange*verticalChange + horizontalChange*horizontalChange));
             ball.xVelocity = compensationFactor*horizontalChange;
