@@ -7,20 +7,19 @@ import android.graphics.RectF;
 
 import android.graphics.RectF;
 
-public class Obstacle {
+public class Obstacle extends GameObject {
 
     private RectF rect;
-
     private boolean isVisible;
-
     private Bitmap bricksBitmap;
 
-    public Obstacle(Context context, int row, int column, int width, int height) {
+    public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle) {
+        super(widthObstacle, heightObstacle);
 
         isVisible = true;
 
         // Padding between bricks
-        int padding = height/5;
+        int padding = heightObstacle/5;
 
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_grassed);
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, 200, 50, true);

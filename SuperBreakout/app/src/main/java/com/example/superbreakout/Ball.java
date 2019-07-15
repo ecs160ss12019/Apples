@@ -7,18 +7,20 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Ball {
+public class Ball extends GameObject {
     private RectF rect;
     public double xVelocity;
     public double yVelocity;
-
-    // Make it a 10 pixel x 10 pixel square
-    float ballWidth = 10;
-    float ballHeight = 10;
-
     private Bitmap ballBitmap;
 
+    // Make it a 10 pixel x 10 pixel square
+    private static final float ballWidth = 10;
+    private static final float ballHeight = 10;
+
+
     public Ball(Context context, int screenX, int screenY) {
+        super(ballWidth, ballHeight);
+
         // creates new rectangle object for ball
         rect = new RectF();
 
@@ -36,8 +38,8 @@ public class Ball {
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
-        rect.right = rect.left + ballWidth;
-        rect.bottom = rect.top - ballHeight;
+        rect.right = rect.left + width;
+        rect.bottom = rect.top - height;
     }
 
     public void reverseYVelocity() {
@@ -99,13 +101,13 @@ public class Ball {
     // a fix for bug in Android RectF Class
     public void clearObstacleY(float y) {
         rect.bottom = y;
-        rect.top = y - ballHeight;
+        rect.top = y - height;
     }
 
     // a fix for bug in Android RectF Class
     public void clearObstacleX(float x) {
         rect.left = x;
-        rect.right = x + ballWidth + 50;
+        rect.right = x + width + 50;
     }
 
     public void reset(int x, int y) {
@@ -113,8 +115,8 @@ public class Ball {
         // Place the ball in the centre of the screen at the bottom
         rect.left = x / 2;
         rect.top = y - 200;
-        rect.right = x / 2 + ballWidth;
-        rect.bottom = y - 100 - ballHeight;
+        rect.right = x / 2 + width;
+        rect.bottom = y - 100 - height;
 
         // Start the ball travelling straight up at 400 pixels per second
         xVelocity = 400;

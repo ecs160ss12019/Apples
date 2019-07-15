@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
-public class Bat {
+public class Bat extends GameObject {
 
     // Which ways can the paddle move
     public final int STOPPED = 0;
@@ -14,9 +14,7 @@ public class Bat {
     int scrX;
     // RectF is an object that holds four coordinates - just what we need
     private RectF rect;
-    // How long and high our paddle will be
-    private float length;
-    private float height;
+
     // X is the far left of the rectangle which forms our paddle
     private float x;
     // Y is the top coordinate
@@ -34,22 +32,24 @@ public class Bat {
     // When we create an object from this class we will pass
     // in the screen width and height
     public Bat(Context context, int screenX, int screenY, int screenDPI) {
+        super(screenDPI/ 2, screenDPI/5);
         // Dynamic size based on each device DPI
-        length = screenDPI / 2;
-        height = screenDPI / 5;
+        // length = screenDPI / 2;
+        // height = screenDPI / 5;
         MYscreenDPI = screenDPI;
         scrX = screenX;
+
         // Start paddle in roughly the sceen centre
         x = screenX / 2;
         y = screenY - screenDPI / 4.50f;
 
-        rect = new RectF(x, y, x + length, y + height);
+        rect = new RectF(x, y, x + width, y + height);
 
         // How fast is the paddle in pixels per second
         paddleSpeed = 800;
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
-        batBitmap = Bitmap.createScaledBitmap(batBitmap, (int)length, (int)height, true);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap, (int)width, (int)height, true);
     }
 
     // This is a getter method to make the rectangle that
@@ -82,14 +82,14 @@ public class Bat {
 
         if (paddleMoving == RIGHT) {
             // to fix Paddle going off the Screen
-            if (x <= scrX - length - MYscreenDPI / 14)
+            if (x <= scrX - width - MYscreenDPI / 14)
                 // Increment position
                 x = x + paddleSpeed / fps;
         }
 
         // Apply the New position
         rect.left = x;
-        rect.right = x + length;
+        rect.right = x + width;
     }
 
     public float getMiddle() {
