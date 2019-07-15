@@ -3,8 +3,6 @@ package com.example.superbreakout;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -35,6 +33,7 @@ public class GameView extends SurfaceView implements Runnable {
     volatile boolean playing;
     boolean paused = true;
 
+    // Use Point class for this
     int screenX;
     int screenY;
 
@@ -43,7 +42,7 @@ public class GameView extends SurfaceView implements Runnable {
     Obstacle[] bricks = new Obstacle[24];
     int numBricks = 0;
 
-
+    // Abstract this into a class, then set getter for this. Possibly setter (?)
     int score = 0;
     int level = 1;
     int lives = 3;
