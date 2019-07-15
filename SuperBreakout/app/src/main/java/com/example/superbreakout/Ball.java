@@ -1,26 +1,37 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
 import java.util.Random;
 
 public class Ball {
-    RectF rect;
-    public double xVelocity;
-    public double yVelocity;
+    private RectF rect;
+    public float xVelocity;
+    public float yVelocity;
 
     // Make it a 10 pixel x 10 pixel square
     float ballWidth = 10;
     float ballHeight = 10;
 
-    public Ball(int screenX, int screenY) {
+    private Bitmap ballBitmap;
+
+    public Ball(Context context, int screenX, int screenY) {
+        // creates new rectangle object for ball
         rect = new RectF();
 
+        // loads in asset and turns it into bitmaps
+        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 75, 65, true);
     }
 
     public RectF getRect() {
         return rect;
     }
+
+    public Bitmap getBallBitmap() { return ballBitmap; }
 
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);

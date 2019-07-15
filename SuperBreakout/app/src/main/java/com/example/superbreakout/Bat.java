@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
 public class Bat {
@@ -24,10 +27,13 @@ public class Bat {
     private int paddleMoving = STOPPED;
     private int MYscreenDPI;
 
+    private Bitmap batBitmap;
+
+
     // This the the constructor method
     // When we create an object from this class we will pass
     // in the screen width and height
-    public Bat(int screenX, int screenY, int screenDPI) {
+    public Bat(Context context, int screenX, int screenY, int screenDPI) {
         // Dynamic size based on each device DPI
         length = screenDPI / 2;
         height = screenDPI / 5;
@@ -41,6 +47,9 @@ public class Bat {
 
         // How fast is the paddle in pixels per second
         paddleSpeed = 800;
+
+        batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap, (int)length, (int)height, true);
     }
 
     // This is a getter method to make the rectangle that
@@ -48,6 +57,8 @@ public class Bat {
     public RectF getRect() {
         return rect;
     }
+
+    public Bitmap getBatBitmap() {return batBitmap;}
 
     public int getMovementState() {
         return paddleMoving;
