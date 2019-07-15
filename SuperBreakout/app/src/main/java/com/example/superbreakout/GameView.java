@@ -160,8 +160,6 @@ public class GameView extends SurfaceView implements Runnable {
                     bricks[i].setInvisible();
                     ball.reverseYVelocity();
                     score = score + 10;
-
-                    //soundPool.play(explodeID, 1, 1, 0, 0, 1); FIXME
                 }
             }
         }
@@ -191,8 +189,6 @@ public class GameView extends SurfaceView implements Runnable {
 
                 //draw Loss;
                 canvas = ourHolder.lockCanvas();
-                //paint.setColor(getResources().getColor(R.color.orange));
-                //paint.setTextSize(getResources().getDimension(R.dimen.text_size_big));
                 canvas.drawText("Game Over!",
                         screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
                 ourHolder.unlockCanvasAndPost(canvas);
@@ -245,8 +241,6 @@ public class GameView extends SurfaceView implements Runnable {
         if (ball.getRect().top < 0) {
             ball.reverseYVelocity();
             ball.clearObstacleY(40);
-
-            //soundPool.play(beep2ID, 1, 1, 0, 0, 1);
         }
 
         // If the ball hits left wall bounce
@@ -274,7 +268,6 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draw the background color
             canvas.drawColor(Color.argb(255, 153, 204, 255));
-            // canvas.drawColor(getResources().getColor(R.color.deeppurple));
 
             dest = new Rect(0, 0, getWidth(), getHeight());
 
@@ -325,8 +318,6 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
-            // Draw the score
-            // paint.setTextSize(getResources().getDimension(R.dimen.text_size));
             paint.setTextSize(50);
 
             // Score Text
@@ -345,7 +336,6 @@ public class GameView extends SurfaceView implements Runnable {
             // Has the player cleared the screen?
             if (score >= (numBricks * 10 * 3) + 20) {
                 paint.setColor(getResources().getColor(R.color.colorAccent));
-                //paint.setTextSize(getResources().getDimension(R.dimen.text_size_big));
                 canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi / 1), paint);
 
             }
