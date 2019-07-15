@@ -22,8 +22,8 @@ public class Obstacle {
         // Padding between bricks
         int padding = height/5;
 
-        bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_red);
-        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, 200, 100, true);
+        bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_grassed);
+        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, 250, 50, true);
 
 
         rect = new RectF(column * width + padding,

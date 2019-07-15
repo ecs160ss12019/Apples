@@ -48,8 +48,8 @@ public class Bat {
         // How fast is the paddle in pixels per second
         paddleSpeed = 800;
 
-        batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_red);
-        batBitmap = Bitmap.createScaledBitmap(batBitmap, 200, 100, true);
+        batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap, 250, 100, true);
     }
 
     // This is a getter method to make the rectangle that
