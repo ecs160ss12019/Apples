@@ -19,7 +19,7 @@ public class Bat {
     // Y is the top coordinate
     private float y;
     // This will hold the pixels per second speedthat the paddle will move
-    private float paddleSpeed;
+    public float paddleSpeed;
     // Is the paddle moving and in which direction
     private int paddleMoving = STOPPED;
     private int MYscreenDPI;
@@ -79,6 +79,10 @@ public class Bat {
         // Apply the New position
         rect.left = x;
         rect.right = x + length;
+    }
+
+    public float getMiddle() {
+        return (getRect().right - getRect().left) / 2;
     }
 
 }

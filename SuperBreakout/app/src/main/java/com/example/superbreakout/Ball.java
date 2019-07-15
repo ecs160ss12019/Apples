@@ -46,6 +46,45 @@ public class Ball {
         }
     }
 
+    public float getMiddle() {
+        return (this.getRect().right - this.getRect().left) / 2;
+    }
+
+    public boolean intersect(Bat bat) {
+
+        if (this.getRect().intersect(bat.getRect())) {
+            return true;
+        }
+        if(RectF.intersects(bat.getRect(), this.getRect())) {
+            return true;
+        }
+        if(bat.getRect().intersect(this.getRect())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void getNewVelocity(float fraction, Bat bat) {
+        double newY = -this.yVelocity + fraction * this.yVelocity/2;
+        double newX =  this.xVelocity - fraction * this.xVelocity/2;
+
+        // ReverseX Direction + IncreaseX speed
+        if (bat.getMovementState() == bat.RIGHT) {
+            newX += bat.paddleSpeed/10;
+        }
+        else if (bat.getMovementState() == bat.LEFT) {
+            newX -= bat.paddleSpeed/10;
+        }
+
+        this.clearObstacleY(bat.getRect().top - 20);
+
+        double compensationFactor = Math.sqrt((this.xVelocity*this.xVelocity + this.yVelocity*this.yVelocity) /
+                (newY*newY + newX*newX));
+        this.xVelocity = compensationFactor * newX;
+        this.yVelocity = compensationFactor * newY;
+    }
+
     // a fix for bug in Android RectF Class
     public void clearObstacleY(float y) {
         rect.bottom = y;

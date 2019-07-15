@@ -43,7 +43,6 @@ public class GameView extends SurfaceView implements Runnable {
     Obstacle[] bricks = new Obstacle[24];
     int numBricks = 0;
 
-
     int score = 0;
     int level = 1;
     int lives = 3;
@@ -51,23 +50,6 @@ public class GameView extends SurfaceView implements Runnable {
     Rect dest;
     DisplayMetrics dm;
     int densityDpi;
-
-    /* BITMAP FIXME
-    Bitmap bitmapBob;
-    Bitmap bitmapBall;
-    Bitmap bitmapPaddal;
-    Bitmap bitmapBrick1;
-    Bitmap bitmapBrick2;
-    Bitmap bitmapBrick3;
-
-    SOUND FX FIXME
-    SoundPool soundPool;
-    int beep1ID = -1;
-    int beep2ID = -1;
-    int beep3ID = -1;
-    int loseLifeID = -1;
-    int explodeID = -1;
-    */
 
     public GameView(Context context, int x, int y) {
         super(context);
@@ -83,58 +65,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(screenX, screenY, densityDpi);
         ball = new Ball(screenX, screenY);
-
-        /* SOUND FX FIXME
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-
-        try {
-            // Create objects of the 2 required classes
-            AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor descriptor;
-
-            // Load our fx in memory ready for use
-            descriptor = assetManager.openFd("beep1.wav");
-            beep1ID = soundPool.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("beep2.wav");
-            beep2ID = soundPool.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("beep3.wav");
-            beep3ID = soundPool.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("loseLife.wav");
-            loseLifeID = soundPool.load(descriptor, 0);
-
-            descriptor = assetManager.openFd("explode.wav");
-            explodeID = soundPool.load(descriptor, 0);
-
-        } catch (IOException e) {
-            // Print an error message to the console
-            Log.e("error", "failed to load sound files");
-        }
-
-
-        BITMAP FIXME
-        bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.wall);
-        bitmapBall = BitmapFactory.decodeResource(this.getResources(), R.drawable.ball);
-        bitmapPaddal = BitmapFactory.decodeResource(this.getResources(), R.drawable.ball);
-        bitmapBrick1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_red);
-        bitmapBrick2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_green);
-        bitmapBrick3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.brick_monster);
-
-        int heightX = densityDpi / 8;
-        float length_bat = densityDpi / 1.50f;
-        int height_bat = densityDpi / 7;
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-
-        bitmapBall = getResizedBitmap(bitmapBall, heightX, heightX);
-        bitmapPaddal = getResizedBitmap(bitmapPaddal, length_Paddal, height_Paddal);
-        bitmapBrick1 = getResizedBitmap(bitmapBrick1, brickWidth, brickHeight);
-        bitmapBrick2 = getResizedBitmap(bitmapBrick2, brickWidth, brickHeight);
-        bitmapBrick3 = getResizedBitmap(bitmapBrick3, brickWidth, brickHeight);
-        */
-
 
         // Create bricks for level 1
         createBricksAndRestart(1);
@@ -200,24 +130,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    public boolean intersect() {
-
-        if(ball.yVelocity < 0) {
-            return false;
-        }
-        if (ball.getRect().intersect(bat.getRect())) {
-            return true;
-        }
-        if(RectF.intersects(bat.getRect(), ball.getRect())) {
-            return true;
-        }
-        if(bat.getRect().intersect(ball.getRect())) {
-            return true;
-        }
-
-        return false;
-    }
-
     public void update() {
 
         bat.update(fps);
@@ -239,71 +151,36 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         // Check for ball colliding with paddle
-        if(intersect()) {
+        if(ball.intersect(bat)) {
 
-            // Normalize the new velocity
-            float midBall = (ball.getRect().right - ball.getRect().left) / 2;
-            float midBat = (bat.getRect().right - bat.getRect().left) / 2;
-            float fraction = (midBall - midBat) / (bat.getRect().right - midBat);
-            double maxAngle = 80;
-            double angleInDeg = fraction * maxAngle;
-            double angleInRad = Math.toRadians(angleInDeg);
-            double horizontalChange = Math.cos(angleInRad);
-            double verticalChange = -Math.sin(angleInRad);
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = ball.getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
 
-            // Add momentum factor
+            ball.getNewVelocity(fracDisplacementFromMid, bat);
 
-
-
-            double compensationFactor = Math.sqrt((ball.xVelocity*ball.xVelocity + ball.yVelocity*ball.yVelocity) /
-                                                    (verticalChange*verticalChange + horizontalChange*horizontalChange));
-            ball.xVelocity = compensationFactor*horizontalChange;
-            ball.yVelocity = compensationFactor*verticalChange;
-
-
-            /*ball.reverseYVelocity();
-
-            // ReverseX Direction + IncreaseX speed
-            if (bat.getMovementState() == bat.RIGHT && ball.xVelocity < 0 || bat.getMovementState() == bat.LEFT && ball.xVelocity > 0) {
-                ball.reverseXVelocity();
-            }
-
-            // SameX Direction + IncreaseX speed
-            else if (bat.getMovementState() == bat.RIGHT && ball.xVelocity > 0 || bat.getMovementState() == bat.LEFT && ball.xVelocity < 0) {
-                ball.sameXVelocity();
-            }
-
-            // Paddle is still, DecreaseX speed
-             else if (bat.getMovementState() == bat.STOPPED) {
-                ball.zeroXVelocity();
-            }*/
-
-            ball.clearObstacleY(bat.getRect().top - 20);
-
-            //soundPool.play(beep1ID, 1, 1, 0, 0, 1); FIXME
         }
 
         if (ball.getRect().bottom > screenY) {
-            //ball.reverseYVelocity();
-            //ball.clearObstacleY(screenY - 5);
 
             // Lose a life
             lives--;
             ball.reset(screenX, screenY);
-            //soundPool.play(loseLifeID, 1, 1, 0, 0, 1); FIXME
+            paused = true;
 
             if (lives == 0) {
                 paused = true;
 
-                /*
+
                 //draw Loss;
                 canvas = ourHolder.lockCanvas();
-                paint.setColor(getResources().getColor(R.color.orange));
-                paint.setTextSize(getResources().getDimension(R.dimen.text_size_big));
+                //paint.setColor(getResources().getColor(R.color.orange));
+                //paint.setTextSize(getResources().getDimension(R.dimen.text_size_big));
                 canvas.drawText("Game Over!",
                         screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
                 ourHolder.unlockCanvasAndPost(canvas);
-                */
+
                 try {
                     // Wait 3 seconds then reset a new game
                     Thread.sleep(3000);
@@ -360,16 +237,12 @@ public class GameView extends SurfaceView implements Runnable {
         if (ball.getRect().left < 0) {
             ball.reverseXVelocity();
             ball.clearObstacleX(2);
-
-            //soundPool.play(beep3ID, 1, 1, 0, 0, 1);
         }
 
         // If the ball hits right wall Velocity
         if (ball.getRect().right > screenX) {
             ball.reverseXVelocity();
             ball.clearObstacleX(screenX - 57);
-
-            //soundPool.play(beep3ID, 1, 1, 0, 0, 1);
         }
 
 
@@ -408,26 +281,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draw the bricks if visible
             for (int i = 0; i < numBricks; i++) {
-                if (bricks[i].getVisibility()) {
+                if (bricks[i].getVisibility())
                     canvas.drawRect(bricks[i].getRect(), paint);
-
-                    /*switch (level) {
-                        case 1:
-                            canvas.drawBitmap(bitmapBrick1, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-
-                        case 2:
-                            canvas.drawBitmap(bitmapBrick2, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-                        case 3:
-                            canvas.drawBitmap(bitmapBrick3, bricks[i].getRect().left, bricks[i].getRect().top, null);
-                            break;
-                    }*/
-
-
-                }
             }
 
             // Choose the brush color for drawing
@@ -521,24 +376,4 @@ public class GameView extends SurfaceView implements Runnable {
         }
         return true;
     }
-
-    // Resize Bitmap function to Handle all the Images from resources the right size
-    /*public Bitmap getResizedBitmap(Bitmap bm, float newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = newWidth / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }*/
-
-
 }
