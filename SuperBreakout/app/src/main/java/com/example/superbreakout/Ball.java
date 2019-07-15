@@ -5,9 +5,10 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class Ball {
-    RectF rect;
-    public double xVelocity;
-    public double yVelocity;
+
+    RectF rect; // Rectangle that represents a ball
+    public double xVelocity; // The ball's horizontal velocity
+    public double yVelocity; // The ball's vertical velocity
 
     // Make it a 10 pixel x 10 pixel square
     float ballWidth = 10;
