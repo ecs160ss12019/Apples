@@ -11,9 +11,12 @@ public class Ball extends GameObject {
     private RectF rect;
     public double xVelocity;
     public double yVelocity;
-    private Bitmap ballBitmap;
 
-    // Make it a 10 pixel x 10 pixel square
+    private Bitmap ballBitmap;
+    private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
+
+
+    // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
 
@@ -24,9 +27,12 @@ public class Ball extends GameObject {
         // creates new rectangle object for ball
         rect = new RectF();
 
+        // width and height has to be added by these specific numbers to make ball look proportional
+        bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
+
         // loads in asset and turns it into bitmaps
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
-        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, 75, 65, true);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
     public RectF getRect() {

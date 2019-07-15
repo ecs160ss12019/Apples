@@ -26,6 +26,7 @@ public class Bat extends GameObject {
     private int MYscreenDPI;
 
     private Bitmap batBitmap;
+    private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
 
 
     // This the the constructor method
@@ -36,6 +37,9 @@ public class Bat extends GameObject {
         // Dynamic size based on each device DPI
         // length = screenDPI / 2;
         // height = screenDPI / 5;
+
+        bitmapDimensions = new BitmapDimensions((int)width, (int)height);
+
         MYscreenDPI = screenDPI;
         scrX = screenX;
 
@@ -49,7 +53,7 @@ public class Bat extends GameObject {
         paddleSpeed = 800;
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
-        batBitmap = Bitmap.createScaledBitmap(batBitmap, (int)width, (int)height, true);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
     // This is a getter method to make the rectangle that
