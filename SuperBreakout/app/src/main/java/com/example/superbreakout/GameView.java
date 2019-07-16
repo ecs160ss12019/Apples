@@ -127,7 +127,6 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (playing) {
-
             long startFrameTime = System.currentTimeMillis();
 
             if (!paused) {
@@ -279,29 +278,14 @@ public class GameView extends SurfaceView implements Runnable {
     // So we can override this method and detect screen touches.
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-
-            // Player has touched the screen
-            case MotionEvent.ACTION_DOWN:
-
-                if (!(lives == 0)) {
-                    paused = false;
-                }
-
-                // If touch motion > Half of the Screen move right
-                if (motionEvent.getX() > screenX / 2) {
-                    bat.moveRight();
-                }else{ // Else move left
-                    bat.moveLeft();
-                }
-
+            case MotionEvent.ACTION_DOWN: // Player has touched the screen
+                if (!(lives == 0)){ paused = false;}
+                bat.move(motionEvent.getX());
                 break;
 
-            // Player has removed finger from screen
-            case MotionEvent.ACTION_UP:
-                // paddle stopped
-                bat.moveStop();
+            case MotionEvent.ACTION_UP: // Player doesn't touch screen
+                bat.stopMoving();
                 break;
         }
         return true;
@@ -313,9 +297,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
         for (int i = 0; i < numBricks; i++) {
-
             if (bricks[i].getVisibility()) {
-
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
                     ball.reverseYVelocity();

@@ -21,9 +21,9 @@ public class Bat extends GameObject {
     private float x;
     // Y is the top coordinate
     private float y;
-    // This will hold the pixels per second speedthat the paddle will move
+    // This will hold the pixels per second speed that the paddle will move
     private float paddleSpeed;
-    // Is the paddle moving and in which direction
+
     private Direction paddleMoving = Direction.STOPPED;
     private int MYscreenDPI;
 
@@ -52,7 +52,10 @@ public class Bat extends GameObject {
         paddleSpeed = 800;
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
-        batBitmap = Bitmap.createScaledBitmap(batBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
+        batBitmap = Bitmap.createScaledBitmap(batBitmap,
+                bitmapDimensions.width,
+                bitmapDimensions.height,
+                true);
     }
 
     // This update method will be called from update in BreakoutView
@@ -71,17 +74,6 @@ public class Bat extends GameObject {
         rect.right = x + width;
     }
 
-    public float getMiddle() {
-        return (getRect().right - getRect().left) / 2;
-    }
-
-    // This is a getter method to make the rectangle that
-    // defines our paddle available in BreakoutView class
-    public RectF getRect() {
-        return rect;
-    }
-
-    public Bitmap getBatBitmap() {return batBitmap;}
 
     public boolean checkMovementStateLeft(){
         if (paddleMoving == Direction.LEFT) return true;
@@ -93,12 +85,26 @@ public class Bat extends GameObject {
         else return false;
     }
 
+    public void move(float direction ){
+        if (direction > scrX / 2) { // Right half move right
+            paddleMoving = Direction.RIGHT;
+        }else{ // Else move left
+            paddleMoving = Direction.LEFT;
+        }
+    }
+
+    public float getMiddle() {
+        return (getRect().right - getRect().left) / 2;
+    }
+
+    public RectF getRect() {
+        return rect;
+    }
+
+    public Bitmap getBatBitmap() {return batBitmap;}
+
     public float getPaddleSpeed(){ return paddleSpeed;}
 
-    public void moveRight(){ paddleMoving = Direction.RIGHT;}
-
-    public void moveLeft(){ paddleMoving = Direction.LEFT;}
-
-    public void moveStop(){ paddleMoving = Direction.STOPPED;}
+    public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
 }
