@@ -68,27 +68,19 @@ public class Bat extends GameObject {
         return paddleMoving;
     }
 
-    // This method will be used to change/set if the paddle is going left, right or nowhere
-    public void setMovementState(int state) {
-        paddleMoving = state;
-    }
+    public void moveRight(){ paddleMoving = RIGHT;}
+    public void moveLeft(){ paddleMoving = LEFT;}
+    public void moveStop(){ paddleMoving = STOPPED;}
 
     // This update method will be called from update in BreakoutView
     // It determines if the paddle needs to move and changes the coordinates
     // contained in rect if necessary
     public void update(long fps) {
-        if (paddleMoving == LEFT) {
-            // to fix Paddle going off the Screen
-            if (x >= -MYscreenDPI / 10)
-                // Decrement position
-                x = x - paddleSpeed / fps;
-        }
 
-        if (paddleMoving == RIGHT) {
-            // to fix Paddle going off the Screen
-            if (x <= scrX - width - MYscreenDPI / 14)
-                // Increment position
-                x = x + paddleSpeed / fps;
+        if (paddleMoving == LEFT && x >= -MYscreenDPI/10){
+            x -= paddleSpeed / fps;
+        }else if (paddleMoving == RIGHT && x <= scrX - width - MYscreenDPI/14){
+            x += paddleSpeed/fps;
         }
 
         // Apply the New position
