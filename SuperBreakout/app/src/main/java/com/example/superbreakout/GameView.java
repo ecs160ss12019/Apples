@@ -155,35 +155,15 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(!checkMissBall()) {
             // Pause if cleared screen
-            if (score == numBricks * 10) {
-
-                // Create bricks at level 2
-                createBricksAndRestart(2);
-
-                // fix for a pause bug
-                // so that it won't Pause After finishing the Game
-                score = score + 10;
-                // Gift the player with 1 new live
-                lives = lives + 1;
-
-            } else if (score == (numBricks * 20) + 10) {
-
-                // Create bricks at level 3
-                createBricksAndRestart(3);
-
-                // fix for a pause bug
-                // so that it won't Pause After finishing the Game
-                score = score + 10;
-                // Gift the player with 2 new lives
-                lives = lives + 2;
-
-            }
-            // Pause if cleared screen
-            // if score equals to the whole Bricks scores after 3 levels
-            else if (score == (numBricks * 10 * 3) + 20) {
+            if (score == numBricks * 10) { // Move to level two
+                succeedToLevelTwo();
+            } else if (score == (numBricks * 20) + 10) { // Move to level three
+                succeedToLevelThree();
+            } else if (score == (numBricks * 10 * 3) + 20) { // Winning
                 paused = true;
+            } else {
+                checkWallBounce();
             }
-            checkWallBounce();
         }
 
     }
@@ -358,6 +338,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         }
     }
+
     private boolean checkMissBall(){
         if (ball.getRect().bottom > screenY) {
             // Lose a life
@@ -407,6 +388,28 @@ public class GameView extends SurfaceView implements Runnable {
             ball.reverseXVelocity();
             ball.clearObstacleX(screenX - 57);
         }
+    }
+
+    private void succeedToLevelTwo(){
+        // Create bricks at level 2
+        createBricksAndRestart(2);
+
+        // fix for a pause bug
+        // so that it won't Pause After finishing the Game
+        score = score + 10;
+        // Gift the player with 1 new live
+        lives = lives + 1;
+    }
+
+    private void succeedToLevelThree(){
+        // Create bricks at level 3
+        createBricksAndRestart(3);
+
+        // fix for a pause bug
+        // so that it won't Pause After finishing the Game
+        score = score + 10;
+        // Gift the player with 2 new lives
+        lives = lives + 2;
     }
 
 }
