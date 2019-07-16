@@ -11,6 +11,7 @@ public class Ball extends GameObject {
     private RectF rect;
     public double xVelocity;
     public double yVelocity;
+    public double speed;
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -68,23 +69,26 @@ public class Ball extends GameObject {
         return false;
     }
 
+    public void normalizeVelocity(double Vx, double Vy) {
+        double compensationFactor = this.speed / Math.sqrt((Vy*Vy + Vx*Vx));
+        this.xVelocity = compensationFactor * Vx;
+        this.yVelocity = compensationFactor * Vy;
+    }
+
     public void getNewVelocity(float fraction, Bat bat) {
         double newY = -this.yVelocity + fraction * this.yVelocity/2;
         double newX =  this.xVelocity - fraction * this.xVelocity/2;
 
         // ReverseX Direction + IncreaseX speed
         if (bat.checkMovementStateRight()) {
-            newX += bat.getPaddleSpeed()/10;
+            newX += bat.getPaddleSpeed()/5;
         }else if (bat.checkMovementStateLeft()){
-            newX -= bat.getPaddleSpeed()/10;
+            newX -= bat.getPaddleSpeed()/5;
         }
 
         this.clearObstacleY(bat.getRect().top - 20);
 
-        double compensationFactor = Math.sqrt((this.xVelocity*this.xVelocity + this.yVelocity*this.yVelocity) /
-                (newY*newY + newX*newX));
-        this.xVelocity = compensationFactor * newX;
-        this.yVelocity = compensationFactor * newY;
+        this.normalizeVelocity(newX, newY);
     }
 
     // a fix for bug in Android RectF Class
@@ -110,6 +114,7 @@ public class Ball extends GameObject {
         // Start the ball travelling straight up at 400 pixels per second
         xVelocity = 400;
         yVelocity = -800;
+        speed = Math.sqrt(xVelocity*xVelocity + yVelocity*yVelocity);
     }
 
     public float getMiddle() {
