@@ -1,43 +1,54 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
-// Tiles to be hit
-public class Obstacle {
+import android.graphics.RectF;
 
-    // Variables
-    private RectF obstacle; // Holds four float coordinates (left, top, right, bottom) for the obstacle
-    private int durability; // Amount of the times the obstacle can be hit by the ball.
-    private String effect;  // The obstacle's special effect that can influence adjacent obstacles
-                            // Obstacle may or may not have an effect.
+public class Obstacle extends GameObject {
+
+    private RectF rect;
+    private boolean isVisible;
+    private Bitmap bricksBitmap;
+    private BitmapDimensions bitmapDimensions;
+
+    public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle) {
+        super(widthObstacle, heightObstacle);
+
+        isVisible = true;
+
+        // Padding between bricks
+        int padding = heightObstacle/5;
+
+        // Sets the height of each obstacle's bitmap to 200 x 50 pixels
+        bitmapDimensions = new BitmapDimensions(200, 50);
+
+        bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_grassed);
+        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,  bitmapDimensions.height, true);
 
 
-    /*
-        Obstacle constructor that takes in (x,y) coordinates
-        corresponding to its row and column, and its dimensions.
-        It'll set the object's durability and generate a random effect for it.
-     */
-    public Obstacle(float row, float column, float width, float height) {
-
+        rect = new RectF(column * width + padding,
+                row * height + padding,
+                column * width + width - padding,
+                row * height + height - padding);
     }
 
-    /*
-     *   This function retrieves the obstacle as a RectF
-     */
-    public RectF getObstacle() {
-        return this.obstacle;
+    public Bitmap getBricksBitmap() {return bricksBitmap;}
+
+    public RectF getRect() {
+        return this.rect;
     }
 
-    /* This function updates the new position of the obstacle
-     * for the draw function in SuperBreakoutGame to draw
-     * the new position of the obstacle
-     */
-    public void update(long fps) {}
+    public void setInvisible() {
+        isVisible = false;
+    }
 
-    /*
-     *   This function reduces the durability of an obstacle
-     *   if it has been hit by the ball.
-     */
+    public boolean getVisibility() {
+        return isVisible;
+    }
+
     public void reduceDurability() {
         this.durability -= 1;
     }
@@ -48,14 +59,6 @@ public class Obstacle {
      */
     public int getDurability() {
         return this.durability;
-    }
-
-    /*
-     *   This function removes the obstacle from
-     *   the game once an obstacle's durability reaches 0.
-     */
-    public void destroy() {
-
     }
 
     /*
@@ -85,6 +88,6 @@ public class Obstacle {
             // add more effect cases
             default:
                 break;
-        }
+      }
     }
 }

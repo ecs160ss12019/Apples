@@ -1,90 +1,209 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
+import java.util.Random;
 
-public class Ball {
+public class Ball extends GameObject {
+    private RectF rect; // rectangle that represents the ball
+    public double xVelocity; // horizontal component of velocity (positive in the right direction)
+    public double yVelocity; // vertical component of velocity (positive in the downwards direction)
+    public double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
 
-    // Variables
-    RectF rect; // Square that represents a ball
+    private Bitmap ballBitmap;
+    private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
 
-    float xVelocity; // Ball's velocity in the horizontal dimension
-    float yVelocity; // Ball's velocity in the vertical dimension
 
-    float width; // Ball's width in terms of pixels
-    float height; // Ball's height in terms of pixels
+    // Make it a 60 pixel x 60 pixel square
+    private static final float ballWidth = 10;
+    private static final float ballHeight = 10;
 
-    /* This is a constructor of a ball
-     * that takes in an initial coordinate of the ball
-     * which should be randomly generated
-     */
-    public Ball(int screenHorizontalWidth) {
-        xVelocity = 0;
-        yVelocity = 0;
 
-        width = screenHorizontalWidth / 50; // sets width thickness of the ball
-        height = screenHorizontalWidth / 50; // sets height thickness of the ball
+    public Ball(Context context, int screenX, int screenY) {
+        super(ballWidth, ballHeight);
 
+        // creates new rectangle object for ball
         rect = new RectF();
-        //set velocities
+
+        // width and height has to be added by these specific numbers to make ball look proportional
+        bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
+
+        // loads in asset and turns it into bitmaps
+        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
-    RectF getRect() {
+    /* This function updates the movement of the ball
+     *
+     * @fps: frame rate at which the ball refreshes
+     */
+    public void update(long fps) {
+        rect.left = rect.left + ((float)xVelocity / fps);
+        rect.top = rect.top + ((float)yVelocity / fps);
+        rect.right = rect.left + width;
+        rect.bottom = rect.top - height;
+    }
+
+    /* This function generates a random integer
+     * in between @high and @low
+     *
+     * @high: upper bound of randomly generated integer
+     * @low : lower bound of randomly generated integer
+     */
+    public int boundedRandomInt(int high, int low) {
+        Random generator = new Random();
+        return generator.nextInt(high - low) + low;
+    }
+
+    /* This function sets the ball's velocity
+     * at random Vy/Vx ratios and the magnitude
+     * of such velocity depends on @level.
+     *
+     * @level: level of the current game
+     */
+    public void setRandomVelocity(int level) {
+        switch (level) {
+            case 2:
+                this.speed = 1000;
+                break;
+            case 3:
+                this.speed = 1200;
+                break;
+            default:
+                this.speed = 800;
+                break;
+        }
+
+        int Vx, Vy; // Proposed horizontal and vertical components of velocity
+        // randomly generate a variable that determines if the ball starts by moving left/right
+        int xDirection = boundedRandomInt(3,1);
+        if(xDirection >= 2)
+            Vx = boundedRandomInt(8,4);
+        else
+            Vx = -boundedRandomInt(8,4);
+
+        Vy = -boundedRandomInt(16,10); // Always start with upwards velocity
+
+        this.normalizeVelocity(Vx, Vy); // Make velocity constant speed
+    }
+
+    /* This function checks if the @bat intersects the ball
+     *
+     * @bat: a bat object
+     */
+    public boolean intersect(Bat bat) {
+
+        if (this.getRect().intersect(bat.getRect())) {
+            return true;
+        }
+        if(RectF.intersects(bat.getRect(), this.getRect())) {
+            return true;
+        }
+        if(bat.getRect().intersect(this.getRect())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /* This function normalizes the velocity ratios
+     * such that the speed is constant
+     *
+     * @Vx: horizontal velocity component ratio
+     * @Vy: vertical velocity component ratio
+     */
+    public void normalizeVelocity(double Vx, double Vy) {
+        double compensationFactor = this.speed / Math.sqrt((Vy*Vy + Vx*Vx));
+        this.xVelocity = compensationFactor * Vx;
+        this.yVelocity = compensationFactor * Vy;
+    }
+
+    /* This function is executed after the ball reflects the @bat
+     * The new velocity of the ball depends on the distance between
+     * the intersection point of the ball and the @bat and the midpoint
+     * of the @bat.
+     * Momentum is also added if the @bat is moving in the same horizontal direction
+     * as the ball; momentum is likewise decreased if the @bat is moving in the
+     * opposite horizontal direction as the ball.
+     *
+     * @fraction: (distance between point of intersection and bat) / (@bat length/2)
+     * @bat: the bat object
+     */
+    public void getNewVelocity(float fraction, Bat bat) {
+        double newY = -this.yVelocity + fraction * this.yVelocity/2;
+        double newX =  this.xVelocity - fraction * this.xVelocity/2;
+
+        if (bat.checkMovementStateRight()) {
+            newX += bat.getPaddleSpeed()/5;
+        }else if (bat.checkMovementStateLeft()){
+            newX -= bat.getPaddleSpeed()/5;
+        }
+
+        this.clearObstacleY(bat.getRect().top - 20);
+
+        this.normalizeVelocity(newX, newY);
+    }
+
+    // a fix for bug in Android RectF Class
+    public void clearObstacleY(float y) {
+        rect.bottom = y;
+        rect.top = y - height;
+    }
+
+    // a fix for bug in Android RectF Class
+    public void clearObstacleX(float x) {
+        rect.left = x;
+        rect.right = x + width + 50;
+    }
+
+    /* This function resets the position of the ball and sets
+     * the ball at random velocities based on the @level (speed)
+     *
+     * @x: x # pixels
+     * @y: y # pixels
+     * @level: current level of the game
+     */
+    public void reset(int x, int y, int level) {
+
+        // Place the ball in the centre of the screen at the bottom
+        rect.left = x / 2;
+        rect.top = y - 200;
+        rect.right = x / 2 + width;
+        rect.bottom = y - 100 - height;
+
+        this.setRandomVelocity(level);
+    }
+
+    // This function gets the horizontal center of the ball
+    public float getMiddle() {
+        return (this.getRect().right - this.getRect().left) / 2;
+    }
+
+    // This function gets the rectangle object that represents the ball
+    public RectF getRect() {
         return rect;
     }
 
-    /* This function updates the new position of the ball
-     * for the draw function in SuperBreakoutGame to draw
-     * the new position of the ball
-     *
-     * @fps: frame rate that we are refreshing at
-     */
-    public void update(long fps) {
-        //update frames based on frame rate
+    // This function returns the bitmap image of the ball
+    public Bitmap getBallBitmap() { return ballBitmap; }
+
+    // This function reverses the vertical velocity and adds a little momentum to it
+    public void reverseYVelocity() {
+        yVelocity = -yVelocity + 50;
+        this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
-    /* This function handles all cases when the ball
-     * intersects with the bat, sides or obstacles.
-     */
-    public void bounce() {
-        //bounce off bat, sides (SurfaceHolder??) or obstacles
+    // This function reverses the horizontal velocity and adds a little momentum to it
+    public void reverseXVelocity() {
+        if(xVelocity > 0) //collision on right wall
+            xVelocity = -xVelocity - 50;
+        else //collision on left wall
+            xVelocity = -xVelocity + 50;
+        this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
-    /* Reflect the ball to travel in the opposite
-     * horizontal direction
-     */
-    public void reverseXvelocity() {
-
-        xVelocity = -xVelocity;
-    }
-
-    /* Reflect the ball to travel in the opposite
-     * vertical direction
-     */
-    public void reverseYvelocity() {
-
-        yVelocity = -yVelocity;
-    }
-
-    /* Reset the position of the ball
-     *
-     * @x: x coordinate of position to be placed
-     * @y: y coordinate of position to be placed
-     */
-    public void placeBall(int x, int y) {
-        // Initialise the four points of
-        // the rectangle which defines the ball
-        rect.left = x;
-        rect.top = y / 2;
-        rect.right = x + width;
-        rect.bottom = y /2 + height;
-
-        // How fast will the ball travel
-        // You could vary this to suit
-        // You could even increase it as the game progresses
-        // to make it harder
-        yVelocity = -(y / 3);
-        xVelocity = (y / 3);
-    }
 
 }
