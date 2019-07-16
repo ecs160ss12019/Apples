@@ -118,13 +118,11 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         // if Game is over reset scores ,lives &Level
-        if (lives == 0) {
-            score = 0;
-            lives = 3;
-            level = 1;
-        }
+        if (lives == 0) { restartGame();}
 
     }
+
+
 
     @Override
     public void run() {
@@ -146,115 +144,47 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+
     public void update() {
 
         bat.update(fps);
         ball.update(fps);
 
-        // Check for ball colliding with a brick
-        for (int i = 0; i < numBricks; i++) {
+        ballBrickCollision();
+        ballPaddleCollision();
 
-            if (bricks[i].getVisibility()) {
+        if(!checkMissBall()) {
+            // Pause if cleared screen
+            if (score == numBricks * 10) {
 
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    bricks[i].setInvisible();
-                    ball.reverseYVelocity();
-                    score = score + 10;
-                }
+                // Create bricks at level 2
+                createBricksAndRestart(2);
+
+                // fix for a pause bug
+                // so that it won't Pause After finishing the Game
+                score = score + 10;
+                // Gift the player with 1 new live
+                lives = lives + 1;
+
+            } else if (score == (numBricks * 20) + 10) {
+
+                // Create bricks at level 3
+                createBricksAndRestart(3);
+
+                // fix for a pause bug
+                // so that it won't Pause After finishing the Game
+                score = score + 10;
+                // Gift the player with 2 new lives
+                lives = lives + 2;
+
             }
-        }
-
-        // Check for ball colliding with paddle
-        if(ball.intersect(bat)) {
-
-            // Interpolate the incoming position for computation of the new Velocity
-            float midBall = ball.getMiddle();
-            float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
-
-            ball.getNewVelocity(fracDisplacementFromMid, bat);
-
-        }
-
-        if (ball.getRect().bottom > screenY) {
-
-            // Lose a life
-            lives--;
-            ball.reset(screenX, screenY);
-            paused = true;
-
-            if (lives == 0) {
+            // Pause if cleared screen
+            // if score equals to the whole Bricks scores after 3 levels
+            else if (score == (numBricks * 10 * 3) + 20) {
                 paused = true;
-
-
-                //draw Loss;
-                canvas = ourHolder.lockCanvas();
-                canvas.drawText("Game Over!",
-                        screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
-                ourHolder.unlockCanvasAndPost(canvas);
-
-                try {
-                    // Wait 3 seconds then reset a new game
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                // Create bricks at level 1
-                createBricksAndRestart(1);
-
             }
-
+            checkWallBounce();
         }
-        // Pause if cleared screen
-        if (score == numBricks * 10) {
-
-            // Create bricks at level 2
-            createBricksAndRestart(2);
-
-            // fix for a pause bug
-            // so that it won't Pause After finishing the Game
-            score = score + 10;
-            // Gift the player with 1 new live
-            lives = lives + 1;
-
-        } else if (score == (numBricks * 20) + 10) {
-
-            // Create bricks at level 3
-            createBricksAndRestart(3);
-
-            // fix for a pause bug
-            // so that it won't Pause After finishing the Game
-            score = score + 10;
-            // Gift the player with 2 new lives
-            lives = lives + 2;
-
-        }
-        // Pause if cleared screen
-        // if score equals to the whole Bricks scores after 3 levels
-        else if (score == (numBricks * 10 * 3) + 20) {
-            paused = true;
-        }
-
-
-        // Bounce the ball back when it hits the top of screen
-        if (ball.getRect().top < 0) {
-            ball.reverseYVelocity();
-            ball.clearObstacleY(40);
-        }
-
-        // If the ball hits left wall bounce
-        if (ball.getRect().left < 0) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(2);
-        }
-
-        // If the ball hits right wall Velocity
-        if (ball.getRect().right > screenX) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(screenX - 57);
-        }
-
 
     }
 
@@ -396,4 +326,87 @@ public class GameView extends SurfaceView implements Runnable {
         }
         return true;
     }
+
+    /************ HELPER FUNCTIONS ************/
+    private void restartGame(){ score = 0; lives = 3;level =1; }
+
+    private void ballBrickCollision(){
+        // Check for ball colliding with a brick
+        for (int i = 0; i < numBricks; i++) {
+
+            if (bricks[i].getVisibility()) {
+
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    bricks[i].setInvisible();
+                    ball.reverseYVelocity();
+                    score = score + 10;
+                }
+            }
+        }
+    }
+
+    private void ballPaddleCollision(){
+        // Check for ball colliding with paddle
+        if(ball.intersect(bat)) {
+
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = ball.getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+
+            ball.getNewVelocity(fracDisplacementFromMid, bat);
+
+        }
+    }
+    private boolean checkMissBall(){
+        if (ball.getRect().bottom > screenY) {
+            // Lose a life
+            lives--;
+            ball.reset(screenX, screenY);
+            paused = true;
+
+            if (lives == 0) {
+                paused = true;
+
+                //draw Loss;
+                canvas = ourHolder.lockCanvas();
+                canvas.drawText("Game Over!",
+                        screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+                ourHolder.unlockCanvasAndPost(canvas);
+
+                try {
+                    // Wait 3 seconds then reset a new game
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // Create bricks at level 1
+                createBricksAndRestart(1);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void checkWallBounce(){
+        // Bounce the ball back when it hits the top of screen
+        if (ball.getRect().top < 0) {
+            ball.reverseYVelocity();
+            ball.clearObstacleY(40);
+        }
+
+        // If the ball hits left wall bounce
+        if (ball.getRect().left < 0) {
+            ball.reverseXVelocity();
+            ball.clearObstacleX(2);
+        }
+
+        // If the ball hits right wall Velocity
+        if (ball.getRect().right > screenX) {
+            ball.reverseXVelocity();
+            ball.clearObstacleX(screenX - 57);
+        }
+    }
+
 }
