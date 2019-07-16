@@ -8,10 +8,10 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class Ball extends GameObject {
-    private RectF rect;
-    public double xVelocity;
-    public double yVelocity;
-    public double speed;
+    private RectF rect; // rectangle that represents the ball
+    public double xVelocity; // horizontal component of velocity (positive in the right direction)
+    public double yVelocity; // vertical component of velocity (positive in the downwards direction)
+    public double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -36,7 +36,10 @@ public class Ball extends GameObject {
         ballBitmap = Bitmap.createScaledBitmap(ballBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
-
+    /* This function updates the movement of the ball
+     *
+     * @fps: frame rate at which the ball refreshes
+     */
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
@@ -44,37 +47,53 @@ public class Ball extends GameObject {
         rect.bottom = rect.top - height;
     }
 
+    /* This function generates a random integer
+     * in between @high and @low
+     *
+     * @high: upper bound of randomly generated integer
+     * @low : lower bound of randomly generated integer
+     */
     public int boundedRandomInt(int high, int low) {
         Random generator = new Random();
         return generator.nextInt(high - low) + low;
     }
 
+    /* This function sets the ball's velocity
+     * at random Vy/Vx ratios and the magnitude
+     * of such velocity depends on @level.
+     *
+     * @level: level of the current game
+     */
     public void setRandomVelocity(int level) {
         switch (level) {
             case 2:
-                this.speed = 1100;
+                this.speed = 1000;
                 break;
             case 3:
-                this.speed = 1400;
+                this.speed = 1200;
                 break;
             default:
                 this.speed = 800;
                 break;
         }
 
-        int Vx, Vy;
+        int Vx, Vy; // Proposed horizontal and vertical components of velocity
+        // randomly generate a variable that determines if the ball starts by moving left/right
         int xDirection = boundedRandomInt(3,1);
         if(xDirection >= 2)
             Vx = boundedRandomInt(8,4);
         else
             Vx = -boundedRandomInt(8,4);
 
-        Vy = -boundedRandomInt(16,10);
+        Vy = -boundedRandomInt(16,10); // Always start with upwards velocity
 
-        this.normalizeVelocity(Vx, Vy);
+        this.normalizeVelocity(Vx, Vy); // Make velocity constant speed
     }
 
-
+    /* This function checks if the @bat intersects the ball
+     *
+     * @bat: a bat object
+     */
     public boolean intersect(Bat bat) {
 
         if (this.getRect().intersect(bat.getRect())) {
@@ -90,17 +109,33 @@ public class Ball extends GameObject {
         return false;
     }
 
+    /* This function normalizes the velocity ratios
+     * such that the speed is constant
+     *
+     * @Vx: horizontal velocity component ratio
+     * @Vy: vertical velocity component ratio
+     */
     public void normalizeVelocity(double Vx, double Vy) {
         double compensationFactor = this.speed / Math.sqrt((Vy*Vy + Vx*Vx));
         this.xVelocity = compensationFactor * Vx;
         this.yVelocity = compensationFactor * Vy;
     }
 
+    /* This function is executed after the ball reflects the @bat
+     * The new velocity of the ball depends on the distance between
+     * the intersection point of the ball and the @bat and the midpoint
+     * of the @bat.
+     * Momentum is also added if the @bat is moving in the same horizontal direction
+     * as the ball; momentum is likewise decreased if the @bat is moving in the
+     * opposite horizontal direction as the ball.
+     *
+     * @fraction: (distance between point of intersection and bat) / (@bat length/2)
+     * @bat: the bat object
+     */
     public void getNewVelocity(float fraction, Bat bat) {
         double newY = -this.yVelocity + fraction * this.yVelocity/2;
         double newX =  this.xVelocity - fraction * this.xVelocity/2;
 
-        // ReverseX Direction + IncreaseX speed
         if (bat.checkMovementStateRight()) {
             newX += bat.getPaddleSpeed()/5;
         }else if (bat.checkMovementStateLeft()){
@@ -124,6 +159,13 @@ public class Ball extends GameObject {
         rect.right = x + width + 50;
     }
 
+    /* This function resets the position of the ball and sets
+     * the ball at random velocities based on the @level (speed)
+     *
+     * @x: x # pixels
+     * @y: y # pixels
+     * @level: current level of the game
+     */
     public void reset(int x, int y, int level) {
 
         // Place the ball in the centre of the screen at the bottom
@@ -135,22 +177,31 @@ public class Ball extends GameObject {
         this.setRandomVelocity(level);
     }
 
+    // This function gets the horizontal center of the ball
     public float getMiddle() {
         return (this.getRect().right - this.getRect().left) / 2;
     }
 
+    // This function gets the rectangle object that represents the ball
     public RectF getRect() {
         return rect;
     }
 
+    // This function returns the bitmap image of the ball
     public Bitmap getBallBitmap() { return ballBitmap; }
 
+    // This function reverses the vertical velocity and adds a little momentum to it
     public void reverseYVelocity() {
-        yVelocity = -yVelocity;
+        yVelocity = -yVelocity + 50;
+        this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
+    // This function reverses the horizontal velocity and adds a little momentum to it
     public void reverseXVelocity() {
-        xVelocity = -xVelocity + 50;
+        if(xVelocity > 0) //collision on right wall
+            xVelocity = -xVelocity - 50;
+        else //collision on left wall
+            xVelocity = -xVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
