@@ -74,9 +74,9 @@ public class Ball extends GameObject {
 
         // ReverseX Direction + IncreaseX speed
         if (bat.checkMovementStateRight()) {
-            newX += bat.paddleSpeed/10;
+            newX += bat.getPaddleSpeed()/10;
         }else if (bat.checkMovementStateLeft()){
-            newX -= bat.paddleSpeed/10;
+            newX -= bat.getPaddleSpeed()/10;
         }
 
         this.clearObstacleY(bat.getRect().top - 20);

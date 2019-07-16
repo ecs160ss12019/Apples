@@ -22,7 +22,7 @@ public class Bat extends GameObject {
     // Y is the top coordinate
     private float y;
     // This will hold the pixels per second speedthat the paddle will move
-    public float paddleSpeed;
+    private float paddleSpeed;
     // Is the paddle moving and in which direction
     private Direction paddleMoving = Direction.STOPPED;
     private int MYscreenDPI;
@@ -92,6 +92,8 @@ public class Bat extends GameObject {
         if (paddleMoving == Direction.RIGHT) return true;
         else return false;
     }
+
+    public float getPaddleSpeed(){ return paddleSpeed;}
 
     public void moveRight(){ paddleMoving = Direction.RIGHT;}
 
