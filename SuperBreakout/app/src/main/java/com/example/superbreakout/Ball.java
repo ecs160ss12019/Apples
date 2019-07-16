@@ -133,9 +133,12 @@ public class Ball extends GameObject {
      * @bat: the bat object
      */
     public void getNewVelocity(float fraction, Bat bat) {
+        // reflect y velocity but add interpolated factor of y velocity
         double newY = -this.yVelocity + fraction * this.yVelocity/2;
+        // reflect x velocity, keeping it in the same direction and add interpolated factor of x velocity
         double newX =  this.xVelocity - fraction * this.xVelocity/2;
 
+        // Momentum factor / spin
         if (bat.checkMovementStateRight()) {
             newX += bat.getPaddleSpeed()/5;
         }else if (bat.checkMovementStateLeft()){
@@ -144,7 +147,7 @@ public class Ball extends GameObject {
 
         this.clearObstacleY(bat.getRect().top - 20);
 
-        this.normalizeVelocity(newX, newY);
+        this.normalizeVelocity(newX, newY); // keep it at constant speed
     }
 
     // a fix for bug in Android RectF Class
