@@ -376,29 +376,22 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_DOWN:
 
                 if (!(lives == 0)) {
-
                     paused = false;
                 }
 
-                // If touch motion > Half of the Screen
+                // If touch motion > Half of the Screen move right
                 if (motionEvent.getX() > screenX / 2) {
-
-                    // move paddle right
-                    bat.setMovementState(bat.RIGHT);
-
-                } else {
-
-                    // move paddle left
-                    bat.setMovementState(bat.LEFT);
+                    bat.moveRight();
+                }else{ // Else move left
+                    bat.moveLeft();
                 }
 
                 break;
 
             // Player has removed finger from screen
             case MotionEvent.ACTION_UP:
-
                 // paddle stopped
-                bat.setMovementState(bat.STOPPED);
+                bat.moveStop();
                 break;
         }
         return true;
