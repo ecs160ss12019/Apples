@@ -35,25 +35,12 @@ public class Ball extends GameObject {
         ballBitmap = Bitmap.createScaledBitmap(ballBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
-    public RectF getRect() {
-        return rect;
-    }
-
-    public Bitmap getBallBitmap() { return ballBitmap; }
 
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
         rect.right = rect.left + width;
         rect.bottom = rect.top - height;
-    }
-
-    public void reverseYVelocity() {
-        yVelocity = -yVelocity;
-    }
-
-    public void reverseXVelocity() {
-        xVelocity = -xVelocity + 50;
     }
 
     public void setRandomXVelocity() {
@@ -65,9 +52,6 @@ public class Ball extends GameObject {
         }
     }
 
-    public float getMiddle() {
-        return (this.getRect().right - this.getRect().left) / 2;
-    }
 
     public boolean intersect(Bat bat) {
 
@@ -89,10 +73,9 @@ public class Ball extends GameObject {
         double newX =  this.xVelocity - fraction * this.xVelocity/2;
 
         // ReverseX Direction + IncreaseX speed
-        if (bat.getMovementState() == bat.RIGHT) {
+        if (bat.checkMovementStateRight()) {
             newX += bat.paddleSpeed/10;
-        }
-        else if (bat.getMovementState() == bat.LEFT) {
+        }else if (bat.checkMovementStateLeft()){
             newX -= bat.paddleSpeed/10;
         }
 
@@ -127,8 +110,24 @@ public class Ball extends GameObject {
         // Start the ball travelling straight up at 400 pixels per second
         xVelocity = 400;
         yVelocity = -800;
+    }
 
+    public float getMiddle() {
+        return (this.getRect().right - this.getRect().left) / 2;
+    }
 
+    public RectF getRect() {
+        return rect;
+    }
+
+    public Bitmap getBallBitmap() { return ballBitmap; }
+
+    public void reverseYVelocity() {
+        yVelocity = -yVelocity;
+    }
+
+    public void reverseXVelocity() {
+        xVelocity = -xVelocity + 50;
     }
 
 

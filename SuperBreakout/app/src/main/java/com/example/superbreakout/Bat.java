@@ -7,10 +7,12 @@ import android.graphics.RectF;
 
 public class Bat extends GameObject {
 
-    // Which ways can the paddle move
-    public final int STOPPED = 0;
-    public final int LEFT = 1;
-    public final int RIGHT = 2;
+    enum Direction{
+        STOPPED,
+        LEFT,
+        RIGHT
+    }
+
     int scrX;
     // RectF is an object that holds four coordinates - just what we need
     private RectF rect;
@@ -22,7 +24,7 @@ public class Bat extends GameObject {
     // This will hold the pixels per second speedthat the paddle will move
     public float paddleSpeed;
     // Is the paddle moving and in which direction
-    private int paddleMoving = STOPPED;
+    private Direction paddleMoving = Direction.STOPPED;
     private int MYscreenDPI;
 
     private Bitmap batBitmap;
@@ -34,9 +36,6 @@ public class Bat extends GameObject {
     // in the screen width and height
     public Bat(Context context, int screenX, int screenY, int screenDPI) {
         super(screenDPI/ 2, screenDPI/5);
-        // Dynamic size based on each device DPI
-        // length = screenDPI / 2;
-        // height = screenDPI / 5;
 
         bitmapDimensions = new BitmapDimensions((int)width, (int)height);
 
@@ -56,30 +55,14 @@ public class Bat extends GameObject {
         batBitmap = Bitmap.createScaledBitmap(batBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
-    // This is a getter method to make the rectangle that
-    // defines our paddle available in BreakoutView class
-    public RectF getRect() {
-        return rect;
-    }
-
-    public Bitmap getBatBitmap() {return batBitmap;}
-
-    public int getMovementState() {
-        return paddleMoving;
-    }
-
-    public void moveRight(){ paddleMoving = RIGHT;}
-    public void moveLeft(){ paddleMoving = LEFT;}
-    public void moveStop(){ paddleMoving = STOPPED;}
-
     // This update method will be called from update in BreakoutView
     // It determines if the paddle needs to move and changes the coordinates
     // contained in rect if necessary
     public void update(long fps) {
 
-        if (paddleMoving == LEFT && x >= -MYscreenDPI/10){
+        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
             x -= paddleSpeed / fps;
-        }else if (paddleMoving == RIGHT && x <= scrX - width - MYscreenDPI/14){
+        }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
             x += paddleSpeed/fps;
         }
 
@@ -91,5 +74,29 @@ public class Bat extends GameObject {
     public float getMiddle() {
         return (getRect().right - getRect().left) / 2;
     }
+
+    // This is a getter method to make the rectangle that
+    // defines our paddle available in BreakoutView class
+    public RectF getRect() {
+        return rect;
+    }
+
+    public Bitmap getBatBitmap() {return batBitmap;}
+
+    public boolean checkMovementStateLeft(){
+        if (paddleMoving == Direction.LEFT) return true;
+        else return false;
+    }
+
+    public boolean checkMovementStateRight(){
+        if (paddleMoving == Direction.RIGHT) return true;
+        else return false;
+    }
+
+    public void moveRight(){ paddleMoving = Direction.RIGHT;}
+
+    public void moveLeft(){ paddleMoving = Direction.LEFT;}
+
+    public void moveStop(){ paddleMoving = Direction.STOPPED;}
 
 }
