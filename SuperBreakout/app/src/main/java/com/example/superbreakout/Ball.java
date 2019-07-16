@@ -44,13 +44,34 @@ public class Ball extends GameObject {
         rect.bottom = rect.top - height;
     }
 
-    public void setRandomXVelocity() {
+    public int boundedRandomInt(int high, int low) {
         Random generator = new Random();
-        int answer = generator.nextInt(2);
+        return generator.nextInt(high - low) + low;
+    }
 
-        if (answer == 0) {
-            reverseXVelocity();
+    public void setRandomVelocity(int level) {
+        switch (level) {
+            case 2:
+                this.speed = 1100;
+                break;
+            case 3:
+                this.speed = 1400;
+                break;
+            default:
+                this.speed = 800;
+                break;
         }
+
+        int Vx, Vy;
+        int xDirection = boundedRandomInt(3,1);
+        if(xDirection >= 2)
+            Vx = boundedRandomInt(8,4);
+        else
+            Vx = -boundedRandomInt(8,4);
+
+        Vy = -boundedRandomInt(16,10);
+
+        this.normalizeVelocity(Vx, Vy);
     }
 
 
@@ -103,7 +124,7 @@ public class Ball extends GameObject {
         rect.right = x + width + 50;
     }
 
-    public void reset(int x, int y) {
+    public void reset(int x, int y, int level) {
 
         // Place the ball in the centre of the screen at the bottom
         rect.left = x / 2;
@@ -111,10 +132,7 @@ public class Ball extends GameObject {
         rect.right = x / 2 + width;
         rect.bottom = y - 100 - height;
 
-        // Start the ball travelling straight up at 400 pixels per second
-        xVelocity = 400;
-        yVelocity = -800;
-        speed = Math.sqrt(xVelocity*xVelocity + yVelocity*yVelocity);
+        this.setRandomVelocity(level);
     }
 
     public float getMiddle() {
@@ -133,6 +151,7 @@ public class Ball extends GameObject {
 
     public void reverseXVelocity() {
         xVelocity = -xVelocity + 50;
+        this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
 

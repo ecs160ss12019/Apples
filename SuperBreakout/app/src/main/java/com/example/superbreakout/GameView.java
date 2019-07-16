@@ -91,18 +91,9 @@ public class GameView extends SurfaceView implements Runnable {
     public void createBricksAndRestart(int Xlevel) {
 
         // Put the ball back to the start
-        ball.reset(screenX, screenY);
+        ball.reset(screenX, screenY, Xlevel);
 
         level = Xlevel;
-        switch (Xlevel) {
-
-            // level 1
-            default:
-                ball.xVelocity = 400;
-                ball.yVelocity = -800;
-                break;
-
-        }
 
         // Brick Size
         int brickWidth = screenX / 8;
@@ -325,7 +316,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (ball.getRect().bottom > screenY) {
             // Lose a life
             lives--;
-            ball.reset(screenX, screenY);
+            ball.reset(screenX, screenY, this.level);
             paused = true;
 
             if (lives == 0) {
