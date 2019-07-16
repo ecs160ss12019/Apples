@@ -80,21 +80,22 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
+        this.level = 1;
+
         bat = new Bat(context, screenX, screenY, densityDpi);
-        ball = new Ball(context, screenX, screenY);
+        ball = new Ball(context, level);
 
         // Create bricks for level 1
-        createBricksAndRestart(1);
+        createBricksAndRestart();
     }
 
 
-    public void createBricksAndRestart(int Xlevel) {
+    public void createBricksAndRestart() {
 
         // Put the ball back to the start
-        ball.reset(screenX, screenY);
+        ball.reset(screenX, screenY, this.level);
 
-        level = Xlevel;
-        switch (Xlevel) {
+        switch (this.level) {
 
             // level 1
             default:
@@ -170,9 +171,9 @@ public class GameView extends SurfaceView implements Runnable {
             // Interpolate the incoming position for computation of the new Velocity
             float midBall = ball.getMiddle();
             float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+            float displacementFromMid = (midBall - midBat) / midBat;
 
-            ball.getNewVelocity(fracDisplacementFromMid, bat);
+            ball.setNewVelocity(displacementFromMid, bat);
 
         }
 
@@ -180,7 +181,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Lose a life
             lives--;
-            ball.reset(screenX, screenY);
+            ball.reset(screenX, screenY, level);
             paused = true;
 
             if (lives == 0) {
@@ -201,7 +202,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 // Create bricks at level 1
-                createBricksAndRestart(1);
+                createBricksAndRestart();
 
             }
 
@@ -209,8 +210,10 @@ public class GameView extends SurfaceView implements Runnable {
         // Pause if cleared screen
         if (score == numBricks * 10) {
 
+            this.level ++;
+
             // Create bricks at level 2
-            createBricksAndRestart(2);
+            createBricksAndRestart();
 
             // fix for a pause bug
             // so that it won't Pause After finishing the Game
@@ -220,8 +223,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         } else if (score == (numBricks * 20) + 10) {
 
+            this.level ++;
             // Create bricks at level 3
-            createBricksAndRestart(3);
+            createBricksAndRestart();
 
             // fix for a pause bug
             // so that it won't Pause After finishing the Game
