@@ -144,6 +144,8 @@ public class GameView extends SurfaceView implements Runnable {
 //        updateDebris(fps);
 
         ballBrickCollision();
+//        ballDebrisCollision();
+//        batDebrisCollision();
         ballPaddleCollision();
 
         if(!checkMissBall()) {
@@ -222,7 +224,20 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw the debris if active
 //            for(int i = 0; i < numBricks; i++) {
 //                if(debris[i].getActive()) {
-//                    paint.setColor(Color.argb(255, 255, 255, 0));
+//                    // Change paint color depending on debris type
+//                    switch (debris[i].getDebrisType()) {
+//                        case "Harmful":
+//                            paint.setColor(Color.argb(255, 255, 0, 0));
+//                            break;
+//                        case "Upgrade":
+//                            paint.setColor(Color.argb(255, 0, 255, 0));
+//                            break;
+//                        case "Downgrade":
+//                            paint.setColor(Color.argb(255, 0, 0, 255));
+//                            break;
+//                        default:
+//                            break;
+//                    }
 //                    canvas.drawRect(debris[i].getRect(), paint);
 //                }
 //            }
@@ -305,6 +320,28 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void ballDebrisCollision() {
+        // Check for ball colliding with a debris
+        for(int i = 0; i < numBricks; i++) {
+            if(debris[i].getActive()) {
+                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                    debris[i].deactivate();
+                }
+            }
+        }
+    }
+
+    private void batDebrisCollision() {
+        // Check for bat colliding with a Debris
+        for(int i = 0; i < numBricks; i++) {
+            if(debris[i].getActive()) {
+                if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                    debris[i].deactivate();
+                    // implement apply debris effect to bat
+                }
+            }
+        }
+    }
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
         for (int i = 0; i < numBricks; i++) {

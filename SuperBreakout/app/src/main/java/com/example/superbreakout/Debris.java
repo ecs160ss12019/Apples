@@ -54,6 +54,10 @@ public class Debris {
     public void activate() {
         // Used once the ball hits an obstacle
         active = true;
+        rect.top = rect.top + rect.height()/2;
+        rect.left = rect.left + rect.width()/3;
+        rect.right = rect.right - rect.width()/3;
+        rect.bottom = rect.bottom - rect.height()/2;
     }
 
     public void deactivate() {
