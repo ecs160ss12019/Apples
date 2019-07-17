@@ -42,6 +42,7 @@ public class GameView extends SurfaceView implements Runnable {
     Ball ball;
     Obstacle[] bricks = new Obstacle[24];
     int numBricks = 0;
+    Debris[] debris = new Debris[24];
 
     // Abstract this into a class, then set getter for this. Possibly setter (?)
     int score = 0;
@@ -99,11 +100,12 @@ public class GameView extends SurfaceView implements Runnable {
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
 
-        // Build a wall of bricks
+        // Build a wall of bricks and its potential debris
         numBricks = 0;
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
+//                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
@@ -139,6 +141,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
+//        updateDebris(fps);
 
         ballBrickCollision();
         ballPaddleCollision();
@@ -216,6 +219,14 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
+            // Draw the debris if active
+//            for(int i = 0; i < numBricks; i++) {
+//                if(debris[i].getActive()) {
+//                    paint.setColor(Color.argb(255, 255, 255, 0));
+//                    canvas.drawRect(debris[i].getRect(), paint);
+//                }
+//            }
+
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTextSize(50);
@@ -285,12 +296,24 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void restartGame(){ score = 0; lives = 3;level =1; }
 
+    private void updateDebris(long fps) {
+        // Updates the position of all active debris
+        for (int i = 0; i < numBricks; i++) {
+            if(debris[i].getActive()) {
+                debris[i].update(fps);
+            }
+        }
+    }
+
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
         for (int i = 0; i < numBricks; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
+//                    if(!debris[i].getDebrisType().equals("None")) {
+//                        debris[i].activate();
+//                    }
                     ball.reverseYVelocity();
                     score = score + 10;
                 }

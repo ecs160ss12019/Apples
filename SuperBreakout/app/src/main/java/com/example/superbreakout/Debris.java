@@ -39,9 +39,6 @@ public class Debris {
         active = false;
     }
 
-    /*
-     *  This function generates a debris object once an obstacle is destroyed
-     */
     public RectF getRect() {
         return this.rect;
     }
@@ -54,36 +51,22 @@ public class Debris {
         return active;
     }
 
-    /*
-     *  This method is used once the ball hits an obstacle
-     */
     public void activate() {
+        // Used once the ball hits an obstacle
         active = true;
     }
 
-    /*
-     * this method is used once the ball hits a debris
-     */
     public void deactivate() {
+        // Used once the ball hits a debris
         active = false;
     }
 
-    /*
-     * The update method will change the top/bottom coordinates of debris\
-     * to imitate an object "falling" to the bottom of the screen.
-     */
     public void update(long fps) {
+        // Change the top/bottom coordinates to imitate "falling"
         rect.top = rect.top + SPEED;
         rect.bottom = rect.bottom + SPEED;
     }
 
-//    /* This function updates the new position of the debris
-//     * for the draw function in SuperBreakoutGame to draw
-//     * the new position of the debris
-//     */
-//    public void update(long fps) {}
-//
-//
 //    /*
 //     *  Enables the debris to fall once it spawns
 //     */
