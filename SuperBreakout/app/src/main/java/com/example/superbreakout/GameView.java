@@ -199,7 +199,7 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(Color.argb(255, 255, 0, 0));
 
             // Draw the bricks if visible
-            for (int i = 0; i < numBricks; i++) {
+            /*for (int i = 0; i < numBricks; i++) {
                 if (bricks[i].getVisibility()) {
                     // canvas.drawRect(bricks[i].getRect(), paint);
                     canvas.drawBitmap(bricks[i].getBricksBitmap(), bricks[i].getRect().left, bricks[i].getRect().top, paint);
@@ -216,11 +216,12 @@ public class GameView extends SurfaceView implements Runnable {
                         case 3:
                             canvas.drawBitmap(bitmapBrick3, bricks[i].getRect().left, bricks[i].getRect().top, null);
                             break;
-                    }*/
+                    }
 
 
                 }
             }
+            */
 
             // Draw the debris if active
             for(int i = 0; i < numBricks; i++) {
