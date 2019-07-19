@@ -3,6 +3,9 @@ package com.example.superbreakout;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -10,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.AttributeSet;
@@ -34,7 +38,6 @@ public class GameView extends SurfaceView implements Runnable {
     volatile boolean playing;
     boolean paused = true;
 
-    // Use Point class for this
     int screenX;
     int screenY;
 
@@ -175,7 +178,16 @@ public class GameView extends SurfaceView implements Runnable {
             // Draw the background color
             canvas.drawColor(Color.argb(255, 153, 204, 255));
 
+            // Gets resources for background images
+            Resources res = getContext().getResources();
+            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+
+            // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
+
+            // Draws background image
+            canvas.drawBitmap(backgroundImage, null, dest, paint);
+
 
             // Choose the brush color for drawing white
             paint.setColor(Color.argb(255, 255, 255, 255));
