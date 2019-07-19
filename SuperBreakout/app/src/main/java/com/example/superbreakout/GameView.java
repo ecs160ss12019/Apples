@@ -105,7 +105,8 @@ public class GameView extends SurfaceView implements Runnable {
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
-//                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
+                // can possibly change this to spawnDebris()
+                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
@@ -141,11 +142,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
-//        updateDebris(fps);
+        updateDebris(fps);
 
         ballBrickCollision();
-//        ballDebrisCollision();
-//        batDebrisCollision();
+        ballDebrisCollision();
+        batDebrisCollision();
         ballPaddleCollision();
 
         if(!checkMissBall()) {
@@ -222,25 +223,25 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             // Draw the debris if active
-//            for(int i = 0; i < numBricks; i++) {
-//                if(debris[i].getActive()) {
-//                    // Change paint color depending on debris type
-//                    switch (debris[i].getDebrisType()) {
-//                        case "Harmful":
-//                            paint.setColor(Color.argb(255, 255, 0, 0));
-//                            break;
-//                        case "Upgrade":
-//                            paint.setColor(Color.argb(255, 0, 255, 0));
-//                            break;
-//                        case "Downgrade":
-//                            paint.setColor(Color.argb(255, 0, 0, 255));
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                    canvas.drawRect(debris[i].getRect(), paint);
-//                }
-//            }
+            for(int i = 0; i < numBricks; i++) {
+                if(debris[i].getActive()) {
+                    // Change paint color depending on debris type
+                    switch (debris[i].getDebrisType()) {
+                        case "Harmful":
+                            paint.setColor(Color.argb(255, 255, 0, 0));
+                            break;
+                        case "Upgrade":
+                            paint.setColor(Color.argb(255, 0, 255, 0));
+                            break;
+                        case "Downgrade":
+                            paint.setColor(Color.argb(255, 0, 0, 255));
+                            break;
+                        default:
+                            break;
+                    }
+                    canvas.drawRect(debris[i].getRect(), paint);
+                }
+            }
 
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
@@ -348,9 +349,9 @@ public class GameView extends SurfaceView implements Runnable {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
-//                    if(!debris[i].getDebrisType().equals("None")) {
-//                        debris[i].activate();
-//                    }
+                    if(!debris[i].getDebrisType().equals("None")) {
+                        debris[i].activate();
+                    }
                     ball.reverseYVelocity();
                     score = score + 10;
                 }
