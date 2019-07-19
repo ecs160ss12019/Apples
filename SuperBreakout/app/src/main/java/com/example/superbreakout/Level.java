@@ -2,11 +2,13 @@ package com.example.superbreakout;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 public class Level {
 
     private final int BRICKS_IN_LEVEL = 24;
+
     int level = 1;
     int screenX;
     int screenY;
@@ -23,9 +25,6 @@ public class Level {
     }
 
     public void createBricks(Context context, int Xlevel) {
-
-        // Put the ball back to the start
-        //ball.reset(screenX, screenY, Xlevel);
 
         // Brick Size
         int brickWidth = screenX / 8;
@@ -52,6 +51,27 @@ public class Level {
                         paint);
             }
         }
+
+        // Draw the debris if active
+        for(int i = 0; i < BRICKS_IN_LEVEL; i++) {
+            if(debris[i].getActive()) {
+                // Change paint color depending on debris type
+                switch (debris[i].getDebrisType()) {
+                    case "Harmful":
+                        paint.setColor(Color.argb(255, 255, 0, 0));
+                        break;
+                    case "Upgrade":
+                        paint.setColor(Color.argb(255, 0, 255, 0));
+                        break;
+                    case "Downgrade":
+                        paint.setColor(Color.argb(255, 0, 0, 255));
+                        break;
+                    default:
+                        break;
+                }
+                canvas.drawRect(debris[i].getRect(), paint);
+            }
+        }
     }
 
     public boolean levelCompleted(){
@@ -59,5 +79,9 @@ public class Level {
         else return false;
     }
 
+    public void advanceNextLevel(){
 
+    }
+
+    public int getLevel(){ return level;}
 }

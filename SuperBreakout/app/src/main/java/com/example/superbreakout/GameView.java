@@ -105,12 +105,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(!checkMissBall()) {
             // Pause if cleared screen
-            if (score == numBricks * 10) { // Move to level two
-                succeedToLevelTwo();
-            } else if (score == (numBricks * 20) + 10) { // Move to level three
-                succeedToLevelThree();
-            } else if (score == (numBricks * 10 * 3) + 20) { // Winning
-                paused = true;
+            if (level.levelCompleted()){
+                level.advanceNextLevel();
             } else {
                 checkWallBounce();
             }
@@ -177,38 +173,17 @@ public class GameView extends SurfaceView implements Runnable {
             }
             */
 
-            // Draw the debris if active
-            for(int i = 0; i < numBricks; i++) {
-                if(debris[i].getActive()) {
-                    // Change paint color depending on debris type
-                    switch (debris[i].getDebrisType()) {
-                        case "Harmful":
-                            paint.setColor(Color.argb(255, 255, 0, 0));
-                            break;
-                        case "Upgrade":
-                            paint.setColor(Color.argb(255, 0, 255, 0));
-                            break;
-                        case "Downgrade":
-                            paint.setColor(Color.argb(255, 0, 0, 255));
-                            break;
-                        default:
-                            break;
-                    }
-                    canvas.drawRect(debris[i].getRect(), paint);
-                }
-            }
-
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTextSize(50);
 
             // Score Text
             canvas.drawText(
-                    "Score: " + score
+                    "Score: " + player.getScore()
                     , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
 
             // Lives Text
-            canvas.drawText("Lives: " + lives
+            canvas.drawText("Lives: " + player.getLives()
                     , densityDpi / 5, screenY / 2, paint);
 
             // Levels Text
@@ -216,11 +191,11 @@ public class GameView extends SurfaceView implements Runnable {
                     , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
 
             // Has the player cleared the screen?
-            if (score >= (numBricks * 10 * 3) + 20) {
+            /*if (score >= (numBricks * 10 * 3) + 20) {
                 paint.setColor(getResources().getColor(R.color.colorAccent));
                 canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi / 1), paint);
 
-            }
+            }*/
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
@@ -253,7 +228,7 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: // Player has touched the screen
-                if (!(lives == 0)){ paused = false;}
+                if (player.isAlive()){ paused = false;}
                 bat.move(motionEvent.getX());
                 break;
 
@@ -265,8 +240,9 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void restartGame(){ score = 0; lives = 3;}
+    private void restartGame(){ player = new Player();}
 
+    /*
     private void updateDebris(long fps) {
         // Updates the position of all active debris
         for (int i = 0; i < numBricks; i++) {
@@ -298,6 +274,8 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
+
+
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
         for (int i = 0; i < numBricks; i++) {
@@ -313,6 +291,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
+    */
 
     private void ballPaddleCollision(){
         // Check for ball colliding with paddle
@@ -331,11 +310,11 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean checkMissBall(){
         if (ball.getRect().bottom > screenY) {
             // Lose a life
-            lives--;
-            ball.reset(screenX, screenY, this.level);
+            player.reduceLifeByOne();
+            ball.reset(screenX, screenY, level.getLevel());
             paused = true;
 
-            if (lives == 0) {
+            if (!player.isAlive()) {
                 paused = true;
 
                 //draw Loss;
