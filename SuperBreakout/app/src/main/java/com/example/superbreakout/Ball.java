@@ -11,7 +11,7 @@ public class Ball extends GameObject {
     private RectF rect; // rectangle that represents the ball
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
     public double yVelocity; // vertical component of velocity (positive in the downwards direction)
-    public double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
+    private double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -67,13 +67,13 @@ public class Ball extends GameObject {
     public void setRandomVelocity(int level) {
         switch (level) {
             case 2:
-                this.speed = 1000;
+                this.setBallSpeed(1000);
                 break;
             case 3:
-                this.speed = 1200;
+                this.setBallSpeed(1200);
                 break;
             default:
-                this.speed = 800;
+                this.setBallSpeed(800);
                 break;
         }
 
@@ -206,6 +206,12 @@ public class Ball extends GameObject {
         else //collision on left wall
             xVelocity = -xVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
+    }
+
+    // Setter for ball speed
+    // Might be needed for additional features (upgrades or downgrades to ball speed)
+    public void setBallSpeed(double ballSpeed) {
+        this.speed = ballSpeed;
     }
 
 

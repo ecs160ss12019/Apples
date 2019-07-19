@@ -49,7 +49,7 @@ public class Bat extends GameObject {
         rect = new RectF(x, y, x + width, y + height);
 
         // How fast is the paddle in pixels per second
-        paddleSpeed = 800;
+        setPaddleSpeed(800);
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
         batBitmap = Bitmap.createScaledBitmap(batBitmap,
@@ -107,4 +107,9 @@ public class Bat extends GameObject {
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
+    // Setter for paddleSpeed
+    // Might need these if there are ugprades or downgrades affecting paddle speed
+    public void setPaddleSpeed(float speed) {
+        this.paddleSpeed = speed;
+    }
 }
