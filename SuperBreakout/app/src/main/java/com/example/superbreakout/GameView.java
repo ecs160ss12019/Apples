@@ -1,27 +1,17 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-import java.io.IOException;
-import java.lang.Math;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -40,14 +30,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     Bat bat;
     Ball ball;
-    Obstacle[] bricks = new Obstacle[24];
-    int numBricks = 0;
-    Debris[] debris = new Debris[24];
-
-    // Abstract this into a class, then set getter for this. Possibly setter (?)
-    int score = 0;
-    int level = 1;
-    int lives = 3;
+    Player player;
+    Level level;
 
     Rect dest;
     DisplayMetrics dm;
@@ -83,40 +67,10 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-
-        // Create bricks for level 1
-        createBricksAndRestart(1);
-    }
-
-
-    public void createBricksAndRestart(int Xlevel) {
-
-        // Put the ball back to the start
-        ball.reset(screenX, screenY, Xlevel);
-
-        level = Xlevel;
-
-        // Brick Size
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-
-        // Build a wall of bricks and its potential debris
-        numBricks = 0;
-        for (int column = 0; column < 8; column++) {
-            for (int row = 0; row < 3; row++) {
-                bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
-                // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
-                numBricks++;
-            }
-        }
-
-        // if Game is over reset scores ,lives &Level
-        if (lives == 0) { restartGame();}
+        level = new Level(context, screenX, screenY);
+        player = new Player();
 
     }
-
-
 
     @Override
     public void run() {
@@ -311,7 +265,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void restartGame(){ score = 0; lives = 3;level =1; }
+    private void restartGame(){ score = 0; lives = 3;}
 
     private void updateDebris(long fps) {
         // Updates the position of all active debris
@@ -398,7 +352,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 // Create bricks at level 1
-                createBricksAndRestart(1);
+                //createBricksAndRestart(1);
             }
             return true;
         }
@@ -425,6 +379,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    /*
     private void succeedToLevelTwo(){
         // Create bricks at level 2
         createBricksAndRestart(2);
@@ -445,6 +400,6 @@ public class GameView extends SurfaceView implements Runnable {
         score = score + 10;
         // Gift the player with 2 new lives
         lives = lives + 2;
-    }
+    }*/
 
 }
