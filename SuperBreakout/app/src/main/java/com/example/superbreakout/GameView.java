@@ -328,8 +328,10 @@ public class GameView extends SurfaceView implements Runnable {
                  hit-box of collision kinda confusing since sometimes the ball will go through it,
                  and debris will not disappear
                   */
-                if(RectF.intersects(debris[i].getRect(), ball.getRect())
-                || RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                    debris[i].deactivate();
+                } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                    // receive effect
                     debris[i].deactivate();
                 }
             }
