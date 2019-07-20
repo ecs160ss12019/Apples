@@ -13,6 +13,9 @@ public class Obstacle extends GameObject {
     private boolean isVisible;
     private Bitmap bricksBitmap;
     private BitmapDimensions bitmapDimensions;
+    private int durability;
+
+    private boolean durabilityActive;
 
     public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle) {
         super(widthObstacle, heightObstacle);
@@ -49,23 +52,26 @@ public class Obstacle extends GameObject {
         return isVisible;
     }
 
+    // Setter for durability
+    public void setDurability(int obstacleDurability) { this.durability = obstacleDurability; }
+
     /**
      * TODO
      * Implement durability and effects
      */
-    /*
+
     public void reduceDurability() {
         this.durability -= 1;
-    } */
+    }
 
     /*
      *   This function fetches the current durability of the obstacle.
      *   May prove useful when generating varying durabilities.
      */
-    /*
+
     public int getDurability() {
         return this.durability;
-    } */
+    }
 
     /*
      *   This function generates a Debris object within the game

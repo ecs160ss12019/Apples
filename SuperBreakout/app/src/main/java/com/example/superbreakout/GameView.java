@@ -108,6 +108,7 @@ public class GameView extends SurfaceView implements Runnable {
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
+                bricks[numBricks].setDurability(1);
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
@@ -169,17 +170,18 @@ public class GameView extends SurfaceView implements Runnable {
 
     // Draw the newly updated scene
     public void draw() {
-
         // Make sure our drawing surface is valid or we crash
         if (ourHolder.getSurface().isValid()) {
+            // Gets current context
+            Resources res = getContext().getResources();
+
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
             // Draw the background color
-            canvas.drawColor(Color.argb(255, 153, 204, 255));
+            // canvas.drawColor(Color.argb(255, 153, 204, 255));
 
             // Gets resources for background images
-            Resources res = getContext().getResources();
             Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
 
             // Gets background dimensions
@@ -194,18 +196,14 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draw the ball
             // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
-            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top, paint);
 
             // sets brush color to red
             paint.setColor(Color.argb(255, 255, 0, 0));
 
             // Draw the paddle
             // canvas.drawRect(bat.getRect(), paint);
-            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
-
-
-            // Change the brush color for drawing
-            // paint.setColor(getResources().getColor(R.color.redorange));
+            canvas.drawBitmap(bat.getBatBitmap(), null, bat.getRect(), paint);
 
             // sets brush color to white
             paint.setColor(Color.argb(255, 255, 0, 0));
@@ -360,12 +358,25 @@ public class GameView extends SurfaceView implements Runnable {
         for (int i = 0; i < numBricks; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    bricks[i].setInvisible();
+                    if(bricks[i].getDurability() == 0) {
+                        bricks[i].setInvisible();
+                        score = score + 10;
+
+                        if(!debris[i].getDebrisType().equals("None")) {
+                            debris[i].activate();
+                        }
+                    }
+                    else {
+                        bricks[i].reduceDurability();
+                    }
+
+                    // bricks[i].setInvisible();
+
+                    /*
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
-                    }
+                    }*/
                     ball.reverseYVelocity();
-                    score = score + 10;
                 }
             }
         }
