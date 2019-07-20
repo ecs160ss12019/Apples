@@ -145,8 +145,7 @@ public class GameView extends SurfaceView implements Runnable {
         updateDebris(fps);
 
         ballBrickCollision();
-        ballDebrisCollision();
-        batDebrisCollision();
+        debrisCollision();
         ballPaddleCollision();
 
         if(!checkMissBall()) {
@@ -321,28 +320,23 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void ballDebrisCollision() {
-        // Check for ball colliding with a debris
+    private void debrisCollision() {
+        // Check for ball or bat colliding with a debris
         for(int i = 0; i < numBricks; i++) {
             if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                /*
+                 hit-box of collision kinda confusing since sometimes the ball will go through it,
+                 and debris will not disappear
+                  */
+                if(RectF.intersects(debris[i].getRect(), ball.getRect())
+                || RectF.intersects(debris[i].getRect(), bat.getRect())) {
                     debris[i].deactivate();
                 }
             }
         }
     }
 
-    private void batDebrisCollision() {
-        // Check for bat colliding with a Debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    debris[i].deactivate();
-                    // implement apply debris effect to bat
-                }
-            }
-        }
-    }
+
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
         for (int i = 0; i < numBricks; i++) {
