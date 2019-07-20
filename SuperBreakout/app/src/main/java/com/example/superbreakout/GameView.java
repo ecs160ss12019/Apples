@@ -79,7 +79,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         screenX = x;
-        screenY = y-100;
+        screenY = y;
 
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;

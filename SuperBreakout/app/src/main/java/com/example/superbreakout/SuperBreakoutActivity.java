@@ -1,5 +1,6 @@
 package com.example.superbreakout;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Point;
@@ -11,11 +12,14 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.graphics.drawable.Drawable;
 
 public class SuperBreakoutActivity extends Activity {
+
     private GameView superBreakoutGame;
     FrameLayout game;
     RelativeLayout GameButtons;//Holder for the buttons
+    Button pauseButton, playButton;
 
 
     @Override
@@ -30,13 +34,14 @@ public class SuperBreakoutActivity extends Activity {
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
 
-        final LinearLayout layout = (LinearLayout) View.inflate(this, R.layout.pause_ui, null);
+        final RelativeLayout layout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
+        pauseButton = findViewById(R.id.pauseButton);
         /*pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //togglePausePlay();
+                togglePausePlay(v);
             }
-        }); */
+        });*/
         layout.addView(game);
 
         setContentView(R.layout.activity_main);
@@ -77,6 +82,18 @@ public class SuperBreakoutActivity extends Activity {
         }
 
         return true;
+    }
+
+    public void togglePausePlay(View view) {
+
+        if(superBreakoutGame.paused) {
+            Drawable playIcon = getResources().getDrawable(R.drawable.ic_play_button);
+            pauseButton.setBackgroundDrawable(playIcon);
+        } else {
+            Drawable pauseIcon = getResources().getDrawable(R.drawable.ic_pause_button);
+            pauseButton.setBackgroundDrawable(pauseIcon);
+        }
+        superBreakoutGame.paused = !superBreakoutGame.paused;
     }
 
     @Override
