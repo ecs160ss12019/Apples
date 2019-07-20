@@ -42,7 +42,10 @@ public class GameView extends SurfaceView implements Runnable {
     Ball ball;
     Obstacle[] bricks = new Obstacle[24];
     int numBricks = 0;
+
     Debris[] debris = new Debris[24];
+    Upgrade[] upgrade = new Upgrade[24];
+    Downgrade[] downgrade = new Downgrade[24];
 
     // Abstract this into a class, then set getter for this. Possibly setter (?)
     int score = 0;
