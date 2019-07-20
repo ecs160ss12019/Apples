@@ -18,9 +18,6 @@ public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
     FrameLayout game;
-    RelativeLayout GameButtons;//Holder for the buttons
-    Button pauseButton, playButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +31,8 @@ public class SuperBreakoutActivity extends Activity {
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
 
-        final RelativeLayout layout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
-        pauseButton = findViewById(R.id.pauseButton);
-        /*pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togglePausePlay(v);
-            }
-        });*/
-        layout.addView(game);
+        final RelativeLayout mainLayout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
+        mainLayout.addView(game);
 
         setContentView(R.layout.activity_main);
 
@@ -51,7 +41,7 @@ public class SuperBreakoutActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                setContentView(layout);
+                setContentView(mainLayout);
             }
         });
     }
@@ -86,12 +76,10 @@ public class SuperBreakoutActivity extends Activity {
 
     public void togglePausePlay(View view) {
 
-        if(superBreakoutGame.paused) {
-            superBreakoutGame.resume();
-            superBreakoutGame.paused = false;
-        } else {
+        if(superBreakoutGame.playing) {
             superBreakoutGame.pause();
-            superBreakoutGame.paused = true;
+        } else {
+            superBreakoutGame.resume();
         }
     }
 
