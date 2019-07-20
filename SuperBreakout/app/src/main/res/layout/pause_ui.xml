@@ -5,8 +5,10 @@
 
     <Button
         android:id="@+id/pauseButton"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="right"
-        android:text="Pause" />
+        android:onClick="togglePausePlay"
+        android:background="@drawable/ic_pause_button" />
+
 </LinearLayout>

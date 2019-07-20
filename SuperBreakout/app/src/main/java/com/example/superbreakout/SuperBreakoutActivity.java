@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class SuperBreakoutActivity extends Activity {
@@ -29,6 +30,15 @@ public class SuperBreakoutActivity extends Activity {
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
 
+        final LinearLayout layout = (LinearLayout) View.inflate(this, R.layout.pause_ui, null);
+        /*pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //togglePausePlay();
+            }
+        }); */
+        layout.addView(game);
+
         setContentView(R.layout.activity_main);
 
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
@@ -36,7 +46,7 @@ public class SuperBreakoutActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                setContentView(game);
+                setContentView(layout);
             }
         });
     }

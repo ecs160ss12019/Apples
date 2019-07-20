@@ -19,7 +19,11 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import java.io.IOException;
 import java.lang.Math;
 
@@ -75,7 +79,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         screenX = x;
-        screenY = y;
+        screenY = y-100;
 
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
