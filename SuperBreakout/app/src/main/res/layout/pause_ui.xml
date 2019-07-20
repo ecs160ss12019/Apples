@@ -8,9 +8,10 @@
         android:layout_height="35dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="-5dp"
-        android:layout_marginRight="-5dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:background="@drawable/ic_pause_button"
+        android:onClick="togglePausePlay"
         />
 
     <Button
@@ -22,5 +23,6 @@
         android:layout_toStartOf="@+id/pauseButton"
         android:layout_toLeftOf="@+id/pauseButton"
         android:background="@drawable/ic_play_button"
+        android:onClick="togglePausePlay"
         />
 </RelativeLayout>

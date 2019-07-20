@@ -87,13 +87,12 @@ public class SuperBreakoutActivity extends Activity {
     public void togglePausePlay(View view) {
 
         if(superBreakoutGame.paused) {
-            Drawable playIcon = getResources().getDrawable(R.drawable.ic_play_button);
-            pauseButton.setBackgroundDrawable(playIcon);
+            superBreakoutGame.resume();
+            superBreakoutGame.paused = false;
         } else {
-            Drawable pauseIcon = getResources().getDrawable(R.drawable.ic_pause_button);
-            pauseButton.setBackgroundDrawable(pauseIcon);
+            superBreakoutGame.pause();
+            superBreakoutGame.paused = true;
         }
-        superBreakoutGame.paused = !superBreakoutGame.paused;
     }
 
     @Override
