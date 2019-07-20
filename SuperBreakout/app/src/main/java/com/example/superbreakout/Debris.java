@@ -61,7 +61,7 @@ public class Debris {
     }
 
     public void deactivate() {
-        // Used once the ball hits a debris
+        // Used once the ball or bat hits a debris
         active = false;
     }
 
@@ -70,29 +70,5 @@ public class Debris {
         rect.top = rect.top + SPEED;
         rect.bottom = rect.bottom + SPEED;
     }
-
-//    /*
-//     *  Enables the debris to fall once it spawns
-//     */
-//    public void fall() {
-//        // decrease the debris' yPos depending on SPEED
-//    }
-//
-//    /*
-//     *  Destroys the object once it comes in contact
-//     *  with the ball, bat, or bottom of the frame
-//     */
-//    public void destroy() {
-//        // remove debris from frame/game
-//    }
-//
-//    /*
-//     *  Checks whether the debris is hit by the bat or ball
-//     */
-//    public void hit() {
-//        // if hit by the ball, call destroy()
-//        // if hit by the bat, apply effects depending on debrisType
-//    }
-
 
 }
