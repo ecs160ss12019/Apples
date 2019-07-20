@@ -23,6 +23,8 @@
                 <li>Debris</li>
                 <li>Obstacle</li>
                 <li>SuperBreakoutActivity</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
             </ul>
         </td>
     </tr>
@@ -39,6 +41,8 @@
                 <li>Ball</li>
                 <li>Debris</li>
                 <li>SuperBreakoutGame</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
             </ul>
         </td>
     </tr>
@@ -57,6 +61,8 @@
                 <li>Debris</li>
                 <li>Obstacle</li>
                 <li>SuperBreakoutGame</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
             </ul>
         </td>
     </tr>
@@ -89,6 +95,8 @@
                 <li>Ball</li>
                 <li>Debris</li>
                 <li>SuperBreakoutGame</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
             </ul>
         </td>
     </tr>
@@ -106,6 +114,44 @@
                 <li>Obstacle</li>
                 <li>Frame</li>
                 <li>SuperBreakoutGame</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">GameObject</td>
+    </tr>
+    <tr>
+        <td>Contains the width and the height of each object in the game.</td>
+        <td>
+            <ul>
+                <li>Bat</li>
+                <li>Ball</li>
+                <li>Obstacle</li>
+                <li>SuperBreakoutActivity</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">BitmapDimensiuons</td>
+    </tr>
+    <tr>
+        <td>Contains the width and the height of each bitmap in the game.</td>
+        <td>
+            <ul>
+                <li>Bat</li>
+                <li>Ball</li>
+                <li>Obstacle</li>
+                <li>SuperBreakoutActivity</li>
+                <li>GameObject</li>
+                <li>BitmapDimensions</li>
             </ul>
         </td>
     </tr>
