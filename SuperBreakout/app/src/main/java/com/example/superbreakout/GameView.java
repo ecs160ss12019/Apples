@@ -103,12 +103,19 @@ public class GameView extends SurfaceView implements Runnable {
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
 
+        Randomizer randomizerActive = new Randomizer(0,1);
+        Randomizer randomizerDurability = new Randomizer(0,3);
+
         // Build a wall of bricks and its potential debris
         numBricks = 0;
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
-                bricks[numBricks].setDurability(1);
+
+                if(randomizerActive.getRandNumber() == 0) {
+                    bricks[numBricks].setDurability(randomizerDurability.getRandNumber());
+                }
+
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
