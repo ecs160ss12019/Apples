@@ -4,25 +4,13 @@ import java.util.Random;
 
 public class Effect {
 
-    // parameters that check whether the Effect will be for the ball or the bat
-    protected boolean ballEffect;
-    protected boolean batEffect;
+    protected String effectTarget; // name of the target that will hold the effect
 
     public Effect() {
         // Randomly decide which component (bat or ball) to affect
         String[] list = {"Ball", "Bat"};
         Random random = new Random();
-
-        switch(list[random.nextInt(list.length)]) {
-            case "Ball":
-                ballEffect = true;
-                batEffect = false;
-                break;
-            case "Bat":
-                ballEffect = false;
-                batEffect = true;
-                break;
-        }
+        effectTarget = list[random.nextInt(list.length)];
     }
 }
 
@@ -31,21 +19,24 @@ class Upgrade extends Effect {
     public String upgradeName; // Name of the upgrade
 
     public Upgrade() {
-        // Randomly generate upgrade based on Effect booleans
+        // Randomly generate upgrade based on the effectTarget parameter
 
         // Super constructor to determine if its a ball or bat effect
         super();
 
         // List of Upgrades
-        String[] batUpgrades = {"Speed Boost", "Double Size"};
-        String[] ballUpgrades = {"Exploding Ball", "Slow Ball"};
+        String[] batUpgrades = {"Speed", "Double"};
+        String[] ballUpgrades = {"Explosion", "Slow"};
         Random random = new Random();
 
         // Check if its a Ball or Bat upgrade
-        if(ballEffect) {
-            upgradeName = ballUpgrades[random.nextInt(ballUpgrades.length)];
-        } else {
-            upgradeName = batUpgrades[random.nextInt(batUpgrades.length)];
+        switch(effectTarget) {
+            case "Ball":
+                upgradeName = ballUpgrades[random.nextInt(ballUpgrades.length)];
+                break;
+            case "Bat":
+                upgradeName = batUpgrades[random.nextInt(batUpgrades.length)];
+                break;
         }
     }
 }
