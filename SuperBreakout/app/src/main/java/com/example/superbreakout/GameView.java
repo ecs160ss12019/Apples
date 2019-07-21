@@ -336,19 +336,33 @@ public class GameView extends SurfaceView implements Runnable {
                 } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
                     // receive effect
 
-                    // for now
-                    switch(ug[i].getEffectTarget()) {
-                        case "Ball":
-                            // do something
+                    // for now (just for Upgrade)
+                    switch(debris[i].getDebrisType()) {
+                        case "Harmful":
+                            // Do Something
                             break;
-                        case "Bat":
-                            bat.applyUpgrade(ug[i].upgradeName);
+                        case "Upgrade":
+                            applyUpgrade(ug[i]);
+                            break;
+                        case "Downgrade":
+                            // do something
                             break;
                     }
 
                     debris[i].deactivate();
                 }
             }
+        }
+    }
+
+    private void applyUpgrade(Upgrade ug) {
+        switch(ug.getEffectTarget()) {
+            case "Ball":
+                // do something: implement ball applyUpgrade method?
+                break;
+            case "Bat":
+                bat.applyUpgrade(ug.upgradeName);
+                break;
         }
     }
 
