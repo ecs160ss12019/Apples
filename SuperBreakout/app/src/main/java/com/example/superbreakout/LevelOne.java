@@ -17,4 +17,8 @@ public class LevelOne extends Level {
 
     }
 
+    @Override
+    public Level advanceNextLevel(){
+        return new LevelTwo(context,screenX, screenY);
+    }
 }

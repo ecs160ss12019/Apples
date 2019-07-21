@@ -66,7 +66,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new Level(context, screenX, screenY);
+        level = new LevelOne(context, screenX, screenY);
         player = new Player();
 
     }
@@ -105,12 +105,12 @@ public class GameView extends SurfaceView implements Runnable {
         if(!checkMissBall()) {
             if(level.checkCollision(ball)){
                 // Add points to Player
+                if(level.levelCompleted()){
+                    level = level.advanceNextLevel();
+                }
             }
-            // Pause if cleared screen
-            if (level.levelCompleted()){
-            } else {
-                ball.checkWallBounce();
-            }
+            ball.checkWallBounce();
+
         }
 
     }
@@ -267,31 +267,30 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void endGame(){
+        //draw Loss;
+        canvas = ourHolder.lockCanvas();
+        canvas.drawText("Game Over!",
+                screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+        ourHolder.unlockCanvasAndPost(canvas);
+
+        try {
+            // Wait 3 seconds then reset a new game
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean checkMissBall(){
-        if (ball.getRect().bottom > screenY) {
+        if (ball.checkMissBall()) {
             // Lose a life
             player.reduceLifeByOne();
             ball.reset(screenX, screenY, level.getLevel());
             paused = true;
-
             if (!player.isAlive()) {
-                paused = true;
-
-                //draw Loss;
-                canvas = ourHolder.lockCanvas();
-                canvas.drawText("Game Over!",
-                        screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
-                ourHolder.unlockCanvasAndPost(canvas);
-
-                try {
-                    // Wait 3 seconds then reset a new game
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                endGame();
                 // Create bricks at level 1
-                //createBricksAndRestart(1);
             }
             return true;
         }

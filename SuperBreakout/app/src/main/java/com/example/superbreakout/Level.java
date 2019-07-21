@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 public class Level {
 
@@ -13,12 +14,14 @@ public class Level {
     int screenY;
     int numAliveBricks;
     int level = 0;
+    Context context;
     Obstacle[] bricks = new Obstacle[BRICKS_IN_LEVEL];
     Debris[] debris = new Debris[BRICKS_IN_LEVEL];
 
     public Level(Context context, int x, int y){
         screenX = x;
         screenY = y;
+        this.context = context;
         createBricks(context);
         numAliveBricks = BRICKS_IN_LEVEL;
 
@@ -71,6 +74,28 @@ public class Level {
                 canvas.drawRect(debris[i].getRect(), paint);
             }
         }
+    }
+
+    public boolean checkCollision(Ball ball){
+        boolean hit = false;
+        // Check for ball colliding with a brick
+        for (int i = 0; i < BRICKS_IN_LEVEL; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    bricks[i].setInvisible();
+                    if(!debris[i].getDebrisType().equals("None")) {
+                        debris[i].activate();
+                    }
+                    ball.reverseYVelocity();
+                    hit = true;
+                }
+            }
+        }
+        return hit;
+    }
+
+    public Level advanceNextLevel(){
+        return new LevelOne(context,screenX, screenY);
     }
 
     public boolean levelCompleted(){
