@@ -9,23 +9,22 @@ public class Level {
 
     private final int BRICKS_IN_LEVEL = 24;
 
-    int level = 1;
     int screenX;
     int screenY;
     int numAliveBricks;
+    int level = 0;
     Obstacle[] bricks = new Obstacle[BRICKS_IN_LEVEL];
     Debris[] debris = new Debris[BRICKS_IN_LEVEL];
 
     public Level(Context context, int x, int y){
         screenX = x;
         screenY = y;
-        createBricks(context, level);
+        createBricks(context);
         numAliveBricks = BRICKS_IN_LEVEL;
 
     }
 
-    public void createBricks(Context context, int Xlevel) {
-
+    public void createBricks(Context context) {
         // Brick Size
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
@@ -77,10 +76,6 @@ public class Level {
     public boolean levelCompleted(){
         if(numAliveBricks == 0 ) return true;
         else return false;
-    }
-
-    public void advanceNextLevel(){
-
     }
 
     public int getLevel(){ return level;}
