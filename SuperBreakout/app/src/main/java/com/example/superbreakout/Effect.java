@@ -12,6 +12,10 @@ public class Effect {
         Random random = new Random();
         effectTarget = list[random.nextInt(list.length)];
     }
+
+    public String getEffectTarget() {
+        return effectTarget;
+    }
 }
 
 class Upgrade extends Effect {
