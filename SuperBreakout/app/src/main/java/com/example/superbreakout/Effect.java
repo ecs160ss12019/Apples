@@ -1,5 +1,7 @@
 package com.example.superbreakout;
 
+import java.util.Random;
+
 public class Effect {
 
     // parameters that check whether the Effect will be for the ball or the bat
@@ -8,6 +10,20 @@ public class Effect {
 
     public Effect() {
         // Randomly decide which component (bat or ball) to affect
+        String[] list = {"Ball", "Bat"};
+        Random random = new Random();
+
+        switch(list[random.nextInt(list.length)]) {
+            case "Ball":
+                ballEffect = true;
+                batEffect = false;
+                break;
+            case "Bat":
+                ballEffect = false;
+                batEffect = true;
+                break;
+        }
+
     }
 }
 
