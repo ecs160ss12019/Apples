@@ -44,8 +44,8 @@ public class GameView extends SurfaceView implements Runnable {
     int numBricks = 0;
 
     Debris[] debris = new Debris[24];
-    Upgrade[] upgrade = new Upgrade[24];
-    Downgrade[] downgrade = new Downgrade[24];
+    Upgrade[] ug = new Upgrade[24];
+    Downgrade[] dg = new Downgrade[24];
 
     // Abstract this into a class, then set getter for this. Possibly setter (?)
     int score = 0;
@@ -335,6 +335,17 @@ public class GameView extends SurfaceView implements Runnable {
                     debris[i].deactivate();
                 } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
                     // receive effect
+
+                    // for now
+                    switch(ug[i].getEffectTarget()) {
+                        case "Ball":
+                            // do something
+                            break;
+                        case "Bat":
+                            bat.applyUpgrade(ug[i].upgradeName);
+                            break;
+                    }
+
                     debris[i].deactivate();
                 }
             }
@@ -350,6 +361,9 @@ public class GameView extends SurfaceView implements Runnable {
                     bricks[i].setInvisible();
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
+
+                        // For now
+                        ug[i] = new Upgrade();
                     }
                     ball.reverseYVelocity();
                     score = score + 10;
@@ -444,5 +458,7 @@ public class GameView extends SurfaceView implements Runnable {
         // Gift the player with 2 new lives
         lives = lives + 2;
     }
+
+
 
 }

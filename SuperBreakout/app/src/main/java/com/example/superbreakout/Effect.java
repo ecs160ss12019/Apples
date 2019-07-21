@@ -29,7 +29,7 @@ class Upgrade extends Effect {
         super();
 
         // List of Upgrades
-        String[] batUpgrades = {"Speed", "Double"};
+        String[] batUpgrades = {"SpeedUp", "SizeUp"};
         String[] ballUpgrades = {"Explosion", "Slow"};
         Random random = new Random();
 

@@ -107,4 +107,20 @@ public class Bat extends GameObject {
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
+    public void applyUpgrade(String upgradeName) {
+        /*
+         * Add remaining upgrade cases
+         * implement a way to store list of upgrades.
+         * List of Effects should reset after each death/level
+         */
+        switch(upgradeName) {
+            case "SpeedUp":
+                paddleSpeed = 2 * paddleSpeed;
+                break;
+            case "SizeUp":
+                // change size
+                break;
+        }
+    }
+
 }
