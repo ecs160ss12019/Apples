@@ -198,7 +198,7 @@ public class Ball extends GameObject {
     public Bitmap getBallBitmap() { return ballBitmap; }
 
     // This function reverses the vertical velocity and adds a little momentum to it
-    private void reverseYVelocity() {
+    public void reverseYVelocity() {
         yVelocity = -yVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
