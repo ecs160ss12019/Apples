@@ -5,8 +5,8 @@ import java.util.Random;
 public class Effect {
 
     // parameters that check whether the Effect will be for the ball or the bat
-    private boolean ballEffect;
-    private boolean batEffect;
+    protected boolean ballEffect;
+    protected boolean batEffect;
 
     public Effect() {
         // Randomly decide which component (bat or ball) to affect
@@ -23,7 +23,6 @@ public class Effect {
                 batEffect = true;
                 break;
         }
-
     }
 }
 
@@ -33,6 +32,21 @@ class Upgrade extends Effect {
 
     public Upgrade() {
         // Randomly generate upgrade based on Effect booleans
+
+        // Super constructor to determine if its a ball or bat effect
+        super();
+
+        // List of Upgrades
+        String[] batUpgrades = {"Speed Boost", "Double Size"};
+        String[] ballUpgrades = {"Exploding Ball", "Slow Ball"};
+        Random random = new Random();
+
+        // Check if its a Ball or Bat upgrade
+        if(ballEffect) {
+            upgradeName = ballUpgrades[random.nextInt(ballUpgrades.length)];
+        } else {
+            upgradeName = batUpgrades[random.nextInt(batUpgrades.length)];
+        }
     }
 }
 
