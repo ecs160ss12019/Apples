@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -96,19 +95,21 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
-        updateDebris(fps);
+        //updateDebris(fps);
 
-        ballBrickCollision();
-        ballDebrisCollision();
-        batDebrisCollision();
+        //ballDebrisCollision();
+        //batDebrisCollision();
+
         ballPaddleCollision();
 
         if(!checkMissBall()) {
+            if(level.checkCollision(ball)){
+                // Add points to Player
+            }
             // Pause if cleared screen
             if (level.levelCompleted()){
-                level.advanceNextLevel();
             } else {
-                checkWallBounce();
+                ball.checkWallBounce();
             }
         }
 
@@ -148,31 +149,6 @@ public class GameView extends SurfaceView implements Runnable {
             // sets brush color to white
             paint.setColor(Color.argb(255, 255, 0, 0));
 
-            // Draw the bricks if visible
-            /*for (int i = 0; i < numBricks; i++) {
-                if (bricks[i].getVisibility()) {
-                    // canvas.drawRect(bricks[i].getRect(), paint);
-                    canvas.drawBitmap(bricks[i].getBricksBitmap(), bricks[i].getRect().left, bricks[i].getRect().top, paint);
-                    /*switch (level) {
-                        case 1:
-                            canvas.drawBitmap(bitmapBrick1, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-
-                        case 2:
-                            canvas.drawBitmap(bitmapBrick2, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-                        case 3:
-                            canvas.drawBitmap(bitmapBrick3, bricks[i].getRect().left, bricks[i].getRect().top, null);
-                            break;
-                    }
-
-
-                }
-            }
-            */
-
             // Choose the brush color for drawing
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTextSize(50);
@@ -193,7 +169,8 @@ public class GameView extends SurfaceView implements Runnable {
             // Has the player cleared the screen?
             /*if (score >= (numBricks * 10 * 3) + 20) {
                 paint.setColor(getResources().getColor(R.color.colorAccent));
-                canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi / 1), paint);
+                canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
+                 (densityDpi / 1), paint);
 
             }*/
 
@@ -274,23 +251,6 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-
-
-    private void ballBrickCollision(){
-        // Check for ball colliding with a brick
-        for (int i = 0; i < numBricks; i++) {
-            if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    bricks[i].setInvisible();
-                    if(!debris[i].getDebrisType().equals("None")) {
-                        debris[i].activate();
-                    }
-                    ball.reverseYVelocity();
-                    score = score + 10;
-                }
-            }
-        }
-    }
     */
 
     private void ballPaddleCollision(){
@@ -337,48 +297,4 @@ public class GameView extends SurfaceView implements Runnable {
         }
         return false;
     }
-
-    private void checkWallBounce(){
-        // Bounce the ball back when it hits the top of screen
-        if (ball.getRect().top < 0) {
-            ball.reverseYVelocity();
-            ball.clearObstacleY(40);
-        }
-
-        // If the ball hits left wall bounce
-        if (ball.getRect().left < 0) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(2);
-        }
-
-        // If the ball hits right wall Velocity
-        if (ball.getRect().right > screenX) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(screenX - 57);
-        }
-    }
-
-    /*
-    private void succeedToLevelTwo(){
-        // Create bricks at level 2
-        createBricksAndRestart(2);
-
-        // fix for a pause bug
-        // so that it won't Pause After finishing the Game
-        score = score + 10;
-        // Gift the player with 1 new live
-        lives = lives + 1;
-    }
-
-    private void succeedToLevelThree(){
-        // Create bricks at level 3
-        createBricksAndRestart(3);
-
-        // fix for a pause bug
-        // so that it won't Pause After finishing the Game
-        score = score + 10;
-        // Gift the player with 2 new lives
-        lives = lives + 2;
-    }*/
-
 }
