@@ -125,11 +125,13 @@ public class GameView extends SurfaceView implements Runnable {
             Log.d("Error", "=Failed to load sound files");
         }
 
+
         // Create bricks for level 1
-        createBricksAndRestart(1);
+        // createBricksAndRestart(1);
     }
 
 
+    /*
     public void createBricksAndRestart(int Xlevel) {
 
         // Put the ball back to the start
@@ -164,7 +166,7 @@ public class GameView extends SurfaceView implements Runnable {
         // if Game is over reset scores ,lives &Level
         if (lives == 0) { restartGame();}
 
-    }
+    }*/
 
 
 
@@ -230,6 +232,13 @@ public class GameView extends SurfaceView implements Runnable {
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
+            // Draws background image
+            canvas.drawBitmap(backgroundImage, null, dest, paint);
+            paint.setAlpha(100);
+            canvas.drawBitmap(clouds, null, dest, paint);
+            paint.setAlpha(255);
+
+
             drawBall();
             drawBat();
             drawStage();
@@ -276,7 +285,7 @@ public class GameView extends SurfaceView implements Runnable {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (!(lives == 0)){ paused = false;}
+                if (!(player.getLives() == 0)){ paused = false;}
                 bat.move(motionEvent.getX());
                 break;
         }
