@@ -26,6 +26,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+
+import androidx.core.view.GestureDetectorCompat;
+
 import java.io.IOException;
 import java.lang.Math;
 
@@ -62,6 +65,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     SoundPool sp;
     int idFX1; // FX 1 - blip
+
+    // Sets gesture compat object
+    private GestureDetectorCompat gestureDetectorCompat = null;
 
 
     public GameView(Context context, AttributeSet attrs) {
@@ -104,7 +110,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Initialize the SoundPool
             sp = new SoundPool.Builder()
-                    .setMaxStreams(10)
+                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
                     .setAudioAttributes(audioAttributes)
                     .build();
         }
@@ -177,7 +183,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             long timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame >= 1) {
-                fps = 1000 / timeThisFrame;
+                fps = 10000 / timeThisFrame;
             }
 
         }
@@ -358,8 +364,15 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP: // Player doesn't touch screen
                 bat.stopMoving();
                 break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (!(lives == 0)){ paused = false;}
+                bat.move(motionEvent.getX());
+                break;
         }
+
         return true;
+
     }
 
     /************ HELPER FUNCTIONS ************/

@@ -72,13 +72,13 @@ public class Ball extends GameObject {
     public void setRandomVelocity(int level) {
         switch (level) {
             case 2:
-                this.setBallSpeed(1000);
+                this.setBallSpeed(10000);
                 break;
             case 3:
-                this.setBallSpeed(1200);
+                this.setBallSpeed(12000);
                 break;
             default:
-                this.setBallSpeed(800);
+                this.setBallSpeed(8000);
                 break;
         }
 

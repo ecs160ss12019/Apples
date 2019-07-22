@@ -49,7 +49,7 @@ public class Bat extends GameObject {
         rect = new RectF(x, y, x + width, y + height);
 
         // How fast is the paddle in pixels per second
-        setPaddleSpeed(800);
+        setPaddleSpeed(8000);
 
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
         batBitmap = Bitmap.createScaledBitmap(batBitmap,
