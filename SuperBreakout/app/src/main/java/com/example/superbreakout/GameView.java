@@ -66,7 +66,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelOne(getContext(), screenX, screenY);
+        level = new LevelOne(screenX, screenY);
         startNewGame();
 
     }
@@ -102,12 +102,12 @@ public class GameView extends SurfaceView implements Runnable {
         ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
-           /* if(level.checkCollision(ball)){
+           if(level.checkCollision(ball)){
                 // Add points to Player
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
                 }
-            }*/
+            }
             ball.checkWallBounce();
         }
 
@@ -141,8 +141,8 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
 
             // Draw stage
-            //paint.setColor(Color.argb(255, 255, 0, 0));
-            //level.draw(canvas,paint);
+            paint.setColor(Color.argb(255, 255, 0, 0));
+            level.draw(canvas,paint);
 
             // Change the brush color for drawing
             // paint.setColor(getResources().getColor(R.color.redorange));
@@ -220,6 +220,7 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame(){
         player = new Player();
+        level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
     }
 

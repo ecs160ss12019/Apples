@@ -4,9 +4,11 @@ import android.content.Context;
 
 public class LevelTwo extends Level {
 
-    public LevelTwo(Context context, int x, int y){
-        super(context, x,y);
-        level = 2;
+    private final int LEVEL_TWO = 2;
+
+    public LevelTwo(int x, int y){
+        super(x,y);
+        level = LEVEL_TWO;
     }
 
     @Override
@@ -16,7 +18,7 @@ public class LevelTwo extends Level {
 
     @Override
     public Level advanceNextLevel(){
-        return new LevelThree(context,screenX, screenY);
+        return new LevelThree(screenX, screenY);
     }
 
 }
