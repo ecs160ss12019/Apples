@@ -21,12 +21,17 @@ public class Ball extends GameObject {
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
 
+    Randomizer randomizeVelocity;
+
 
     public Ball(Context context, int screenX, int screenY) {
         super(ballWidth, ballHeight);
 
         // creates new rectangle object for ball
         rect = new RectF();
+
+        // creates new randomizer
+        randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
         bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
@@ -79,13 +84,13 @@ public class Ball extends GameObject {
 
         int Vx, Vy; // Proposed horizontal and vertical components of velocity
         // randomly generate a variable that determines if the ball starts by moving left/right
-        int xDirection = boundedRandomInt(3,1);
+        int xDirection = randomizeVelocity.getRandNumber(1,3);
         if(xDirection >= 2)
-            Vx = boundedRandomInt(8,4);
+            Vx = randomizeVelocity.getRandNumber(4,8);
         else
-            Vx = -boundedRandomInt(8,4);
+            Vx = -randomizeVelocity.getRandNumber(4,8);
 
-        Vy = -boundedRandomInt(16,10); // Always start with upwards velocity
+        Vy = -randomizeVelocity.getRandNumber(10,16); // Always start with upwards velocity
 
         this.normalizeVelocity(Vx, Vy); // Make velocity constant speed
     }
