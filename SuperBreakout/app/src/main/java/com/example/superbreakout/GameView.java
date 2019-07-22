@@ -100,7 +100,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(!checkMissBall()) {
            if(level.checkCollision(ball)){
-                // Add points to Player
+                player.hitBrick();
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
                     level.createBricks(getContext());
@@ -198,10 +198,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean checkMissBall(){
         if (ball.checkMissBall()) {
-            // Lose a life
-            player.reduceLifeByOne();
+            player.missBrick(); // Reset points
+            player.reduceLifeByOne(); // Lose a life
+
+
             ball.reset(screenX, screenY, level.getLevel());
             paused = true;
+
             if (!player.isAlive()) {
                 endGame();
             }
