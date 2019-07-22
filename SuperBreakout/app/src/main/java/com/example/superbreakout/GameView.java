@@ -186,6 +186,8 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
         ourHolder.unlockCanvasAndPost(canvas);
+        
+        level = new LevelOne(screenX,screenY);
         startNewGame();
 
         try {
