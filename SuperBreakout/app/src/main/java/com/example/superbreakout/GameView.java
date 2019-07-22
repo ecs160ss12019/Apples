@@ -66,7 +66,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelOne(screenX, screenY);
         startNewGame();
 
     }
@@ -176,6 +175,7 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame(){
         player = new Player();
+        level = new LevelOne(screenX, screenY);
         level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
     }
@@ -186,8 +186,6 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
         ourHolder.unlockCanvasAndPost(canvas);
-        
-        level = new LevelOne(screenX,screenY);
         startNewGame();
 
         try {
@@ -206,7 +204,6 @@ public class GameView extends SurfaceView implements Runnable {
             paused = true;
             if (!player.isAlive()) {
                 endGame();
-                // Create bricks at level 1
             }
             return true;
         }
