@@ -14,8 +14,10 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -58,15 +60,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     Randomizer randomizer;
 
-    /*
-    SOUND FX FIXME
-    SoundPool soundPool;
-    int beep1ID = -1;
-    int beep2ID = -1;
-    int beep3ID = -1;
-    int loseLifeID = -1;
-    int explodeID = -1;
-    */
+    SoundPool sp;
+    int idFX1; // FX 1 - blip
+
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -90,6 +86,41 @@ public class GameView extends SurfaceView implements Runnable {
         ball = new Ball(context, screenX, screenY);
 
         randomizer = new Randomizer();
+
+        // Instantiate a SoundPool dependent on Android version
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // The new way
+            // Build an AudioAttributes object
+            AudioAttributes audioAttributes =
+                    // First method call
+                    new AudioAttributes.Builder()
+                            // Second method call
+                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                            // Third method call
+                            .setContentType
+                                    (AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            // Fourth method call
+                            .build();
+
+            // Initialize the SoundPool
+            sp = new SoundPool.Builder()
+                    .setMaxStreams(10)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        }
+
+        try{
+            // Create objects of the 2 required classes
+            AssetManager assetManager = getContext().getAssets();
+            AssetFileDescriptor descriptor1;
+            AssetFileDescriptor descriptor2;
+            // Load our fx in memory ready for use
+            descriptor1 = assetManager.openFd("blip-1.wav");
+            idFX1 = sp.load(descriptor1, 0);
+        } catch(IOException e){
+            // Print an error message to the console
+            Log.d("Error", "=Failed to load sound files");
+        }
 
         // Create bricks for level 1
         createBricksAndRestart(1);
@@ -370,6 +401,8 @@ public class GameView extends SurfaceView implements Runnable {
         for (int i = 0; i < numBricks; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    sp.play(idFX1, 1, 1, 0, 0, 1);
+
                     if(bricks[i].getDurability() == 0) {
                         bricks[i].setInvisible();
                         score = score + 10;
