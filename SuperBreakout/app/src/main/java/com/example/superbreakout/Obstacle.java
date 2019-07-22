@@ -14,7 +14,8 @@ public class Obstacle extends GameObject {
     private Bitmap bricksBitmap;
     private BitmapDimensions bitmapDimensions;
 
-    public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle, int horzPadding, int vertPadding) {
+    public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle,
+                    int horzPadding, int vertPadding) {
         super(widthObstacle, heightObstacle);
 
         isVisible = true;
@@ -26,7 +27,7 @@ public class Obstacle extends GameObject {
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,  bitmapDimensions.height, true);
 
 
-        rect = new RectF(column * width + horzPadding,
+        rect = new RectF( column * width + horzPadding,
                 row * height + vertPadding,
                 column * width + width - horzPadding,
                 row * height + height - vertPadding);

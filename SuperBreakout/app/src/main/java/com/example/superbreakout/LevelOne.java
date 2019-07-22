@@ -18,8 +18,8 @@ public class LevelOne extends Level {
     public void createBricks(Context context){
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
-        bricksInLevel = 16;
-        rowsInLevel = 2;
+        bricksInLevel = 24;
+        rowsInLevel = 3;
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
@@ -28,7 +28,11 @@ public class LevelOne extends Level {
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight, 0, brickHeight/5);
+                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
+                        brickWidth/5, brickHeight/4);
+                if(row == 1) {
+                    bricks[numBricks].setInvisible();
+                }
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
