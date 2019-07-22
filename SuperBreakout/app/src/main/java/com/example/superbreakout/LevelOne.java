@@ -18,12 +18,17 @@ public class LevelOne extends Level {
     public void createBricks(Context context){
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
+        bricksInLevel = 16;
+        rowsInLevel = 2;
+        columnsInLevel = bricksInLevel / rowsInLevel;
+        bricks = new Obstacle[bricksInLevel];
+        debris = new Debris[bricksInLevel];
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
-        for (int column = 0; column < 8; column++) {
-            for (int row = 0; row < 3; row++) {
-                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight);
+        for (int column = 0; column < columnsInLevel; column++) {
+            for (int row = 0; row < rowsInLevel; row++) {
+                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight, 0, brickHeight/5);
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
