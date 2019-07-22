@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class LevelThree extends Level{
 
-    private final int LEVEL_THREE = 3;
+    public static final int LEVEL_THREE = 3;
     public LevelThree(int x, int y){
         super(x,y);
         level = LEVEL_THREE;

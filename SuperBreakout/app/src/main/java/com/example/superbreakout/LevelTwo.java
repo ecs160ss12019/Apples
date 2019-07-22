@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class LevelTwo extends Level {
 
-    private final int LEVEL_TWO = 2;
+    public static final int LEVEL_TWO = 2;
 
     public LevelTwo(int x, int y){
         super(x,y);

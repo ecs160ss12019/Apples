@@ -7,7 +7,7 @@ import android.graphics.Paint;
 
 public class LevelOne extends Level {
 
-    private final int LEVEL_ONE = 1;
+    public static final int LEVEL_ONE = 1;
 
     public LevelOne(int x, int y){
         super(x,y);

@@ -85,9 +85,7 @@ public class GameView extends SurfaceView implements Runnable {
             if (timeThisFrame >= 1) {
                 fps = 1000 / timeThisFrame;
             }
-
         }
-
     }
 
 
@@ -127,54 +125,13 @@ public class GameView extends SurfaceView implements Runnable {
 
             dest = new Rect(0, 0, getWidth(), getHeight());
 
-            // Choose the brush color for drawing white
-            paint.setColor(Color.argb(255, 255, 255, 255));
-
-            // Draw the ball
-            // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
-            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
-
-            // sets brush color to red
-            paint.setColor(Color.argb(255, 255, 0, 0));
-
-            // Draw the paddle
-            // canvas.drawRect(bat.getRect(), paint);
-            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
-
-            // Draw stage
-            paint.setColor(Color.argb(255, 255, 0, 0));
-            level.draw(canvas,paint);
-
-            // Change the brush color for drawing
-            // paint.setColor(getResources().getColor(R.color.redorange));
-
-            // sets brush color to white
-            paint.setColor(Color.argb(255, 255, 0, 0));
-
-            // Choose the brush color for drawing
-            paint.setColor(Color.argb(255, 255, 255, 255));
-            paint.setTextSize(50);
-
-            // Score Text
-            canvas.drawText(
-                    "Score: " + player.getScore()
-                    , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
-
-            // Lives Text
-            canvas.drawText("Lives: " + player.getLives()
-                    , densityDpi / 5, screenY / 2, paint);
-
-            // Levels Text
-            canvas.drawText("Level: " + level.getLevel()
-                    , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
-
-            // Has the player cleared the screen?
-            /*if (score >= (numBricks * 10 * 3) + 20) {
-                paint.setColor(getResources().getColor(R.color.colorAccent));
-                canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
-                 (densityDpi / 1), paint);
-
-            }*/
+            drawBall();
+            drawBat();
+            drawStage();
+            drawStats();
+            if (level.getLevel() == LevelThree.LEVEL_THREE && level.levelCompleted()) {
+               drawWinScreen();
+            }
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
@@ -256,6 +213,46 @@ public class GameView extends SurfaceView implements Runnable {
         return false;
     }
 
+    private void drawStats(){
+        // Choose the brush color for drawing
+        paint.setColor(Color.argb(255, 255, 255, 255));
+        paint.setTextSize(50);
+
+        // Score Text
+        canvas.drawText(
+                "Score: " + player.getScore()
+                , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
+
+        // Lives Text
+        canvas.drawText("Lives: " + player.getLives()
+                , densityDpi / 5, screenY / 2, paint);
+
+        // Levels Text
+        canvas.drawText("Level: " + level.getLevel()
+                , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
+
+    }
+
+    private void drawWinScreen(){
+        paint.setColor(getResources().getColor(R.color.colorAccent));
+        canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
+                (densityDpi / 1), paint);
+
+    }
+
+    private void drawStage(){
+        // Draw stage
+        paint.setColor(Color.argb(255, 255, 0, 0));
+        level.draw(canvas,paint);
+    }
+
+    private void drawBat(){
+        canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+    }
+
+    private void drawBall(){
+        canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+    }
 
     /*
     private void updateDebris(long fps) {
