@@ -66,8 +66,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelOne(context, screenX, screenY);
-        player = new Player();
+        level = new LevelOne(getContext(), screenX, screenY);
+        startNewGame();
 
     }
 
@@ -96,21 +96,19 @@ public class GameView extends SurfaceView implements Runnable {
         bat.update(fps);
         ball.update(fps);
         //updateDebris(fps);
-
         //ballDebrisCollision();
         //batDebrisCollision();
 
         ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
-            if(level.checkCollision(ball)){
+           /* if(level.checkCollision(ball)){
                 // Add points to Player
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
                 }
-            }
+            }*/
             ball.checkWallBounce();
-
         }
 
     }
@@ -142,6 +140,9 @@ public class GameView extends SurfaceView implements Runnable {
             // canvas.drawRect(bat.getRect(), paint);
             canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
 
+            // Draw stage
+            //paint.setColor(Color.argb(255, 255, 0, 0));
+            //level.draw(canvas,paint);
 
             // Change the brush color for drawing
             // paint.setColor(getResources().getColor(R.color.redorange));
@@ -163,7 +164,7 @@ public class GameView extends SurfaceView implements Runnable {
                     , densityDpi / 5, screenY / 2, paint);
 
             // Levels Text
-            canvas.drawText("Level: " + level
+            canvas.drawText("Level: " + level.getLevel()
                     , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
 
             // Has the player cleared the screen?
@@ -217,7 +218,42 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void restartGame(){ player = new Player();}
+    private void startNewGame(){
+        player = new Player();
+        ball.reset(screenX, screenY, level.getLevel());
+    }
+
+    private void endGame(){
+        //draw Loss;
+        canvas = ourHolder.lockCanvas();
+        canvas.drawText("Game Over!",
+                screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+        ourHolder.unlockCanvasAndPost(canvas);
+        startNewGame();
+
+        try {
+            // Wait 3 seconds then reset a new game
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkMissBall(){
+        if (ball.checkMissBall()) {
+            // Lose a life
+            player.reduceLifeByOne();
+            ball.reset(screenX, screenY, level.getLevel());
+            paused = true;
+            if (!player.isAlive()) {
+                endGame();
+                // Create bricks at level 1
+            }
+            return true;
+        }
+        return false;
+    }
+
 
     /*
     private void updateDebris(long fps) {
@@ -252,35 +288,4 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
     */
-
-    private void endGame(){
-        //draw Loss;
-        canvas = ourHolder.lockCanvas();
-        canvas.drawText("Game Over!",
-                screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
-        ourHolder.unlockCanvasAndPost(canvas);
-        restartGame();
-
-        try {
-            // Wait 3 seconds then reset a new game
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean checkMissBall(){
-        if (ball.checkMissBall()) {
-            // Lose a life
-            player.reduceLifeByOne();
-            ball.reset(screenX, screenY, level.getLevel());
-            paused = true;
-            if (!player.isAlive()) {
-                endGame();
-                // Create bricks at level 1
-            }
-            return true;
-        }
-        return false;
-    }
 }
