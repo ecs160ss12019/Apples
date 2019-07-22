@@ -106,6 +106,7 @@ public class GameView extends SurfaceView implements Runnable {
                 // Add points to Player
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
+                    level.createBricks(getContext());
                 }
             }
             ball.checkWallBounce();
