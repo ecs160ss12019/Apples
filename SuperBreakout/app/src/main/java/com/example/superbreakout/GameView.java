@@ -56,6 +56,8 @@ public class GameView extends SurfaceView implements Runnable {
     DisplayMetrics dm;
     int densityDpi;
 
+    Randomizer randomizer;
+
     /*
     SOUND FX FIXME
     SoundPool soundPool;
@@ -87,6 +89,8 @@ public class GameView extends SurfaceView implements Runnable {
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
 
+        randomizer = new Randomizer();
+
         // Create bricks for level 1
         createBricksAndRestart(1);
     }
@@ -103,21 +107,19 @@ public class GameView extends SurfaceView implements Runnable {
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
 
-        Randomizer randomizeActive = new Randomizer(0,1);
-        Randomizer randomizeDurability = new Randomizer(0,3);
-
         // Build a wall of bricks and its potential debris
         numBricks = 0;
         for (int column = 0; column < 8; column++) {
             for (int row = 0; row < 3; row++) {
                 bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
 
-                if(randomizeActive.getRandNumber() == 1 && level > 1) {
-                    bricks[numBricks].setDurability(randomizeDurability.getRandNumber());
+                if(randomizer.getRandBoolean() && level > 1){
+                    bricks[numBricks].setDurability(randomizer.getRandNumber(1,3));
                 }
                 else {
                     bricks[numBricks].setDurability(0);
                 }
+
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
@@ -330,7 +332,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void restartGame(){ score = 0; lives = 3;level =1; }
+    private void restartGame(){ score = 0; lives = 3;level = 1; }
 
     private void updateDebris(long fps) {
         // Updates the position of all active debris
