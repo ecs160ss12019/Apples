@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -20,7 +19,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -50,14 +48,8 @@ public class GameView extends SurfaceView implements Runnable {
     // Objects of the game
     Bat bat;
     Ball ball;
-    Obstacle[] bricks = new Obstacle[24];
-    int numBricks = 0;
-    Debris[] debris = new Debris[24];
-
-    // Abstract this into a class, then set getter for this. Possibly setter (?)
-    int score = 0;
-    int level = 1;
-    int lives = 3;
+    Player player;
+    Level level;
 
     // Screen items
     Rect dest;
@@ -94,6 +86,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
+        startNewGame();
 
         randomizer = new Randomizer();
 
@@ -189,7 +182,6 @@ public class GameView extends SurfaceView implements Runnable {
             if (timeThisFrame >= 1) {
                 fps = 10000 / timeThisFrame;
             }
-
         }
     }
 
@@ -198,24 +190,21 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
-        updateDebris(fps);
+        //updateDebris(fps);
+        //ballDebrisCollision();
+        //batDebrisCollision();
 
-        ballBrickCollision();
-        ballDebrisCollision();
-        batDebrisCollision();
-        ballPaddleCollision();
+        ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
-            // Pause if cleared screen
-            if (score == numBricks * 10) { // Move to level two
-                succeedToLevelTwo();
-            } else if (score == (numBricks * 20) + 10) { // Move to level three
-                succeedToLevelThree();
-            } else if (score == (numBricks * 10 * 3) + 20) { // Winning
-                paused = true;
-            } else {
-                checkWallBounce();
+           if(level.checkCollision(ball)){
+                player.hitBrick();
+                if(level.levelCompleted()){
+                    level = level.advanceNextLevel();
+                    level.createBricks(getContext());
+                }
             }
+            ball.checkWallBounce();
         }
 
     }
@@ -241,98 +230,11 @@ public class GameView extends SurfaceView implements Runnable {
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
-            // Draws background image
-            canvas.drawBitmap(backgroundImage, null, dest, paint);
-            paint.setAlpha(100);
-            canvas.drawBitmap(clouds, null, dest, paint);
-
-
-            paint.setAlpha(255);
-            // Choose the brush color for drawing white
-            paint.setColor(Color.argb(255, 255, 255, 255));
-
-            // Draw the ball
-            // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
-            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top, paint);
-
-            // sets brush color to red
-            paint.setColor(Color.argb(255, 255, 0, 0));
-
-            // Draw the paddle
-            // canvas.drawRect(bat.getRect(), paint);
-            canvas.drawBitmap(bat.getBatBitmap(), null, bat.getRect(), paint);
-
-            // sets brush color to white
-            paint.setColor(Color.argb(255, 255, 0, 0));
-
-            // Draw the bricks if visible
-            for (int i = 0; i < numBricks; i++) {
-                if (bricks[i].getVisibility()) {
-                    // canvas.drawRect(bricks[i].getRect(), paint);
-                    canvas.drawBitmap(bricks[i].getBricksBitmap(), bricks[i].getRect().left, bricks[i].getRect().top, paint);
-                    /*switch (level) {
-                        case 1:
-                            canvas.drawBitmap(bitmapBrick1, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-
-                        case 2:
-                            canvas.drawBitmap(bitmapBrick2, bricks[i].getRect().left, bricks[i].getRect().top, null);
-
-                            break;
-                        case 3:
-                            canvas.drawBitmap(bitmapBrick3, bricks[i].getRect().left, bricks[i].getRect().top, null);
-                            break;
-                    }*/
-
-
-                }
-            }
-
-            // Draw the debris if active
-            for(int i = 0; i < numBricks; i++) {
-                if(debris[i].getActive()) {
-                    // Change paint color depending on debris type
-                    switch (debris[i].getDebrisType()) {
-                        case "Harmful":
-                            paint.setColor(Color.argb(255, 255, 0, 0));
-                            break;
-                        case "Upgrade":
-                            paint.setColor(Color.argb(255, 0, 255, 0));
-                            break;
-                        case "Downgrade":
-                            paint.setColor(Color.argb(255, 0, 0, 255));
-                            break;
-                        default:
-                            break;
-                    }
-                    canvas.drawRect(debris[i].getRect(), paint);
-                }
-            }
-
-            // Choose the brush color for drawing
-            paint.setColor(Color.argb(255, 255, 255, 255));
-            paint.setTextSize(50);
-
-            // Score Text
-            canvas.drawText(
-                    "Score: " + score
-                    , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
-
-            // Lives Text
-            canvas.drawText("Lives: " + lives
-                    , densityDpi / 5, screenY / 2, paint);
-
-            // Levels Text
-            canvas.drawText("Level: " + level
-                    , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
-
-            // Has the player cleared the screen?
-            if (score >= (numBricks * 10 * 3) + 20) {
-                paint.setColor(getResources().getColor(R.color.colorAccent));
-                canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi / 1), paint);
-
-            }
+            drawBall();
+            drawBat();
+            drawStage();
+            drawStats();
+            checkAndDrawWinScreen();
 
             // Draw everything to the screen
             ourHolder.unlockCanvasAndPost(canvas);
@@ -365,7 +267,7 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: // Player has touched the screen
-                if (!(lives == 0)){ paused = false;}
+                if (player.isAlive()){ paused = false;}
                 bat.move(motionEvent.getX());
                 break;
 
@@ -384,8 +286,90 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void restartGame(){ score = 0; lives = 3;level = 1; }
+    private void startNewGame(){
+        player = new Player();
+        level = new LevelOne(screenX, screenY);
+        level.createBricks(getContext());
+        ball.reset(screenX, screenY, level.getLevel());
+    }
 
+    private void endGame(){
+        //draw Loss;
+        canvas = ourHolder.lockCanvas();
+        canvas.drawText("Game Over!",
+                screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+        ourHolder.unlockCanvasAndPost(canvas);
+        startNewGame();
+
+        try {
+            // Wait 3 seconds then reset a new game
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkMissBall(){
+        if (ball.checkMissBall()) {
+            player.missBrick(); // Reset points
+            player.reduceLifeByOne(); // Lose a life
+
+
+            ball.reset(screenX, screenY, level.getLevel());
+            paused = true;
+
+            if (!player.isAlive()) {
+                endGame();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void drawStats(){
+        // Choose the brush color for drawing
+        paint.setColor(Color.argb(255, 255, 255, 255));
+        paint.setTextSize(50);
+
+        // Score Text
+        canvas.drawText(
+                "Score: " + player.getScore()
+                , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
+
+        // Lives Text
+        canvas.drawText("Lives: " + player.getLives()
+                , densityDpi / 5, screenY / 2, paint);
+
+        // Levels Text
+        canvas.drawText("Level: " + level.getLevel()
+                , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
+
+    }
+
+    private void checkAndDrawWinScreen(){
+        if (level.getLevel() == LevelThree.LEVEL_THREE && level.levelCompleted()) {
+            paint.setColor(getResources().getColor(R.color.colorAccent));
+            canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
+                    (densityDpi / 1), paint);
+        }
+
+    }
+
+    private void drawStage(){
+        // Draw stage
+        paint.setColor(Color.argb(255, 255, 0, 0));
+        level.draw(canvas,paint);
+    }
+
+    private void drawBat(){
+        canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+    }
+
+    private void drawBall(){
+        canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+    }
+
+    /*
     private void updateDebris(long fps) {
         // Updates the position of all active debris
         for (int i = 0; i < numBricks; i++) {
@@ -417,122 +401,5 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-    private void ballBrickCollision(){
-        // Check for ball colliding with a brick
-        for (int i = 0; i < numBricks; i++) {
-            if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    sp.play(idFX1, 1, 1, 0, 0, 1);
-
-                    if(bricks[i].getDurability() == 0) {
-                        bricks[i].setInvisible();
-                        score = score + 10;
-
-                        if(!debris[i].getDebrisType().equals("None")) {
-                            debris[i].activate();
-                        }
-                    }
-                    else {
-                        bricks[i].reduceDurability();
-                    }
-
-                    // bricks[i].setInvisible();
-
-                    /*
-                    if(!debris[i].getDebrisType().equals("None")) {
-                        debris[i].activate();
-                    }*/
-                    ball.reverseYVelocity();
-                }
-            }
-        }
-    }
-
-    private void ballPaddleCollision(){
-        // Check for ball colliding with paddle
-        if(ball.intersect(bat)) {
-
-            // Interpolate the incoming position for computation of the new Velocity
-            float midBall = ball.getMiddle();
-            float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
-
-            ball.getNewVelocity(fracDisplacementFromMid, bat);
-
-        }
-    }
-
-    private boolean checkMissBall(){
-        if (ball.getRect().bottom > screenY) {
-            // Lose a life
-            lives--;
-            ball.reset(screenX, screenY, this.level);
-            paused = true;
-
-            if (lives == 0) {
-                paused = true;
-
-                //draw Loss;
-                canvas = ourHolder.lockCanvas();
-                canvas.drawText("Game Over!",
-                        screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
-                ourHolder.unlockCanvasAndPost(canvas);
-
-                try {
-                    // Wait 3 seconds then reset a new game
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                // Create bricks at level 1
-                createBricksAndRestart(1);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private void checkWallBounce(){
-        // Bounce the ball back when it hits the top of screen
-        if (ball.getRect().top < 0) {
-            ball.reverseYVelocity();
-            ball.clearObstacleY(40);
-        }
-
-        // If the ball hits left wall bounce
-        if (ball.getRect().left < 0) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(2);
-        }
-
-        // If the ball hits right wall Velocity
-        if (ball.getRect().right > screenX) {
-            ball.reverseXVelocity();
-            ball.clearObstacleX(screenX - 57);
-        }
-    }
-
-    private void succeedToLevelTwo(){
-        // Create bricks at level 2
-        createBricksAndRestart(2);
-
-        // fix for a pause bug
-        // so that it won't Pause After finishing the Game
-        score = score + 10;
-        // Gift the player with 1 new live
-        lives = lives + 1;
-    }
-
-    private void succeedToLevelThree(){
-        // Create bricks at level 3
-        createBricksAndRestart(3);
-
-        // fix for a pause bug
-        // so that it won't Pause After finishing the Game
-        score = score + 10;
-        // Gift the player with 2 new lives
-        lives = lives + 2;
-    }
-
+    */
 }
