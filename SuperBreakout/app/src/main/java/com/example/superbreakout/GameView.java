@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -34,18 +33,21 @@ import java.lang.Math;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    // OS stuff
     Thread gameThread = null;
     SurfaceHolder ourHolder;
     Canvas canvas;
     Paint paint;
-    long fps;
+    long fps; // sets the frame rate for the game
 
     volatile boolean playing;
     boolean paused = true;
 
+    // Resolution of screen
     int screenX;
     int screenY;
 
+    // Objects of the game
     Bat bat;
     Ball ball;
     Obstacle[] bricks = new Obstacle[24];
@@ -57,12 +59,14 @@ public class GameView extends SurfaceView implements Runnable {
     int level = 1;
     int lives = 3;
 
+    // Screen items
     Rect dest;
     DisplayMetrics dm;
     int densityDpi;
 
     Randomizer randomizer;
 
+    // Sounds
     SoundPool sp;
     int idFX1; // FX 1 - blip
 
@@ -187,7 +191,6 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
         }
-
     }
 
 
@@ -232,14 +235,19 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Gets resources for background images
             Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+
 
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
+            paint.setAlpha(100);
+            canvas.drawBitmap(clouds, null, dest, paint);
 
 
+            paint.setAlpha(255);
             // Choose the brush color for drawing white
             paint.setColor(Color.argb(255, 255, 255, 255));
 
