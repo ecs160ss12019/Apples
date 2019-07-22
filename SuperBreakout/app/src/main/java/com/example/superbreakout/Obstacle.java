@@ -15,8 +15,6 @@ public class Obstacle extends GameObject {
     private BitmapDimensions bitmapDimensions;
     private int durability;
 
-    private boolean durabilityActive;
-
     public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle) {
         super(widthObstacle, heightObstacle);
 

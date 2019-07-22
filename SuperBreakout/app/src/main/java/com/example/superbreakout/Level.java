@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Level {
+public abstract class Level {
 
     private final int BRICKS_IN_LEVEL = 24;
 
@@ -16,28 +16,15 @@ public class Level {
     Obstacle[] bricks = new Obstacle[BRICKS_IN_LEVEL];
     Debris[] debris = new Debris[BRICKS_IN_LEVEL];
 
+    Randomizer randomizer;
+
     public Level(int x, int y){
         screenX = x;
         screenY = y;
         numAliveBricks = BRICKS_IN_LEVEL;
-
     }
 
     public void createBricks(Context context) {
-        // Brick Size
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-
-        // Build a wall of bricks and its potential debris
-        int numBricks = 0;
-        for (int column = 0; column < 8; column++) {
-            for (int row = 0; row < 3; row++) {
-                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight);
-                // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
-                numBricks++;
-            }
-        }
     }
 
     public void draw(Canvas canvas, Paint paint){
@@ -78,13 +65,20 @@ public class Level {
         for (int i = 0; i < BRICKS_IN_LEVEL; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    bricks[i].setInvisible();
+
+                    if(bricks[i].getDurability() == 0) {
+                        bricks[i].setInvisible();
+                        hitObstacle();
+                    }
+                    else {
+                        bricks[i].reduceDurability();
+                    }
+
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
                     }
                     ball.reverseYVelocity();
                     hit = true;
-                    hitObstacle();
                 }
             }
         }
