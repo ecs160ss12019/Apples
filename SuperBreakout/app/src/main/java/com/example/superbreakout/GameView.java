@@ -339,13 +339,13 @@ public class GameView extends SurfaceView implements Runnable {
                     // for now (just for Upgrade)
                     switch(debris[i].getDebrisType()) {
                         case "Harmful":
-                            // Do Something
+                            // Stun bat for a few secs
                             break;
                         case "Upgrade":
                             applyUpgrade(ug[i]);
                             break;
                         case "Downgrade":
-                            // do something
+                            // implement apply Downgrade
                             break;
                     }
 

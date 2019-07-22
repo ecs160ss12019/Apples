@@ -50,6 +50,24 @@ class Downgrade extends Effect {
     public String downgradeName; // Name of the downgrade
 
     public Downgrade() {
-        // Randomly generate downgrade based on Effect booleans
+        // Randomly generate downgrade based on effectTarget parameter
+
+        // Super constructor to determine if its a ball or bat effect
+        super();
+
+        // List of Downgrades
+        String[] batDowngrades = {"SpeedDown", "SizeDown"};
+        String[] ballDowngrades = {"Hollow"};
+        Random random = new Random();
+
+        // Check if its a Ball or Bat downgrade
+        switch(effectTarget) {
+            case "Ball":
+                downgradeName = ballDowngrades[random.nextInt(ballDowngrades.length)];
+                break;
+            case "Bat":
+                downgradeName = batDowngrades[random.nextInt(batDowngrades.length)];
+                break;
+        }
     }
 }
