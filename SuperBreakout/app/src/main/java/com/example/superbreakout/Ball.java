@@ -233,5 +233,20 @@ public class Ball extends GameObject {
         }
     }
 
+    public void checkBallBatCollision(Bat bat){
+        // Check for ball colliding with paddle
+        if(intersect(bat)) {
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
 
+            getNewVelocity(fracDisplacementFromMid, bat);
+        }
+    }
+
+    public boolean checkMissBall(){
+        if (getRect().bottom > screenY) return true;
+        return false;
+    }
 }

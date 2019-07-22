@@ -100,7 +100,7 @@ public class GameView extends SurfaceView implements Runnable {
         //ballDebrisCollision();
         //batDebrisCollision();
 
-        ballPaddleCollision();
+        ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
             if(level.checkCollision(ball)){
@@ -253,26 +253,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
     */
 
-    private void ballPaddleCollision(){
-        // Check for ball colliding with paddle
-        if(ball.intersect(bat)) {
-
-            // Interpolate the incoming position for computation of the new Velocity
-            float midBall = ball.getMiddle();
-            float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
-
-            ball.getNewVelocity(fracDisplacementFromMid, bat);
-
-        }
-    }
-
     private void endGame(){
         //draw Loss;
         canvas = ourHolder.lockCanvas();
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
         ourHolder.unlockCanvasAndPost(canvas);
+        restartGame();
 
         try {
             // Wait 3 seconds then reset a new game
