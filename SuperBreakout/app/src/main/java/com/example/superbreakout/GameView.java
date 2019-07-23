@@ -66,7 +66,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelOne(screenX, screenY);
+        level = new LevelThree(screenX, screenY);
         startNewGame();
 
     }

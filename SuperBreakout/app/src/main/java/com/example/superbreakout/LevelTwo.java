@@ -20,6 +20,7 @@ public class LevelTwo extends Level {
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
+        numAliveBricks = 24;
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
@@ -27,9 +28,6 @@ public class LevelTwo extends Level {
             for (int row = 0; row < rowsInLevel; row++) {
                 bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
                         brickWidth/5, brickHeight/4);
-                if(row == 1) {
-                    bricks[numBricks].setInvisible();
-                }
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
