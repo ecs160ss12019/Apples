@@ -46,6 +46,6 @@ public class LevelFour extends Level{
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
-        return new LevelFour(screenX, screenY);
+        return new LevelFive(screenX, screenY);
     }
 }
