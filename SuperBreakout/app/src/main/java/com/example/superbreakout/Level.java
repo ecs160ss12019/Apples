@@ -20,7 +20,6 @@ public abstract class Level {
     public Level(int x, int y){
         screenX = x;
         screenY = y;
-        numAliveBricks = bricksInLevel;
 
     }
 
@@ -82,8 +81,10 @@ public abstract class Level {
     }
 
     public boolean levelCompleted(){
-        if(numAliveBricks == 0 ) return true;
-        else return false;
+        if(numAliveBricks == 0)
+            return true;
+        else
+            return false;
     }
 
     public int getLevel(){ return level;}
