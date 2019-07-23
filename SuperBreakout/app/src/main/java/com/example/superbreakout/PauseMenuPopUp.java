@@ -46,6 +46,6 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
-        getWindow().setLayout((int) (width*.4), (int) (height*.8));
+        getWindow().setLayout((int) (width*.5), (int) (height*.8));
     }
 }
