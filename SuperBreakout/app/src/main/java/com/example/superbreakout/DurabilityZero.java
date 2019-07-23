@@ -35,4 +35,23 @@ public class DurabilityZero extends Obstacle{
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
                 bitmapDimensions.height, true);
     }
+
+    @Override
+    public Obstacle setDurability(int obstacleDurability) {
+        switch (obstacleDurability){
+            default:
+                return new DurabilityZero(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 1:
+                return new DurabilityOne(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 2:
+                return new DurabilityTwo(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 3:
+                return new DurabilityThree(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+
+        }
+    }
 }

@@ -53,25 +53,9 @@ public abstract class Obstacle extends GameObject {
 
     public int getDurability(){ return durability;}
 
-    public Obstacle setDurability(int obstacleDurability) {
-        switch (obstacleDurability){
-            default:
-                return new DurabilityZero(context,row,column,
-                        (int)height,(int)width,horzPadding,vertPadding);
-            case 1:
-                return new DurabilityOne(context,row,column,
-                        (int)height,(int)width,horzPadding,vertPadding);
-            case 2:
-                return new DurabilityTwo(context,row,column,
-                        (int)height,(int)width,horzPadding,vertPadding);
-            case 3:
-                return new DurabilityThree(context,row,column,
-                        (int)height,(int)width,horzPadding,vertPadding);
-
-        }
-    }
-
     abstract Obstacle reduceDurability();
 
     abstract void setBricksBitmap();
+    
+    abstract Obstacle setDurability(int obstacleDurability);
 }
