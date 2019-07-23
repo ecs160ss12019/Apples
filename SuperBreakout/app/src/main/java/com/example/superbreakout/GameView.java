@@ -58,6 +58,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     Randomizer randomizer;
 
+    Bitmap backgroundImage;
+
     // Sounds
     // SoundPool sp;
     // SoundEffects FX;
@@ -77,6 +79,12 @@ public class GameView extends SurfaceView implements Runnable {
 
         ourHolder = getHolder();
         paint = new Paint();
+
+        Resources res = getContext().getResources();
+
+
+        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+        canvas = new Canvas();
 
         screenX = x;
         screenY = y;
@@ -229,8 +237,8 @@ public class GameView extends SurfaceView implements Runnable {
             // canvas.drawColor(Color.argb(255, 153, 204, 255));
 
             // Gets resources for background images
-            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
-            Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+            // Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            // Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
 
 
             // Gets background dimensions
