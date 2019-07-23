@@ -9,8 +9,8 @@ public class LevelOne extends Level {
 
     public static final int LEVEL_ONE = 1;
 
-    public LevelOne(int x, int y){
-        super(x,y);
+    public LevelOne(int x, int y, Context currentContext){
+        super(x,y, currentContext);
         level = LEVEL_ONE;
         randomizer = new Randomizer();
     }
@@ -41,6 +41,6 @@ public class LevelOne extends Level {
 
     @Override
     public Level advanceNextLevel(){
-        return new LevelTwo(screenX, screenY);
+        return new LevelTwo(screenX, screenY, context);
     }
 }

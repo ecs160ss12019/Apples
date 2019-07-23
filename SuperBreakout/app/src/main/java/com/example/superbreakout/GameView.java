@@ -59,8 +59,8 @@ public class GameView extends SurfaceView implements Runnable {
     Randomizer randomizer;
 
     // Sounds
-    SoundPool sp;
-    int idFX1; // FX 1 - blip
+    // SoundPool sp;
+    // SoundEffects FX;
 
     // Sets gesture compat object
     private GestureDetectorCompat gestureDetectorCompat = null;
@@ -89,8 +89,11 @@ public class GameView extends SurfaceView implements Runnable {
         startNewGame();
 
         randomizer = new Randomizer();
+        // FX = new SoundEffects(getContext());
+
 
         // Instantiate a SoundPool dependent on Android version
+        /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // The new way
             // Build an AudioAttributes object
@@ -110,8 +113,9 @@ public class GameView extends SurfaceView implements Runnable {
                     .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
                     .setAudioAttributes(audioAttributes)
                     .build();
-        }
+        } */
 
+        /*
         try{
             // Create objects of the 2 required classes
             AssetManager assetManager = getContext().getAssets();
@@ -123,7 +127,7 @@ public class GameView extends SurfaceView implements Runnable {
         } catch(IOException e){
             // Print an error message to the console
             Log.d("Error", "=Failed to load sound files");
-        }
+        } */
 
 
         // Create bricks for level 1
@@ -297,7 +301,7 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame(){
         player = new Player();
-        level = new LevelOne(screenX, screenY);
+        level = new LevelOne(screenX, screenY, getContext());
         level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
     }

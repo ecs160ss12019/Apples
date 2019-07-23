@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.SoundPool;
 
 public abstract class Level {
 
@@ -13,15 +14,21 @@ public abstract class Level {
     int screenY;
     int numAliveBricks;
     int level = 0;
+    Context context;
     Obstacle[] bricks = new Obstacle[BRICKS_IN_LEVEL];
     Debris[] debris = new Debris[BRICKS_IN_LEVEL];
 
     Randomizer randomizer;
+    SoundEffects FX;
+    SoundPool sp;
 
-    public Level(int x, int y){
+    public Level(int x, int y, Context currentContext){
         screenX = x;
         screenY = y;
         numAliveBricks = BRICKS_IN_LEVEL;
+        context = currentContext;
+
+        FX = new SoundEffects(context);
     }
 
     public void createBricks(Context context) {
@@ -65,6 +72,7 @@ public abstract class Level {
         for (int i = 0; i < BRICKS_IN_LEVEL; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    FX.playFX();
 
                     if(bricks[i].getDurability() == 0) {
                         bricks[i].setInvisible();
@@ -86,7 +94,7 @@ public abstract class Level {
     }
 
     public Level advanceNextLevel(){
-        return new LevelOne(screenX, screenY);
+        return new LevelOne(screenX, screenY, context);
     }
 
     public boolean levelCompleted(){
