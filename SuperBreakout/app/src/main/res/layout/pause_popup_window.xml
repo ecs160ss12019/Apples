@@ -21,9 +21,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pauseLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Main Menu"
+        android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainMenuButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Settings"
         android:textAllCaps="true" />
 
 </RelativeLayout>

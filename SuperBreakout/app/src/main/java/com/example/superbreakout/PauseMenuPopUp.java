@@ -32,6 +32,13 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
+        final Button settingsButton = findViewById(R.id.settingsButton);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //settings (for Steven)
+            }
+        });
+
         getWindow().setLayout((int) (width*.8), (int) (height*.8));
     }
 }
