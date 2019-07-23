@@ -15,6 +15,8 @@ public class Ball extends GameObject {
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
+    private int screenX;
+    private int screenY;
 
 
     // Make it a 60 pixel x 60 pixel square
@@ -24,6 +26,8 @@ public class Ball extends GameObject {
 
     public Ball(Context context, int screenX, int screenY) {
         super(ballWidth, ballHeight);
+        this.screenX = screenX;
+        this.screenY = screenY;
 
         // creates new rectangle object for ball
         rect = new RectF();
@@ -66,14 +70,20 @@ public class Ball extends GameObject {
      */
     public void setRandomVelocity(int level) {
         switch (level) {
+            case 1:
+                this.speed = 800;
+                break;
             case 2:
-                this.speed = 1000;
+                this.speed = 900;
                 break;
             case 3:
-                this.speed = 1200;
+                this.speed = 1000;
+                break;
+            case 4:
+                this.speed = 1100;
                 break;
             default:
-                this.speed = 800;
+                this.speed = 1200;
                 break;
         }
 
@@ -151,13 +161,13 @@ public class Ball extends GameObject {
     }
 
     // a fix for bug in Android RectF Class
-    public void clearObstacleY(float y) {
+    private void clearObstacleY(float y) {
         rect.bottom = y;
         rect.top = y - height;
     }
 
     // a fix for bug in Android RectF Class
-    public void clearObstacleX(float x) {
+    private void clearObstacleX(float x) {
         rect.left = x;
         rect.right = x + width + 50;
     }
@@ -200,7 +210,7 @@ public class Ball extends GameObject {
     }
 
     // This function reverses the horizontal velocity and adds a little momentum to it
-    public void reverseXVelocity() {
+    private void reverseXVelocity() {
         if(xVelocity > 0) //collision on right wall
             xVelocity = -xVelocity - 50;
         else //collision on left wall
@@ -208,5 +218,41 @@ public class Ball extends GameObject {
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
+    // Check if the ball hit the walls on the screen to change ball's trajectory
+    public void checkWallBounce(){
+        // Bounce the ball back when it hits the top of screen
+        if (getRect().top < 0) {
+            reverseYVelocity();
+            clearObstacleY(40);
+        }
 
+        // If the ball hits left wall bounce
+        if (getRect().left < 0) {
+            reverseXVelocity();
+            clearObstacleX(2);
+        }
+
+        // If the ball hits right wall Velocity
+        if (getRect().right > screenX) {
+            reverseXVelocity();
+            clearObstacleX(screenX - 57);
+        }
+    }
+
+    public void checkBallBatCollision(Bat bat){
+        // Check for ball colliding with paddle
+        if(this.intersect(bat)) {
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+
+            getNewVelocity(fracDisplacementFromMid, bat);
+        }
+    }
+
+    public boolean checkMissBall(){
+        if (getRect().bottom > screenY) return true;
+        return false;
+    }
 }

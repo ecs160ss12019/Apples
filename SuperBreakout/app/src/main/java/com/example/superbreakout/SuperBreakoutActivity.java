@@ -1,5 +1,6 @@
 package com.example.superbreakout;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Point;
@@ -9,13 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.graphics.drawable.Drawable;
 
 public class SuperBreakoutActivity extends Activity {
+
     private GameView superBreakoutGame;
     FrameLayout game;
-    RelativeLayout GameButtons;//Holder for the buttons
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class SuperBreakoutActivity extends Activity {
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
 
+        final RelativeLayout mainLayout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
+        mainLayout.addView(game);
+
         setContentView(R.layout.activity_main);
 
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
@@ -36,7 +41,7 @@ public class SuperBreakoutActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                setContentView(game);
+                setContentView(mainLayout);
             }
         });
     }
@@ -67,6 +72,15 @@ public class SuperBreakoutActivity extends Activity {
         }
 
         return true;
+    }
+
+    public void togglePausePlay(View view) {
+
+        if(superBreakoutGame.playing) {
+            superBreakoutGame.pause();
+        } else {
+            superBreakoutGame.resume();
+        }
     }
 
     @Override
