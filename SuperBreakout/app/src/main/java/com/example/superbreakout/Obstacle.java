@@ -7,18 +7,28 @@ import android.graphics.RectF;
 
 import android.graphics.RectF;
 
-public class Obstacle extends GameObject {
+public abstract class Obstacle extends GameObject {
 
     private RectF rect;
     private boolean isVisible;
     private Bitmap bricksBitmap;
     private BitmapDimensions bitmapDimensions;
-    private int durability;
+    protected int row;
+    protected int column;
+    protected int horzPadding;
+    protected int vertPadding;
+    protected int durability;
+    Context context;
 
     public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle,
                     int horzPadding, int vertPadding) {
         super(widthObstacle, heightObstacle);
 
+        this.row = row;
+        this.column = column;
+        this.horzPadding = horzPadding;
+        this.vertPadding = vertPadding;
+        this.context = context;
         isVisible = true;
 
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
@@ -48,57 +58,29 @@ public class Obstacle extends GameObject {
         return isVisible;
     }
 
+    public int getDurability(){
+        return durability;
+    }
+
     // Setter for durability
-    public void setDurability(int obstacleDurability) { this.durability = obstacleDurability; }
-
-    /**
-     * TODO
-     * Implement durability and effects
-     */
-
-    public void reduceDurability() {
-        this.durability -= 1;
-    }
-
-    /*
-     *   This function fetches the current durability of the obstacle.
-     *   May prove useful when generating varying durabilities.
-     */
-
-    public int getDurability() {
-        return this.durability;
-    }
-
-    /*
-     *   This function generates a Debris object within the game
-     *   once the obstacle has been destroyed.
-     *   The obstacle may or may not drop a Debris object.
-     */
-    /*
-    public void generateDebris() {
-
-    } */
-
-    /*
-     *   This function returns the String name of the effect
-     */
-    /*
-    public String getEffect() {
-        return this.effect;
-    } */
-
-    /*
-     *   This function applies an effect to the obstacle
-     *   given by effect input provided by another obstacle
-     */
-    /*
-    public void applyEffect(String effect) {
-        switch (effect) {
-            case "effectName":
-                break;
-            // add more effect cases
+    public Obstacle setDurability(int obstacleDurability) {
+        switch (obstacleDurability){
             default:
-                break;
-      }
-    } */
+                return new DurabilityZero(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 1:
+                return new DurabilityOne(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 2:
+                return new DurabilityTwo(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+            case 3:
+                return new DurabilityThree(context,row,column,
+                        (int)height,(int)width,horzPadding,vertPadding);
+
+        }
+    }
+
+    abstract Obstacle reduceDurability();
+
 }

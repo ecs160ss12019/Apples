@@ -21,6 +21,6 @@ public class DurabilityOne extends Obstacle {
     }
 
     public void draw(){
-
+        // Need bitmap for self drawing
     }
 }
