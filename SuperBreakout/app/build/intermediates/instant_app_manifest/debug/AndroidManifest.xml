@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name="com.example.superbreakout.PauseMenuPopUp"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>
 
         <provider
