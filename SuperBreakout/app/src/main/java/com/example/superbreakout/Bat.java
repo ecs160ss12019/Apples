@@ -119,6 +119,9 @@ public class Bat extends GameObject {
                 break;
             case "SizeUp":
                 // change size
+                float width = rect.width()/4;
+                rect.left = rect.left - width;
+                rect.right = rect.right + width;
                 break;
         }
     }

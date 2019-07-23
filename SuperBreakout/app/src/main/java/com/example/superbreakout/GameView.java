@@ -148,8 +148,8 @@ public class GameView extends SurfaceView implements Runnable {
         updateDebris(fps);
 
         ballBrickCollision();
-        debrisCollision();
         ballPaddleCollision();
+        debrisCollision();
 
         if(!checkMissBall()) {
             // Pause if cleared screen
@@ -190,8 +190,8 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(Color.argb(255, 255, 0, 0));
 
             // Draw the paddle
-            // canvas.drawRect(bat.getRect(), paint);
-            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+            canvas.drawRect(bat.getRect(), paint);
+//            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
 
 
             // Change the brush color for drawing
