@@ -39,6 +39,13 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
-        getWindow().setLayout((int) (width*.8), (int) (height*.8));
+        final Button leaderboardButton = findViewById(R.id.leaderboardButton);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //retrieve leaderboard
+            }
+        });
+
+        getWindow().setLayout((int) (width*.4), (int) (height*.8));
     }
 }
