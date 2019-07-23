@@ -1,57 +1,70 @@
 package com.example.superbreakout;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
+
+import androidx.core.view.GestureDetectorCompat;
 
 import java.io.IOException;
 import java.lang.Math;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    // OS stuff
     Thread gameThread = null;
     SurfaceHolder ourHolder;
     Canvas canvas;
     Paint paint;
-    long fps;
+    long fps; // sets the frame rate for the game
 
     volatile boolean playing;
     boolean paused = true;
 
-    // Use Point class for this
+    // Resolution of screen
     int screenX;
     int screenY;
 
+    // Objects of the game
     Bat bat;
     Ball ball;
     Player player;
     Level level;
 
+    // Screen items
     Rect dest;
     DisplayMetrics dm;
     int densityDpi;
 
-    /*
-    SOUND FX FIXME
-    SoundPool soundPool;
-    int beep1ID = -1;
-    int beep2ID = -1;
-    int beep3ID = -1;
-    int loseLifeID = -1;
-    int explodeID = -1;
-    */
+    Randomizer randomizer;
+
+    // Sounds
+    // SoundPool sp;
+    // SoundEffects FX;
+
+    // Sets gesture compat object
+    private GestureDetectorCompat gestureDetectorCompat = null;
+
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -73,10 +86,93 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelOne(screenX, screenY);
         startNewGame();
 
+        randomizer = new Randomizer();
+        // FX = new SoundEffects(getContext());
+
+
+        // Instantiate a SoundPool dependent on Android version
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // The new way
+            // Build an AudioAttributes object
+            AudioAttributes audioAttributes =
+                    // First method call
+                    new AudioAttributes.Builder()
+                            // Second method call
+                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                            // Third method call
+                            .setContentType
+                                    (AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            // Fourth method call
+                            .build();
+
+            // Initialize the SoundPool
+            sp = new SoundPool.Builder()
+                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        } */
+
+        /*
+        try{
+            // Create objects of the 2 required classes
+            AssetManager assetManager = getContext().getAssets();
+            AssetFileDescriptor descriptor1;
+            AssetFileDescriptor descriptor2;
+            // Load our fx in memory ready for use
+            descriptor1 = assetManager.openFd("blip-1.wav");
+            idFX1 = sp.load(descriptor1, 0);
+        } catch(IOException e){
+            // Print an error message to the console
+            Log.d("Error", "=Failed to load sound files");
+        } */
+
+
+        // Create bricks for level 1
+        // createBricksAndRestart(1);
     }
+
+
+    /*
+    public void createBricksAndRestart(int Xlevel) {
+
+        // Put the ball back to the start
+        ball.reset(screenX, screenY, Xlevel);
+
+        level = Xlevel;
+
+        // Brick Size
+        int brickWidth = screenX / 8;
+        int brickHeight = screenY / 10;
+
+        // Build a wall of bricks and its potential debris
+        numBricks = 0;
+        for (int column = 0; column < 8; column++) {
+            for (int row = 0; row < 3; row++) {
+                bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
+
+                if(randomizer.getRandBoolean() && level > 1){
+                    bricks[numBricks].setDurability(randomizer.getRandNumber(1,3));
+                }
+                else {
+                    bricks[numBricks].setDurability(0);
+                }
+
+
+                // can possibly change this to spawnDebris()
+                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
+                numBricks++;
+            }
+        }
+
+        // if Game is over reset scores ,lives &Level
+        if (lives == 0) { restartGame();}
+
+    }*/
+
+
 
     @Override
     public void run() {
@@ -90,7 +186,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             long timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame >= 1) {
-                fps = 1000 / timeThisFrame;
+                fps = 10000 / timeThisFrame;
             }
         }
     }
@@ -108,7 +204,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(!checkMissBall()) {
            if(level.checkCollision(ball)){
-                // Add points to Player
+                player.hitBrick();
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
                     level.createBricks(getContext());
@@ -121,16 +217,31 @@ public class GameView extends SurfaceView implements Runnable {
 
     // Draw the newly updated scene
     public void draw() {
-
         // Make sure our drawing surface is valid or we crash
         if (ourHolder.getSurface().isValid()) {
+            // Gets current context
+            Resources res = getContext().getResources();
+
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
             // Draw the background color
-            canvas.drawColor(Color.argb(255, 153, 204, 255));
+            // canvas.drawColor(Color.argb(255, 153, 204, 255));
 
+            // Gets resources for background images
+            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+
+
+            // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
+
+            // Draws background image
+            canvas.drawBitmap(backgroundImage, null, dest, paint);
+            // paint.setAlpha(100);
+            // canvas.drawBitmap(clouds, null, dest, paint);
+            // paint.setAlpha(255);
+
 
             drawBall();
             drawBat();
@@ -176,13 +287,21 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP: // Player doesn't touch screen
                 bat.stopMoving();
                 break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (!(player.getLives() == 0)){ paused = false;}
+                bat.move(motionEvent.getX());
+                break;
         }
+
         return true;
+
     }
 
     /************ HELPER FUNCTIONS ************/
     private void startNewGame(){
         player = new Player();
+        level = new LevelOne(screenX, screenY, getContext());
         level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
         bat.reset(level.getLevel());
@@ -206,13 +325,15 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean checkMissBall(){
         if (ball.checkMissBall()) {
-            // Lose a life
-            player.reduceLifeByOne();
+            player.missBrick(); // Reset points
+            player.reduceLifeByOne(); // Lose a life
+
+
             ball.reset(screenX, screenY, level.getLevel());
             paused = true;
+
             if (!player.isAlive()) {
                 endGame();
-                // Create bricks at level 1
             }
             return true;
         }

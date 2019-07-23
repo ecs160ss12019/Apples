@@ -58,19 +58,19 @@ public class Bat extends GameObject {
     public void reset(int Xlevel) {
         switch (Xlevel) {
             case 1:
-                paddleSpeed = 800;
+                setPaddleSpeed(8000);
                 break;
             case 2:
-                paddleSpeed = 900;
+                setPaddleSpeed(9000);
                 break;
             case 3:
-                paddleSpeed = 1000;
+                setPaddleSpeed(10000);
                 break;
             case 4:
-                paddleSpeed = 1100;
+                setPaddleSpeed(11000);
                 break;
             default:
-                paddleSpeed = 1200;
+                setPaddleSpeed(12000);
                 break;
         }
     }
@@ -124,4 +124,9 @@ public class Bat extends GameObject {
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
+    // Setter for paddleSpeed
+    // Might need these if there are ugprades or downgrades affecting paddle speed
+    public void setPaddleSpeed(float speed) {
+        this.paddleSpeed = speed;
+    }
 }

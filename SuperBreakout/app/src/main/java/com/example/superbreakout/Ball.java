@@ -11,7 +11,7 @@ public class Ball extends GameObject {
     private RectF rect; // rectangle that represents the ball
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
     public double yVelocity; // vertical component of velocity (positive in the downwards direction)
-    public double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
+    private double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -23,6 +23,8 @@ public class Ball extends GameObject {
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
 
+    Randomizer randomizeVelocity;
+
 
     public Ball(Context context, int screenX, int screenY) {
         super(ballWidth, ballHeight);
@@ -31,6 +33,9 @@ public class Ball extends GameObject {
 
         // creates new rectangle object for ball
         rect = new RectF();
+
+        // creates new randomizer
+        randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
         bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
@@ -71,31 +76,31 @@ public class Ball extends GameObject {
     public void setRandomVelocity(int level) {
         switch (level) {
             case 1:
-                this.speed = 800;
+                this.setBallSpeed(8000);
                 break;
             case 2:
-                this.speed = 900;
+                this.setBallSpeed(9000);
                 break;
             case 3:
-                this.speed = 1000;
+                this.setBallSpeed(10000);
                 break;
             case 4:
-                this.speed = 1100;
+                this.setBallSpeed(11000);
                 break;
             default:
-                this.speed = 1200;
+                this.setBallSpeed(12000);
                 break;
         }
 
         int Vx, Vy; // Proposed horizontal and vertical components of velocity
         // randomly generate a variable that determines if the ball starts by moving left/right
-        int xDirection = boundedRandomInt(3,1);
+        int xDirection = randomizeVelocity.getRandNumber(1,3);
         if(xDirection >= 2)
-            Vx = boundedRandomInt(8,4);
+            Vx = randomizeVelocity.getRandNumber(4,8);
         else
-            Vx = -boundedRandomInt(8,4);
+            Vx = -randomizeVelocity.getRandNumber(4,8);
 
-        Vy = -boundedRandomInt(16,10); // Always start with upwards velocity
+        Vy = -randomizeVelocity.getRandNumber(10,16); // Always start with upwards velocity
 
         this.normalizeVelocity(Vx, Vy); // Make velocity constant speed
     }
@@ -216,6 +221,12 @@ public class Ball extends GameObject {
         else //collision on left wall
             xVelocity = -xVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
+    }
+
+    // Setter for ball speed
+    // Might be needed for additional features (upgrades or downgrades to ball speed)
+    public void setBallSpeed(double ballSpeed) {
+        this.speed = ballSpeed;
     }
 
     // Check if the ball hit the walls on the screen to change ball's trajectory

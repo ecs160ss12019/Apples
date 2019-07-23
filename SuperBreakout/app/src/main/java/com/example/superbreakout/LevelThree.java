@@ -5,9 +5,10 @@ import android.content.Context;
 public class LevelThree extends Level{
 
     public static final int LEVEL_THREE = 3;
-    public LevelThree(int x, int y){
-        super(x,y);
+    public LevelThree(int x, int y, Context currentContext){
+        super(x,y, currentContext);
         level = LEVEL_THREE;
+        randomizer = new Randomizer();
     }
 
     @Override
@@ -27,6 +28,14 @@ public class LevelThree extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
                         brickWidth/4, brickHeight/5);
+
+                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
+                    bricks[numBricks].setDurability(1);
+                }
+                else {
+                    bricks[numBricks].setDurability(0);
+                }
+
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
@@ -46,6 +55,6 @@ public class LevelThree extends Level{
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
-        return new LevelFour(screenX, screenY);
+        return new LevelFour(screenX, screenY, context);
     }
 }
