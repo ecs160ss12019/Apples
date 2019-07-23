@@ -18,7 +18,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PauseMenuPopUp" ></activity>
+        <activity android:name=".PauseMenuPopUp"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
