@@ -358,7 +358,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void applyUpgrade(Upgrade ug) {
         switch(ug.getEffectTarget()) {
             case "Ball":
-                // do something: implement ball applyUpgrade method?
+                ball.applyUpgrade(ug.upgradeName);
                 break;
             case "Bat":
                 bat.applyUpgrade(ug.upgradeName);

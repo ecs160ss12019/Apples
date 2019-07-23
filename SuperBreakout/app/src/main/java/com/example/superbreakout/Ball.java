@@ -221,7 +221,7 @@ public class Ball extends GameObject {
                 // Do Something
                 break;
             case "Slow":
-                speed = speed - speed/4
+                speed = speed - speed/4;
                 break;
         }
     }
