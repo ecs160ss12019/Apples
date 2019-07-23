@@ -313,7 +313,6 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
         ourHolder.unlockCanvasAndPost(canvas);
-        startNewGame();
 
         try {
             // Wait 3 seconds then reset a new game
@@ -321,6 +320,8 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        startNewGame();
+
     }
 
     private boolean checkMissBall(){
