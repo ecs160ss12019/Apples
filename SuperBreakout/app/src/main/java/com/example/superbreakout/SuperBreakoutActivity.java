@@ -1,5 +1,6 @@
 package com.example.superbreakout;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
@@ -78,6 +79,7 @@ public class SuperBreakoutActivity extends Activity {
 
         if(superBreakoutGame.playing) {
             superBreakoutGame.pause();
+            startActivity(new Intent(SuperBreakoutActivity.this, PauseMenuPopUp.class));
         } else {
             superBreakoutGame.resume();
         }
