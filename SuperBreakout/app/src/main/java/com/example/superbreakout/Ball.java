@@ -208,5 +208,23 @@ public class Ball extends GameObject {
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
+    public void applyUpgrade(String upgradeName) {
+
+        /*
+         * Add remaining upgrade cases
+         * implement a way to store list of upgrades
+         * List of Effects should reset after each death/level
+         */
+
+        switch(upgradeName) {
+            case "Explosion":
+                // Do Something
+                break;
+            case "Slow":
+                speed = speed - speed/4
+                break;
+        }
+    }
+
 
 }

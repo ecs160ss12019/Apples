@@ -119,6 +119,7 @@ public class Bat extends GameObject {
                 break;
             case "SizeUp":
                 // change size
+                // BUG: Reverts back to normal size after 1s
                 float width = rect.width()/4;
                 rect.left = rect.left - width;
                 rect.right = rect.right + width;
