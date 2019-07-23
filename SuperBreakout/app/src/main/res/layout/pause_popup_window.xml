@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/clouds">
 
     <TextView
         android:id="@+id/pauseLabel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/clouds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:gravity="center"
+        android:textSize="30sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
         android:text="Paused" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/resumeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_below="@+id/pauseLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:onClick="resume"
+        android:text="Resume"
+        android:textAllCaps="true" />
+
 </RelativeLayout>
