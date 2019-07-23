@@ -32,7 +32,7 @@ public class SoundEffects {
 
             // Initialize the SoundPool
             sp = new SoundPool.Builder()
-                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
+                    .setMaxStreams(1) // sets maximum amount of fx at a single instance to be 3
                     .setAudioAttributes(audioAttributes)
                     .build();
         }

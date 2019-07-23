@@ -5,8 +5,8 @@ import android.content.Context;
 public class LevelFive extends Level{
 
     public static final int LEVEL_FIVE = 5;
-    public LevelFive(int x, int y){
-        super(x,y);
+    public LevelFive(int x, int y, Context currentContext){
+        super(x,y, currentContext);
         level = LEVEL_FIVE;
     }
 
@@ -27,6 +27,14 @@ public class LevelFive extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
                         brickWidth/4, brickHeight/5);
+
+                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
+                    bricks[numBricks].setDurability(randomizer.getRandNumber(1,3));
+                }
+                else {
+                    bricks[numBricks].setDurability(0);
+                }
+
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
@@ -46,6 +54,6 @@ public class LevelFive extends Level{
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
-        return new LevelOne(screenX, screenY);
+        return new LevelOne(screenX, screenY, context);
     }
 }
