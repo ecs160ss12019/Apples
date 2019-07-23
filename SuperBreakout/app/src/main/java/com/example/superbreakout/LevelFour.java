@@ -2,12 +2,12 @@ package com.example.superbreakout;
 
 import android.content.Context;
 
-public class LevelThree extends Level{
+public class LevelFour extends Level{
 
-    public static final int LEVEL_THREE = 3;
-    public LevelThree(int x, int y){
+    public static final int LEVEL_FOUR = 4;
+    public LevelFour(int x, int y){
         super(x,y);
-        level = LEVEL_THREE;
+        level = LEVEL_FOUR;
     }
 
     @Override
@@ -46,6 +46,6 @@ public class LevelThree extends Level{
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
-        return new LevelFour(screenX, screenY);
+        return new LevelOne(screenX, screenY);
     }
 }
