@@ -366,6 +366,17 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void applyDowngrade(Downgrade dg) {
+        switch(dg.getEffectTarget()) {
+            case "Ball":
+                // Do something: implement ball applyDowngrade method
+                break;
+            case "Bat":
+                // Do Something: implement bat applyDowngrade method
+                break;
+        }
+    }
+
 
     private void ballBrickCollision(){
         // Check for ball colliding with a brick
