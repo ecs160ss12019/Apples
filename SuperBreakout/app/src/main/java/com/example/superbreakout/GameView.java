@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-<<<<<<< HEAD
-=======
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,7 +18,6 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 import java.lang.Math;
->>>>>>> pause_play/vincent
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -76,7 +73,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat = new Bat(context, screenX, screenY, densityDpi);
         ball = new Ball(context, screenX, screenY);
-        level = new LevelFive(screenX, screenY);
+        level = new LevelOne(screenX, screenY);
         startNewGame();
 
     }
