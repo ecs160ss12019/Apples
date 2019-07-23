@@ -120,7 +120,6 @@ public class Bat extends GameObject {
 
     public Bitmap getBatBitmap() {return batBitmap;}
 
-    public float getPaddleSpeed(){ return paddleSpeed;}
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
@@ -129,4 +128,7 @@ public class Bat extends GameObject {
     public void setPaddleSpeed(float speed) {
         this.paddleSpeed = speed;
     }
+
+    // get paddle speed that can vary
+    public float getPaddleSpeed(){ return paddleSpeed;}
 }
