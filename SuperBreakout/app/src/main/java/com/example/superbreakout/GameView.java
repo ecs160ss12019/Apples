@@ -384,6 +384,23 @@ public class GameView extends SurfaceView implements Runnable {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
                     bricks[i].setInvisible();
+
+                    // If ball has explosion upgrade
+                    if(ball.Explosion) {
+                        int column = 8;
+                        int row = 3;
+
+                        if(i < column) {
+                            // Conditions for top row
+
+                        } else if((i < (column * row)) && (i >= column * (row-1))) {
+                            // Conditions for bottom row
+
+                        } else {
+                            // Conditions for rows in between.
+                        }
+                    }
+
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
 
