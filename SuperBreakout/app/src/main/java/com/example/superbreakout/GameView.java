@@ -178,6 +178,7 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Player();
         level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
+        bat.reset(level.getLevel());
     }
 
     private void endGame(){

@@ -48,14 +48,31 @@ public class Bat extends GameObject {
 
         rect = new RectF(x, y, x + width, y + height);
 
-        // How fast is the paddle in pixels per second
-        paddleSpeed = 800;
-
         batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
         batBitmap = Bitmap.createScaledBitmap(batBitmap,
                 bitmapDimensions.width,
                 bitmapDimensions.height,
                 true);
+    }
+
+    public void reset(int Xlevel) {
+        switch (Xlevel) {
+            case 1:
+                paddleSpeed = 800;
+                break;
+            case 2:
+                paddleSpeed = 900;
+                break;
+            case 3:
+                paddleSpeed = 1000;
+                break;
+            case 4:
+                paddleSpeed = 1100;
+                break;
+            default:
+                paddleSpeed = 1200;
+                break;
+        }
     }
 
     // This update method will be called from update in BreakoutView

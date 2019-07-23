@@ -70,14 +70,20 @@ public class Ball extends GameObject {
      */
     public void setRandomVelocity(int level) {
         switch (level) {
+            case 1:
+                this.speed = 800;
+                break;
             case 2:
-                this.speed = 1000;
+                this.speed = 900;
                 break;
             case 3:
-                this.speed = 1200;
+                this.speed = 1000;
+                break;
+            case 4:
+                this.speed = 1100;
                 break;
             default:
-                this.speed = 800;
+                this.speed = 1200;
                 break;
         }
 
