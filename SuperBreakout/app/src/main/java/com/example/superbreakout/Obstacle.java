@@ -11,8 +11,8 @@ public abstract class Obstacle extends GameObject {
 
     private RectF rect;
     private boolean isVisible;
-    private Bitmap bricksBitmap;
-    private BitmapDimensions bitmapDimensions;
+    protected Bitmap bricksBitmap;
+    protected BitmapDimensions bitmapDimensions;
     protected int row;
     protected int column;
     protected int horzPadding;
@@ -30,13 +30,6 @@ public abstract class Obstacle extends GameObject {
         this.vertPadding = vertPadding;
         this.context = context;
         isVisible = true;
-
-        // Sets the height of each obstacle's bitmap to 200 x 50 pixels
-        bitmapDimensions = new BitmapDimensions(200, 50);
-
-        bricksBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.brick_grassed);
-        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,  bitmapDimensions.height, true);
-
 
         rect = new RectF( column * width + horzPadding,
                 row * height + vertPadding,
@@ -58,11 +51,8 @@ public abstract class Obstacle extends GameObject {
         return isVisible;
     }
 
-    public int getDurability(){
-        return durability;
-    }
+    public int getDurability(){ return durability;}
 
-    // Setter for durability
     public Obstacle setDurability(int obstacleDurability) {
         switch (obstacleDurability){
             default:
@@ -83,4 +73,5 @@ public abstract class Obstacle extends GameObject {
 
     abstract Obstacle reduceDurability();
 
+    abstract void setBricksBitmap();
 }

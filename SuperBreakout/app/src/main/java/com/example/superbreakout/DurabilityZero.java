@@ -1,6 +1,8 @@
 package com.example.superbreakout;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class DurabilityZero extends Obstacle{
 
@@ -13,6 +15,7 @@ public class DurabilityZero extends Obstacle{
                 horzPadding, vertPadding);
 
         durability = DURABILITY_ZERO;
+        setBricksBitmap();
     }
 
     @Override
@@ -21,8 +24,15 @@ public class DurabilityZero extends Obstacle{
         return this;
     }
 
-    public void draw(){
-        // Need bitmap for self drawing
+    @Override
+    public void setBricksBitmap(){
+        // Sets the height of each obstacle's bitmap to 200 x 50 pixels
+        bitmapDimensions = new BitmapDimensions(200, 50);
 
+        bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.brick_grassed);
+
+        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
+                bitmapDimensions.height, true);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 public class DurabilityOne extends Obstacle {
 
     private int DURABILITY_ONE = 1;
+
     public DurabilityOne(Context context, int row, int column, int widthObstacle, int heightObstacle,
                          int horzPadding, int vertPadding) {
 
@@ -20,7 +21,8 @@ public class DurabilityOne extends Obstacle {
                 (int)width, (int)height, horzPadding, vertPadding);
     }
 
-    public void draw(){
-        // Need bitmap for self drawing
+    @Override
+    public void setBricksBitmap(){
+
     }
 }

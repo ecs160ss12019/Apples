@@ -21,8 +21,8 @@ public class DurabilityTwo extends Obstacle {
                 (int)width, (int)height, horzPadding, vertPadding);
     }
 
-    public void draw(){
-        // Need bitmap for self drawing
+    @Override
+    public void setBricksBitmap(){
 
     }
 }

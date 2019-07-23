@@ -11,6 +11,7 @@ public class DurabilityThree extends Obstacle {
 
         super(context, row, column, widthObstacle, heightObstacle,
                 horzPadding, vertPadding);
+
         durability = DURABILITY_THREE;
     }
 
@@ -20,8 +21,8 @@ public class DurabilityThree extends Obstacle {
                 (int)width, (int)height, horzPadding, vertPadding);
     }
 
-    public void draw(){
-        // Need bitmap for self drawing
+    @Override
+    public void setBricksBitmap(){
 
     }
 }
