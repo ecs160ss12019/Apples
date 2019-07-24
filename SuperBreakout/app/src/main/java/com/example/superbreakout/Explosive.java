@@ -6,14 +6,30 @@ import android.graphics.BitmapFactory;
 
 public class Explosive extends DurabilityZero{
 
+    int numNeighbors;
+    Obstacle[] neighborsToDestroy = new Obstacle[numNeighbors];
+
     public Explosive(Context context, int row, int column, int widthObstacle, int heightObstacle,
                           int horzPadding, int vertPadding) {
 
         super(context, row, column, widthObstacle, heightObstacle,
                 horzPadding, vertPadding);
 
+        numNeighbors = 0;
+
         durability = DURABILITY_ZERO;
         setBricksBitmap();
+    }
+
+    public void setNeighbors(Obstacle[] potentialNeighbors, int numRows) {
+        for(int c = this.column-1; c < this.column+1; c++) {
+            for(int r = this.row-1; r < this.row+1; r++) {
+                if(potentialNeighbors[c*numRows + r].getVisibility()) {
+                    neighborsToDestroy[numNeighbors] = potentialNeighbors[c * numRows + r];
+                    numNeighbors++;
+                }
+            }
+        }
     }
 
     @Override
@@ -21,9 +37,9 @@ public class Explosive extends DurabilityZero{
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
         bitmapDimensions = new BitmapDimensions(200, 50);
 
-        // TODO find a new image bitmap for explosive tiles
+        // TODO find a better image bitmap for explosive tiles
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.sprite_01);
+                R.drawable.explode);
 
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
                 bitmapDimensions.height, true);

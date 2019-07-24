@@ -66,6 +66,8 @@ public abstract class Level {
         }*/
     }
 
+    //TODO public void initializeExplosion()
+
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick
