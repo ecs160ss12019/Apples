@@ -38,8 +38,8 @@ public abstract class Level {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
                 canvas.drawBitmap(bricks[i].getBricksBitmap(),
-                        bricks[i].getRect().left,
-                        bricks[i].getRect().top,
+                        null,
+                        bricks[i].getRect(),
                         paint);
             }
         }

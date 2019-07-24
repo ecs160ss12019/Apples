@@ -20,6 +20,7 @@ public abstract class Obstacle extends GameObject {
     protected int durability;
     Context context;
 
+
     public Obstacle(Context context, int row, int column, int widthObstacle, int heightObstacle,
                     int horzPadding, int vertPadding) {
         super(widthObstacle, heightObstacle);
