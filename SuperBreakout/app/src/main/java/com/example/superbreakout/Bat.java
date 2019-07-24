@@ -118,7 +118,7 @@ public class Bat extends GameObject {
 
         // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
         if(stunTimer == 0) {
-            stunTimer += 20;
+            stunTimer += 30;
         }
     }
 
