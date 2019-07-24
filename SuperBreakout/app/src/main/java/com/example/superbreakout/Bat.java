@@ -133,9 +133,7 @@ public class Bat extends GameObject {
                 paddleSpeed = 2 * paddleSpeed;
                 break;
             case "SizeUp":
-                // change size
-                // BUG: Reverts back to normal size after 1s
-                rect.set(rect.left, rect.top, rect.right + rect.width()/4, rect.bottom);
+                width = width + width/4;
                 break;
         }
     }
@@ -147,7 +145,7 @@ public class Bat extends GameObject {
                 paddleSpeed = paddleSpeed - paddleSpeed/4;
                 break;
             case "SizeDown":
-                rect.set(rect.left, rect.top, rect.right - rect.width()/4, rect.bottom);
+                width = width - width/4;
                 break;
         }
     }
