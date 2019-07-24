@@ -186,10 +186,11 @@ public class GameView extends SurfaceView implements Runnable {
             // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
             canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
 
-            // sets brush color to red
             if(bat.stunTimer > 0) {
+                // Sets brush color to black if the bat is stunned
                 paint.setColor(Color.argb(255, 0, 0, 0));
             } else {
+                // Red otherwise
                 paint.setColor(Color.argb(255, 255, 0, 0));
             }
 

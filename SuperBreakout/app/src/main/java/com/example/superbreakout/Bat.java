@@ -64,6 +64,7 @@ public class Bat extends GameObject {
     // contained in rect if necessary
     public void update(long fps) {
 
+        // Do not update (move), if the bat is stunned.
         if(stunTimer == 0) {
             if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
                 x -= paddleSpeed / fps;
@@ -134,6 +135,8 @@ public class Bat extends GameObject {
 
     public void stun() {
         // adds to the stunTimer
+
+        // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
         if(stunTimer == 0) {
             stunTimer += 20;
         }
