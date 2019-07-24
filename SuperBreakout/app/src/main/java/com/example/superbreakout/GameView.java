@@ -385,11 +385,11 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void drawBat(){
-        canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+        canvas.drawBitmap(bat.getBatBitmap(), null, bat.getRect(), paint);
     }
 
     private void drawBall(){
-        canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+        canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left, ball.getRect().top, paint);
     }
 
     /*
