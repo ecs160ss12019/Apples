@@ -33,6 +33,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>
+        <activity
+            android:name="com.example.superbreakout.SettingsMenuPopUp"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+        </activity>
 
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"

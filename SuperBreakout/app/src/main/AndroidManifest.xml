@@ -23,6 +23,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>
+
+        <activity android:name=".SettingsMenuPopUp"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme">
+        </activity>
     </application>
 
 </manifest>
