@@ -5,6 +5,7 @@ import java.util.Random;
 public class Effect {
 
     protected String effectTarget; // name of the target that will hold the effect
+    protected int effectTimer = 100; // timer for effects.
 
     public Effect() {
         // Randomly decide which component (bat or ball) to affect
@@ -16,6 +17,8 @@ public class Effect {
     public String getEffectTarget() {
         return effectTarget;
     }
+
+    public void reduceTimer() { effectTimer--; }
 }
 
 class Upgrade extends Effect {
