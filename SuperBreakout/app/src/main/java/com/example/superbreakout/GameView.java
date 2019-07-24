@@ -393,26 +393,27 @@ public class GameView extends SurfaceView implements Runnable {
                     bricks[i].setInvisible();
 
                     // If ball has explosion upgrade
+                    /*
                     if(ball.Explosion) {
-                        int column = 8;
-                        int row = 3;
-
-                        if(i < column) {
+                        if() {
                             // Conditions for top row
-
-                        } else if((i < (column * row)) && (i >= column * (row-1))) {
+                        } else if() {
                             // Conditions for bottom row
-
                         } else {
                             // Conditions for rows in between.
                         }
                     }
+                    */
 
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
 
-                        // For now
-                        ug[i] = new Upgrade();
+                        // Storing the effect based on the debris type.
+                        if(debris[i].getDebrisType().equals("Upgrade")) {
+                            ug[i] = new Upgrade();
+                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
+                            dg[i] = new Downgrade();
+                        }
                     }
                     ball.reverseYVelocity();
                     score = score + 10;
