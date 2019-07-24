@@ -113,6 +113,15 @@ public class Bat extends GameObject {
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
+    public void stun() {
+        // adds to the stunTimer || used when bat is hit by a HARMFUL debris.
+
+        // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
+        if(stunTimer == 0) {
+            stunTimer += 20;
+        }
+    }
+
     public void applyUpgrade(String upgradeName) {
         /*
          * Add remaining upgrade cases
@@ -126,20 +135,20 @@ public class Bat extends GameObject {
             case "SizeUp":
                 // change size
                 // BUG: Reverts back to normal size after 1s
-                float width = rect.width()/4;
-                rect.left = rect.left - width;
-                rect.right = rect.right + width;
+                rect.set(rect.left, rect.top, rect.right + rect.width()/4, rect.bottom);
                 break;
         }
     }
 
-    public void stun() {
-        // adds to the stunTimer
+    public void applyDowngrade(String downgradeName) {
 
-        // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
-        if(stunTimer == 0) {
-            stunTimer += 20;
+        switch(downgradeName) {
+            case "SpeedDown":
+                paddleSpeed = paddleSpeed - paddleSpeed/4;
+                break;
+            case "SizeDown":
+                rect.set(rect.left, rect.top, rect.right - rect.width()/4, rect.bottom);
+                break;
         }
     }
-
 }
