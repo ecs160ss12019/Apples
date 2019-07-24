@@ -17,6 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".PauseMenuPopUp"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme">
+        </activity>
     </application>
 
 </manifest>

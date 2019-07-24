@@ -27,6 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.superbreakout.PauseMenuPopUp"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+        </activity>
 
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"
