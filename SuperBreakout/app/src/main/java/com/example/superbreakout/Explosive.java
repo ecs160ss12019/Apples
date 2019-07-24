@@ -21,6 +21,7 @@ public class Explosive extends DurabilityZero{
         setBricksBitmap();
     }
 
+    @Override
     public void setNeighbors(Obstacle[] potentialNeighbors, int numRows) {
         for(int c = this.column-1; c < this.column+1; c++) {
             for(int r = this.row-1; r < this.row+1; r++) {
@@ -34,9 +35,9 @@ public class Explosive extends DurabilityZero{
 
     @Override
     public Obstacle reduceDurability() {
-        setInvisible();
         for(int i = 0; i < this.numNeighbors; i++) {
-            neighborsToDestroy[i].setInvisible();
+            if(neighborsToDestroy[i].getVisibility())
+                neighborsToDestroy[i].setInvisible();
         }
         return this;
     }

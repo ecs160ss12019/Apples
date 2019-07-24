@@ -30,6 +30,11 @@ public class DurabilityTwo extends Obstacle {
     }
 
     @Override
+    public void setNeighbors(Obstacle[] potentialNeighbors, int numRows) {
+        // do nothing
+    }
+
+    @Override
     public void setBricksBitmap(){
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
         bitmapDimensions = new BitmapDimensions(200, 50);
