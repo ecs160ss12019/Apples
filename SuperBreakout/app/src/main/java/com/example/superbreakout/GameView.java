@@ -23,8 +23,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import com.example.superbreakout.Level;
-import com.example.superbreakout.Level.*;
 
 import androidx.core.view.GestureDetectorCompat;
 
@@ -91,6 +89,49 @@ public class GameView extends SurfaceView implements Runnable {
         startNewGame();
 
         randomizer = new Randomizer();
+        // FX = new SoundEffects(getContext());
+
+
+        // Instantiate a SoundPool dependent on Android version
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // The new way
+            // Build an AudioAttributes object
+            AudioAttributes audioAttributes =
+                    // First method call
+                    new AudioAttributes.Builder()
+                            // Second method call
+                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                            // Third method call
+                            .setContentType
+                                    (AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            // Fourth method call
+                            .build();
+
+            // Initialize the SoundPool
+            sp = new SoundPool.Builder()
+                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        } */
+
+        /*
+        try{
+            // Create objects of the 2 required classes
+            AssetManager assetManager = getContext().getAssets();
+            AssetFileDescriptor descriptor1;
+            AssetFileDescriptor descriptor2;
+            // Load our fx in memory ready for use
+            descriptor1 = assetManager.openFd("blip-1.wav");
+            idFX1 = sp.load(descriptor1, 0);
+        } catch(IOException e){
+            // Print an error message to the console
+            Log.d("Error", "=Failed to load sound files");
+        } */
+
+
+        // Create bricks for level 1
+        // createBricksAndRestart(1);
     }
 
     @Override
@@ -115,18 +156,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
-        //updateDebris(fps);
-        //ballDebrisCollision();
-        //batDebrisCollision();
-
-//        ballBrickCollision();
-//        ballPaddleCollision();
-//        debrisCollision();
 
         ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
-           if(level.checkCollision(ball)){
+            if(level.checkCollision(ball)){
                 player.hitBrick();
                 if(level.levelCompleted()){
                     level = level.advanceNextLevel();
@@ -237,6 +271,7 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
         ourHolder.unlockCanvasAndPost(canvas);
+        startNewGame();
 
         try {
             // Wait 3 seconds then reset a new game
@@ -244,8 +279,6 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        startNewGame();
-
     }
 
     private boolean checkMissBall() {
@@ -308,124 +341,4 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
     }
 
-    /*
-    private void updateDebris(long fps) {
-        // Updates the position of all active debris
-        for (int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                debris[i].update(fps);
-            }
-        }
-    }
-    */
-
-
-//    private void debrisCollision() {
-//        // Check for ball or bat colliding with a debris
-//        for(int i = 0; i < numBricks; i++) {
-//            if(debris[i].getActive()) {
-//                /*
-//                 hit-box of collision kinda confusing since sometimes the ball will go through it,
-//                 and debris will not disappear
-//                  */
-//                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
-//                    // Check if there is ball/debris collision
-//                    debris[i].deactivate();
-//                } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-//                    // check if there is a bat/debris collision
-//
-//                    // receive effect
-//                    switch(debris[i].getDebrisType()) {
-//                        case "Harmful":
-//                            // Stun bat for a few secs
-//                            bat.stun();
-//                            break;
-//                        case "Upgrade":
-//                            applyUpgrade(ug[i]);
-//                            break;
-//                        case "Downgrade":
-//                            applyDowngrade(dg[i]);
-//                            break;
-//                    }
-//
-//                    debris[i].deactivate();
-//                }
-//            }
-//        }
-//    }
-
-    private void applyUpgrade(Upgrade ug) {
-        switch(ug.getEffectTarget()) {
-            case "Ball":
-                ball.applyUpgrade(ug.upgradeName);
-                break;
-            case "Bat":
-                bat.applyUpgrade(ug.upgradeName);
-                break;
-        }
-    }
-
-    private void applyDowngrade(Downgrade dg) {
-        switch(dg.getEffectTarget()) {
-            case "Ball":
-                ball.applyDowngrade(dg.downgradeName);
-                break;
-            case "Bat":
-                bat.applyDowngrade(dg.downgradeName);
-                break;
-        }
-    }
-
-    /*
-    private void ballBrickCollision(){
-        // Check for ball colliding with a brick
-        for (int i = 0; i < numBricks; i++) {
-            if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    bricks[i].setInvisible();
-
-                    // If ball has explosion upgrade
-                    /*
-                    if(ball.Explosion) {
-                        if() {
-                            // Conditions for top row
-                        } else if() {
-                            // Conditions for bottom row
-                        } else {
-                            // Conditions for rows in between.
-                        }
-                    }
-                    */
-                    /*
-                    if(!debris[i].getDebrisType().equals("None")) {
-                        debris[i].activate();
-
-                        // Storing the effect based on the debris type.
-                        if(debris[i].getDebrisType().equals("Upgrade")) {
-                            ug[i] = new Upgrade();
-                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
-                            dg[i] = new Downgrade();
-                        }
-                    }
-                    ball.reverseYVelocity();
-                    score = score + 10;
-                }
-            }
-        }
-    }
-
-    private void ballPaddleCollision(){
-        // Check for ball colliding with paddle
-        if(ball.intersect(bat)) {
-
-            // Interpolate the incoming position for computation of the new Velocity
-            float midBall = ball.getMiddle();
-            float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
-
-            ball.getNewVelocity(fracDisplacementFromMid, bat);
-
-        }
-    }
-    */
 }
