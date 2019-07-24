@@ -187,7 +187,11 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
 
             // sets brush color to red
-            paint.setColor(Color.argb(255, 255, 0, 0));
+            if(bat.stunTimer > 0) {
+                paint.setColor(Color.argb(255, 0, 0, 0));
+            } else {
+                paint.setColor(Color.argb(255, 255, 0, 0));
+            }
 
             // Draw the paddle
             canvas.drawRect(bat.getRect(), paint);
@@ -332,14 +336,16 @@ public class GameView extends SurfaceView implements Runnable {
                  and debris will not disappear
                   */
                 if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                    // Check if there is ball/debris collision
                     debris[i].deactivate();
                 } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    // receive effect
+                    // check if there is a bat/debris collision
 
-                    // for now (just for Upgrade)
+                    // receive effect
                     switch(debris[i].getDebrisType()) {
                         case "Harmful":
                             // Stun bat for a few secs
+                            bat.stun();
                             break;
                         case "Upgrade":
                             applyUpgrade(ug[i]);
