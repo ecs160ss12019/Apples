@@ -23,6 +23,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import com.example.superbreakout.Level;
+import com.example.superbreakout.Level.*;
 
 import androidx.core.view.GestureDetectorCompat;
 
@@ -89,90 +91,7 @@ public class GameView extends SurfaceView implements Runnable {
         startNewGame();
 
         randomizer = new Randomizer();
-        // FX = new SoundEffects(getContext());
-
-
-        // Instantiate a SoundPool dependent on Android version
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // The new way
-            // Build an AudioAttributes object
-            AudioAttributes audioAttributes =
-                    // First method call
-                    new AudioAttributes.Builder()
-                            // Second method call
-                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                            // Third method call
-                            .setContentType
-                                    (AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                            // Fourth method call
-                            .build();
-
-            // Initialize the SoundPool
-            sp = new SoundPool.Builder()
-                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } */
-
-        /*
-        try{
-            // Create objects of the 2 required classes
-            AssetManager assetManager = getContext().getAssets();
-            AssetFileDescriptor descriptor1;
-            AssetFileDescriptor descriptor2;
-            // Load our fx in memory ready for use
-            descriptor1 = assetManager.openFd("blip-1.wav");
-            idFX1 = sp.load(descriptor1, 0);
-        } catch(IOException e){
-            // Print an error message to the console
-            Log.d("Error", "=Failed to load sound files");
-        } */
-
-
-        // Create bricks for level 1
-        // createBricksAndRestart(1);
     }
-
-
-    /*
-    public void createBricksAndRestart(int Xlevel) {
-
-        // Put the ball back to the start
-        ball.reset(screenX, screenY, Xlevel);
-
-        level = Xlevel;
-
-        // Brick Size
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-
-        // Build a wall of bricks and its potential debris
-        numBricks = 0;
-        for (int column = 0; column < 8; column++) {
-            for (int row = 0; row < 3; row++) {
-                bricks[numBricks] = new Obstacle(getContext(), row, column, brickWidth, brickHeight);
-
-                if(randomizer.getRandBoolean() && level > 1){
-                    bricks[numBricks].setDurability(randomizer.getRandNumber(1,3));
-                }
-                else {
-                    bricks[numBricks].setDurability(0);
-                }
-
-
-                // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
-                numBricks++;
-            }
-        }
-
-        // if Game is over reset scores ,lives &Level
-        if (lives == 0) { restartGame();}
-
-    }*/
-
-
 
     @Override
     public void run() {
@@ -301,7 +220,7 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame(){
         player = new Player();
-        level = new LevelOne(screenX, screenY, getContext());
+        level = new LevelFour(screenX, screenY, getContext());
         level.createBricks(getContext());
         ball.reset(screenX, screenY, level.getLevel());
         bat.reset(level.getLevel());

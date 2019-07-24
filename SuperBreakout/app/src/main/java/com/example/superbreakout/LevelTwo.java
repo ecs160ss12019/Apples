@@ -27,7 +27,7 @@ public class LevelTwo extends Level {
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
+                bricks[numBricks] = new DurabilityZero(context, row, column, brickWidth, brickHeight,
                         brickWidth/5, brickHeight/4);
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);

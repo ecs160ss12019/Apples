@@ -79,7 +79,7 @@ public abstract class Level {
                         hitObstacle();
                     }
                     else {
-                        bricks[i].reduceDurability();
+                        bricks[i] = bricks[i].reduceDurability();
                     }
 
                     if(!debris[i].getDebrisType().equals("None")) {

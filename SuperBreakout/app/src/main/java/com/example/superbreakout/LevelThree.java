@@ -1,6 +1,9 @@
 package com.example.superbreakout;
 
 import android.content.Context;
+import com.example.superbreakout.Obstacle;
+import com.example.superbreakout.Level;
+import com.example.superbreakout.LevelFour;
 
 public class LevelThree extends Level{
 
@@ -13,6 +16,7 @@ public class LevelThree extends Level{
 
     @Override
     public void createBricks(Context context){
+        DurabilityFactory durabilityFactory = new DurabilityFactory();
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
         bricksInLevel = 32;
@@ -26,15 +30,13 @@ public class LevelThree extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                bricks[numBricks] = new Obstacle(context, row, column, brickWidth, brickHeight,
-                        brickWidth/4, brickHeight/5);
-
+                int rand = 1;
                 if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
-                    bricks[numBricks].setDurability(1);
+                   rand = randomizer.getRandNumber(1,2);
                 }
-                else {
-                    bricks[numBricks].setDurability(0);
-                }
+                bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
+                        column, brickWidth, brickHeight,
+                        brickWidth/4, brickHeight/5,rand);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);

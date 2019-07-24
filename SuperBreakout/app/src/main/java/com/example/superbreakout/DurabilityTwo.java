@@ -1,10 +1,17 @@
 package com.example.superbreakout;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DurabilityTwo extends Obstacle {
 
-    private int DURABILITY_TWO = 2;
+    public static final int DURABILITY_TWO = 2;
 
 
     public DurabilityTwo(Context context, int row, int column, int widthObstacle, int heightObstacle,
@@ -13,6 +20,7 @@ public class DurabilityTwo extends Obstacle {
         super(context, row, column, widthObstacle, heightObstacle,
                 horzPadding, vertPadding);
         durability = DURABILITY_TWO;
+        setBricksBitmap();
     }
 
     @Override
@@ -23,6 +31,13 @@ public class DurabilityTwo extends Obstacle {
 
     @Override
     public void setBricksBitmap(){
+        // Sets the height of each obstacle's bitmap to 200 x 50 pixels
+        bitmapDimensions = new BitmapDimensions(200, 50);
 
+        bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.sprite_07);
+
+        bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
+                bitmapDimensions.height, true);
     }
 }
