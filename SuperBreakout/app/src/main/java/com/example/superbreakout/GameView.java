@@ -352,7 +352,7 @@ public class GameView extends SurfaceView implements Runnable {
                             applyUpgrade(ug[i]);
                             break;
                         case "Downgrade":
-                            // implement apply Downgrade
+                            applyDowngrade(dg[i]);
                             break;
                     }
 
@@ -376,10 +376,10 @@ public class GameView extends SurfaceView implements Runnable {
     private void applyDowngrade(Downgrade dg) {
         switch(dg.getEffectTarget()) {
             case "Ball":
-                // Do something: implement ball applyDowngrade method
+                ball.applyDowngrade(dg.downgradeName);
                 break;
             case "Bat":
-                // Do Something: implement bat applyDowngrade method
+                bat.applyDowngrade(dg.downgradeName);
                 break;
         }
     }

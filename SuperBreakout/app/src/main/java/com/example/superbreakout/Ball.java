@@ -227,5 +227,17 @@ public class Ball extends GameObject {
         }
     }
 
+    public void applyDowngrade(String downgradeName) {
+
+        switch(downgradeName) {
+            case "Hollow":
+                // implement code
+                break;
+            case "Slow":
+                // Implement code
+                break;
+        }
+    }
+
 
 }
