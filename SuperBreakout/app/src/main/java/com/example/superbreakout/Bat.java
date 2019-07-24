@@ -64,15 +64,19 @@ public class Bat extends GameObject {
     // contained in rect if necessary
     public void update(long fps) {
 
-        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
-            x -= paddleSpeed / fps;
-        }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
-            x += paddleSpeed/fps;
-        }
+        if(stunTimer == 0) {
+            if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
+                x -= paddleSpeed / fps;
+            }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
+                x += paddleSpeed/fps;
+            }
 
-        // Apply the New position
-        rect.left = x;
-        rect.right = x + width;
+            // Apply the New position
+            rect.left = x;
+            rect.right = x + width;
+        } else {
+            stunTimer -= 1;
+        }
     }
 
 
@@ -130,7 +134,9 @@ public class Bat extends GameObject {
 
     public void stun() {
         // adds to the stunTimer
-        stunTimer += 3;
+        if(stunTimer == 0) {
+            stunTimer += 20;
+        }
     }
 
 }
