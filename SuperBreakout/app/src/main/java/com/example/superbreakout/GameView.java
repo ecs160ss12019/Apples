@@ -119,6 +119,10 @@ public class GameView extends SurfaceView implements Runnable {
         //ballDebrisCollision();
         //batDebrisCollision();
 
+//        ballBrickCollision();
+//        ballPaddleCollision();
+//        debrisCollision();
+
         ball.checkBallBatCollision(bat);
 
         if(!checkMissBall()) {
@@ -195,6 +199,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     // The SurfaceView class implements onTouchListener
     // So we can override this method and detect screen touches.
+
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -218,7 +223,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void startNewGame(){
+    private void startNewGame() {
         player = new Player();
         level = new LevelOne(screenX, screenY, getContext());
         level.createBricks(getContext());
@@ -243,7 +248,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    private boolean checkMissBall(){
+    private boolean checkMissBall() {
         if (ball.checkMissBall()) {
             player.missBrick(); // Reset points
             player.reduceLifeByOne(); // Lose a life
@@ -312,27 +317,114 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
+    */
 
-    private void ballDebrisCollision() {
-        // Check for ball colliding with a debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
-                    debris[i].deactivate();
+
+//    private void debrisCollision() {
+//        // Check for ball or bat colliding with a debris
+//        for(int i = 0; i < numBricks; i++) {
+//            if(debris[i].getActive()) {
+//                /*
+//                 hit-box of collision kinda confusing since sometimes the ball will go through it,
+//                 and debris will not disappear
+//                  */
+//                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+//                    // Check if there is ball/debris collision
+//                    debris[i].deactivate();
+//                } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
+//                    // check if there is a bat/debris collision
+//
+//                    // receive effect
+//                    switch(debris[i].getDebrisType()) {
+//                        case "Harmful":
+//                            // Stun bat for a few secs
+//                            bat.stun();
+//                            break;
+//                        case "Upgrade":
+//                            applyUpgrade(ug[i]);
+//                            break;
+//                        case "Downgrade":
+//                            applyDowngrade(dg[i]);
+//                            break;
+//                    }
+//
+//                    debris[i].deactivate();
+//                }
+//            }
+//        }
+//    }
+
+    private void applyUpgrade(Upgrade ug) {
+        switch(ug.getEffectTarget()) {
+            case "Ball":
+                ball.applyUpgrade(ug.upgradeName);
+                break;
+            case "Bat":
+                bat.applyUpgrade(ug.upgradeName);
+                break;
+        }
+    }
+
+    private void applyDowngrade(Downgrade dg) {
+        switch(dg.getEffectTarget()) {
+            case "Ball":
+                ball.applyDowngrade(dg.downgradeName);
+                break;
+            case "Bat":
+                bat.applyDowngrade(dg.downgradeName);
+                break;
+        }
+    }
+
+    /*
+    private void ballBrickCollision(){
+        // Check for ball colliding with a brick
+        for (int i = 0; i < numBricks; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    bricks[i].setInvisible();
+
+                    // If ball has explosion upgrade
+                    /*
+                    if(ball.Explosion) {
+                        if() {
+                            // Conditions for top row
+                        } else if() {
+                            // Conditions for bottom row
+                        } else {
+                            // Conditions for rows in between.
+                        }
+                    }
+                    */
+                    /*
+                    if(!debris[i].getDebrisType().equals("None")) {
+                        debris[i].activate();
+
+                        // Storing the effect based on the debris type.
+                        if(debris[i].getDebrisType().equals("Upgrade")) {
+                            ug[i] = new Upgrade();
+                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
+                            dg[i] = new Downgrade();
+                        }
+                    }
+                    ball.reverseYVelocity();
+                    score = score + 10;
                 }
             }
         }
     }
 
-    private void batDebrisCollision() {
-        // Check for bat colliding with a Debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    debris[i].deactivate();
-                    // implement apply debris effect to bat
-                }
-            }
+    private void ballPaddleCollision(){
+        // Check for ball colliding with paddle
+        if(ball.intersect(bat)) {
+
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = ball.getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+
+            ball.getNewVelocity(fracDisplacementFromMid, bat);
+
         }
     }
     */

@@ -8,7 +8,10 @@ import java.util.Random;
  */
 public class Debris {
 
-    private final float SPEED = 2.5f; // Constant speed (in Y-direction) of debris
+    // Constant speed variables for each debris type.
+    private final float UPGRADE_SPEED = 200;
+    private final float DOWNGRADE_SPEED = 350;
+    private final float HARMFUL_SPEED = 500;
 
     private RectF rect; // Square/Rect representing the falling debris
 
@@ -61,38 +64,28 @@ public class Debris {
     }
 
     public void deactivate() {
-        // Used once the ball hits a debris
+        // Used once the ball or bat hits a debris
         active = false;
     }
 
     public void update(long fps) {
         // Change the top/bottom coordinates to imitate "falling"
-        rect.top = rect.top + SPEED;
-        rect.bottom = rect.bottom + SPEED;
+        float SPEED = 0f;
+        switch (debrisType) {
+            case "Harmful":
+                SPEED = HARMFUL_SPEED;
+                break;
+            case "Upgrade":
+                SPEED = UPGRADE_SPEED;
+                break;
+            case "Downgrade":
+                SPEED = DOWNGRADE_SPEED;
+                break;
+            default:
+                break;
+        }
+        rect.top = rect.top + SPEED/fps;
+        rect.bottom = rect.bottom + SPEED/fps;
     }
-
-//    /*
-//     *  Enables the debris to fall once it spawns
-//     */
-//    public void fall() {
-//        // decrease the debris' yPos depending on SPEED
-//    }
-//
-//    /*
-//     *  Destroys the object once it comes in contact
-//     *  with the ball, bat, or bottom of the frame
-//     */
-//    public void destroy() {
-//        // remove debris from frame/game
-//    }
-//
-//    /*
-//     *  Checks whether the debris is hit by the bat or ball
-//     */
-//    public void hit() {
-//        // if hit by the ball, call destroy()
-//        // if hit by the bat, apply effects depending on debrisType
-//    }
-
 
 }

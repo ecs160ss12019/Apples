@@ -12,6 +12,7 @@ public class Ball extends GameObject {
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
     public double yVelocity; // vertical component of velocity (positive in the downwards direction)
     private double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
+    public boolean Explosion;
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -223,6 +224,41 @@ public class Ball extends GameObject {
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
+    public void applyUpgrade(String upgradeName) {
+
+        /*
+         * Add remaining upgrade cases
+         * implement a way to store list of upgrades
+         * List of Effects should reset after each death/level
+         */
+
+        switch(upgradeName) {
+            case "Explosion":
+                Explosion = true;
+                break;
+            case "Slow":
+                speed = speed - speed/4;
+                break;
+        }
+    }
+
+    public void applyDowngrade(String downgradeName) {
+
+        switch(downgradeName) {
+            case "Hollow":
+                // implement code
+                break;
+            case "Slow":
+                // Implement code
+                break;
+        }
+    }
+
+    public boolean checkMissBall(){
+        if (getRect().bottom > screenY) return true;
+        return false;
+    }
+
     // Setter for ball speed
     // Might be needed for additional features (upgrades or downgrades to ball speed)
     public void setBallSpeed(double ballSpeed) {
@@ -262,8 +298,4 @@ public class Ball extends GameObject {
         }
     }
 
-    public boolean checkMissBall(){
-        if (getRect().bottom > screenY) return true;
-        return false;
-    }
 }
