@@ -200,7 +200,9 @@ public class GameView extends SurfaceView implements Runnable {
         //ballDebrisCollision();
         //batDebrisCollision();
 
-        ball.checkBallBatCollision(bat);
+        ballBrickCollision();
+        ballPaddleCollision();
+        debrisCollision();
 
         if(!checkMissBall()) {
            if(level.checkCollision(ball)){
@@ -226,7 +228,44 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = ourHolder.lockCanvas();
 
             // Draw the background color
-            // canvas.drawColor(Color.argb(255, 153, 204, 255));
+            canvas.drawColor(Color.argb(255, 153, 204, 255));
+
+            dest = new Rect(0, 0, getWidth(), getHeight());
+
+            // Choose the brush color for drawing white
+            paint.setColor(Color.argb(255, 255, 255, 255));
+
+            // Draw the ball
+            // canvas.drawCircle(ball.getRect().centerX(), ball.getRect().centerY(), 25, paint);
+            canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
+
+            if(bat.stunTimer > 0) {
+                // Sets brush color to black if the bat is stunned
+                paint.setColor(Color.argb(255, 0, 0, 0));
+            } else {
+                // Red otherwise
+                paint.setColor(Color.argb(255, 255, 0, 0));
+            }
+
+            // Draw the paddle
+            canvas.drawRect(bat.getRect(), paint);
+//            canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+
+
+            // Change the brush color for drawing
+            // paint.setColor(getResources().getColor(R.color.redorange));
+
+            // sets brush color to white
+            paint.setColor(Color.argb(255, 255, 0, 0));
+
+            // Draw the bricks if visible
+            for (int i = 0; i < numBricks; i++) {
+                if (bricks[i].getVisibility()) {
+                    // canvas.drawRect(bricks[i].getRect(), paint);
+                    canvas.drawBitmap(bricks[i].getBricksBitmap(), bricks[i].getRect().left, bricks[i].getRect().top, paint);
+                    /*switch (level) {
+                        case 1:
+                            canvas.drawBitmap(bitmapBrick1, bricks[i].getRect().left, bricks[i].getRect().top, null);
 
             // Gets resources for background images
             Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
@@ -393,27 +432,187 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void ballDebrisCollision() {
-        // Check for ball colliding with a debris
+    private void debrisCollision() {
+        // Check for ball or bat colliding with a debris
         for(int i = 0; i < numBricks; i++) {
             if(debris[i].getActive()) {
+                /*
+                 hit-box of collision kinda confusing since sometimes the ball will go through it,
+                 and debris will not disappear
+                  */
                 if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                    // Check if there is ball/debris collision
+                    debris[i].deactivate();
+                } else if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                    // check if there is a bat/debris collision
+
+                    // receive effect
+                    switch(debris[i].getDebrisType()) {
+                        case "Harmful":
+                            // Stun bat for a few secs
+                            bat.stun();
+                            break;
+                        case "Upgrade":
+                            applyUpgrade(ug[i]);
+                            break;
+                        case "Downgrade":
+                            applyDowngrade(dg[i]);
+                            break;
+                    }
+
                     debris[i].deactivate();
                 }
             }
         }
     }
 
-    private void batDebrisCollision() {
-        // Check for bat colliding with a Debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    debris[i].deactivate();
-                    // implement apply debris effect to bat
+    private void applyUpgrade(Upgrade ug) {
+        switch(ug.getEffectTarget()) {
+            case "Ball":
+                ball.applyUpgrade(ug.upgradeName);
+                break;
+            case "Bat":
+                bat.applyUpgrade(ug.upgradeName);
+                break;
+        }
+    }
+
+    private void applyDowngrade(Downgrade dg) {
+        switch(dg.getEffectTarget()) {
+            case "Ball":
+                ball.applyDowngrade(dg.downgradeName);
+                break;
+            case "Bat":
+                bat.applyDowngrade(dg.downgradeName);
+                break;
+        }
+    }
+
+
+    private void ballBrickCollision(){
+        // Check for ball colliding with a brick
+        for (int i = 0; i < numBricks; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    bricks[i].setInvisible();
+
+                    // If ball has explosion upgrade
+                    /*
+                    if(ball.Explosion) {
+                        if() {
+                            // Conditions for top row
+                        } else if() {
+                            // Conditions for bottom row
+                        } else {
+                            // Conditions for rows in between.
+                        }
+                    }
+                    */
+
+                    if(!debris[i].getDebrisType().equals("None")) {
+                        debris[i].activate();
+
+                        // Storing the effect based on the debris type.
+                        if(debris[i].getDebrisType().equals("Upgrade")) {
+                            ug[i] = new Upgrade();
+                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
+                            dg[i] = new Downgrade();
+                        }
+                    }
+                    ball.reverseYVelocity();
+                    score = score + 10;
                 }
             }
         }
     }
-    */
+
+    private void ballPaddleCollision(){
+        // Check for ball colliding with paddle
+        if(ball.intersect(bat)) {
+
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = ball.getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+
+            ball.getNewVelocity(fracDisplacementFromMid, bat);
+
+        }
+    }
+
+    private boolean checkMissBall(){
+        if (ball.getRect().bottom > screenY) {
+            // Lose a life
+            lives--;
+            ball.reset(screenX, screenY, this.level);
+            paused = true;
+
+            if (lives == 0) {
+                paused = true;
+
+                //draw Loss;
+                canvas = ourHolder.lockCanvas();
+                canvas.drawText("Game Over!",
+                        screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+                ourHolder.unlockCanvasAndPost(canvas);
+
+                try {
+                    // Wait 3 seconds then reset a new game
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // Create bricks at level 1
+                createBricksAndRestart(1);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void checkWallBounce(){
+        // Bounce the ball back when it hits the top of screen
+        if (ball.getRect().top < 0) {
+            ball.reverseYVelocity();
+            ball.clearObstacleY(40);
+        }
+
+        // If the ball hits left wall bounce
+        if (ball.getRect().left < 0) {
+            ball.reverseXVelocity();
+            ball.clearObstacleX(2);
+        }
+
+        // If the ball hits right wall Velocity
+        if (ball.getRect().right > screenX) {
+            ball.reverseXVelocity();
+            ball.clearObstacleX(screenX - 57);
+        }
+    }
+
+    private void succeedToLevelTwo(){
+        // Create bricks at level 2
+        createBricksAndRestart(2);
+
+        // fix for a pause bug
+        // so that it won't Pause After finishing the Game
+        score = score + 10;
+        // Gift the player with 1 new live
+        lives = lives + 1;
+    }
+
+    private void succeedToLevelThree(){
+        // Create bricks at level 3
+        createBricksAndRestart(3);
+
+        // fix for a pause bug
+        // so that it won't Pause After finishing the Game
+        score = score + 10;
+        // Gift the player with 2 new lives
+        lives = lives + 2;
+    }
+
+
+
 }

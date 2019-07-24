@@ -30,6 +30,7 @@ public class Bat extends GameObject {
     private Bitmap batBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
 
+    public int stunTimer; // indicates the amount of time the bat is stunned for when hit by a debris
 
     // This the the constructor method
     // When we create an object from this class we will pass
@@ -80,15 +81,20 @@ public class Bat extends GameObject {
     // contained in rect if necessary
     public void update(long fps) {
 
-        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
-            x -= paddleSpeed / fps;
-        }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
-            x += paddleSpeed/fps;
-        }
+        // Do not update (move), if the bat is stunned.
+        if(stunTimer == 0) {
+            if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
+                x -= paddleSpeed / fps;
+            }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
+                x += paddleSpeed/fps;
+            }
 
-        // Apply the New position
-        rect.left = x;
-        rect.right = x + width;
+            // Apply the New position
+            rect.left = x;
+            rect.right = x + width;
+        } else {
+            stunTimer -= 1;
+        }
     }
 
 
@@ -124,9 +130,40 @@ public class Bat extends GameObject {
 
     public void stopMoving(){ paddleMoving = Direction.STOPPED;}
 
-    // Setter for paddleSpeed
-    // Might need these if there are ugprades or downgrades affecting paddle speed
-    public void setPaddleSpeed(float speed) {
-        this.paddleSpeed = speed;
+    public void stun() {
+        // adds to the stunTimer || used when bat is hit by a HARMFUL debris.
+
+        // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
+        if(stunTimer == 0) {
+            stunTimer += 30;
+        }
+    }
+
+    public void applyUpgrade(String upgradeName) {
+        /*
+         * Add remaining upgrade cases
+         * implement a way to store list of upgrades.
+         * List of Effects should reset after each death/level
+         */
+        switch(upgradeName) {
+            case "SpeedUp":
+                paddleSpeed = 2 * paddleSpeed;
+                break;
+            case "SizeUp":
+                width = width + width/4;
+                break;
+        }
+    }
+
+    public void applyDowngrade(String downgradeName) {
+
+        switch(downgradeName) {
+            case "SpeedDown":
+                paddleSpeed = paddleSpeed - paddleSpeed/4;
+                break;
+            case "SizeDown":
+                width = width - width/4;
+                break;
+        }
     }
 }

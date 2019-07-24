@@ -223,40 +223,36 @@ public class Ball extends GameObject {
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
-    // Setter for ball speed
-    // Might be needed for additional features (upgrades or downgrades to ball speed)
-    public void setBallSpeed(double ballSpeed) {
-        this.speed = ballSpeed;
-    }
+    public void applyUpgrade(String upgradeName) {
 
-    // Check if the ball hit the walls on the screen to change ball's trajectory
-    public void checkWallBounce(){
-        // Bounce the ball back when it hits the top of screen
-        if (getRect().top < 0) {
-            reverseYVelocity();
-            clearObstacleY(40);
-        }
+        /*
+         * Add remaining upgrade cases
+         * implement a way to store list of upgrades
+         * List of Effects should reset after each death/level
+         */
 
-        // If the ball hits left wall bounce
-        if (getRect().left < 0) {
-            reverseXVelocity();
-            clearObstacleX(2);
-        }
-
-        // If the ball hits right wall Velocity
-        if (getRect().right > screenX) {
-            reverseXVelocity();
-            clearObstacleX(screenX - 57);
+        switch(upgradeName) {
+            case "Explosion":
+                Explosion = true;
+                break;
+            case "Slow":
+                speed = speed - speed/4;
+                break;
         }
     }
 
-    public void checkBallBatCollision(Bat bat){
-        // Check for ball colliding with paddle
-        if(this.intersect(bat)) {
-            // Interpolate the incoming position for computation of the new Velocity
-            float midBall = getMiddle();
-            float midBat = bat.getMiddle();
-            float fracDisplacementFromMid = (midBall - midBat) / midBat;
+    public void applyDowngrade(String downgradeName) {
+
+        switch(downgradeName) {
+            case "Hollow":
+                // implement code
+                break;
+            case "Slow":
+                // Implement code
+                break;
+        }
+    }
+
 
             getNewVelocity(fracDisplacementFromMid, bat);
         }
