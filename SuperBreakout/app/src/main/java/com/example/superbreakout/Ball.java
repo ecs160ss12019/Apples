@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-
 import java.util.Random;
 
 public class Ball extends GameObject {
@@ -17,6 +16,7 @@ public class Ball extends GameObject {
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
     private int screenX;
     private int screenY;
+    private boolean isActive;
 
 
     // Make it a 60 pixel x 60 pixel square
@@ -266,4 +266,8 @@ public class Ball extends GameObject {
         if (getRect().bottom > screenY) return true;
         return false;
     }
+
+    public boolean getIsActive(){ return isActive;}
+
+    private void setIsActive(){ isActive = true;}
 }
