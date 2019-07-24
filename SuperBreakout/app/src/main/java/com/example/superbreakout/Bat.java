@@ -30,6 +30,7 @@ public class Bat extends GameObject {
     private Bitmap batBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
 
+    private int stunTimer; // indicates the amount of time the bat is stunned for when hit by a debris
 
     // This the the constructor method
     // When we create an object from this class we will pass
@@ -125,6 +126,11 @@ public class Bat extends GameObject {
                 rect.right = rect.right + width;
                 break;
         }
+    }
+
+    public void stun() {
+        // adds to the stunTimer
+        stunTimer += 3;
     }
 
 }
