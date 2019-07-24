@@ -33,6 +33,15 @@ public class Explosive extends DurabilityZero{
     }
 
     @Override
+    public Obstacle reduceDurability() {
+        setInvisible();
+        for(int i = 0; i < this.numNeighbors; i++) {
+            neighborsToDestroy[i].setInvisible();
+        }
+        return this;
+    }
+
+    @Override
     public void setBricksBitmap(){
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
         bitmapDimensions = new BitmapDimensions(200, 50);
