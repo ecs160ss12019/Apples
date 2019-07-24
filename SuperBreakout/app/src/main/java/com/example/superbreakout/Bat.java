@@ -166,4 +166,10 @@ public class Bat extends GameObject {
                 break;
         }
     }
+
+    // Setter for paddleSpeed
+    // Might need these if there are ugprades or downgrades affecting paddle speed
+    public void setPaddleSpeed(float speed) {
+        this.paddleSpeed = speed;
+    }
 }

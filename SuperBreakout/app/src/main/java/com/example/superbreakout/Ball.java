@@ -12,6 +12,7 @@ public class Ball extends GameObject {
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
     public double yVelocity; // vertical component of velocity (positive in the downwards direction)
     private double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
+    public boolean Explosion;
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -253,13 +254,48 @@ public class Ball extends GameObject {
         }
     }
 
+    public boolean checkMissBall(){
+        if (getRect().bottom > screenY) return true;
+        return false;
+    }
+
+    // Setter for ball speed
+    // Might be needed for additional features (upgrades or downgrades to ball speed)
+    public void setBallSpeed(double ballSpeed) {
+        this.speed = ballSpeed;
+    }
+
+    // Check if the ball hit the walls on the screen to change ball's trajectory
+    public void checkWallBounce(){
+        // Bounce the ball back when it hits the top of screen
+        if (getRect().top < 0) {
+            reverseYVelocity();
+            clearObstacleY(40);
+        }
+
+        // If the ball hits left wall bounce
+        if (getRect().left < 0) {
+            reverseXVelocity();
+            clearObstacleX(2);
+        }
+
+        // If the ball hits right wall Velocity
+        if (getRect().right > screenX) {
+            reverseXVelocity();
+            clearObstacleX(screenX - 57);
+        }
+    }
+
+    public void checkBallBatCollision(Bat bat){
+        // Check for ball colliding with paddle
+        if(this.intersect(bat)) {
+            // Interpolate the incoming position for computation of the new Velocity
+            float midBall = getMiddle();
+            float midBat = bat.getMiddle();
+            float fracDisplacementFromMid = (midBall - midBat) / midBat;
 
             getNewVelocity(fracDisplacementFromMid, bat);
         }
     }
 
-    public boolean checkMissBall(){
-        if (getRect().bottom > screenY) return true;
-        return false;
-    }
 }
