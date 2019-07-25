@@ -18,8 +18,6 @@ public abstract class Level {
     int level = 0;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
     Debris[] debris = new Debris[bricksInLevel];
-    Upgrade[] ug = new Upgrade[bricksInLevel];
-    Downgrade[] dg = new Downgrade[bricksInLevel];
     Context context;
 
     Randomizer randomizer;
@@ -87,13 +85,6 @@ public abstract class Level {
 
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
-
-                        if(debris[i].getDebrisType().equals("Upgrade")) {
-                            ug[i] = new Upgrade();
-                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
-                            dg[i] = new Downgrade();
-                        }
-
                     }
                     ball.reverseYVelocity();
                     hit = true;
@@ -117,13 +108,12 @@ public abstract class Level {
                     switch(debris[i].getDebrisType()) {
                         case "Harmful":
                             // do something
-                            bat.stun();
-                        break;
+                            break;
                         case "Upgrade":
-                            applyUpgrade(ug[i], ball, bat);
+                            // do something
                             break;
                         case "Downgrade":
-                            applyDowngrade(dg[i], ball, bat);
+                            // do something
                             break;
                     }
 
@@ -154,28 +144,6 @@ public abstract class Level {
             if(debris[i].getActive()) {
                 debris[i].update();
             }
-        }
-    }
-
-    private void applyUpgrade(Upgrade ug, Ball ball, Bat bat) {
-        switch(ug.getEffectTarget()) {
-            case "Ball":
-                ball.applyUpgrade(ug.upgradeName);
-                break;
-            case "Bat":
-                bat.applyUpgrade(ug.upgradeName);
-                break;
-        }
-    }
-
-    private void applyDowngrade(Downgrade dg, Ball ball, Bat bat) {
-        switch(dg.getEffectTarget()) {
-            case "Ball":
-                ball.applyDowngrade(dg.downgradeName);
-                break;
-            case "Bat":
-                bat.applyDowngrade(dg.downgradeName);
-                break;
         }
     }
 }
