@@ -27,7 +27,12 @@ public class DurabilityFactory {
             return new DurabilityZero(context, row, column,
                     widthObstacle, heightObstacle, horzPadding, vertPadding);
 
-        }else{
+        }else if(durability == Explosive.DURABILITY_EXPLOSIVE){
+
+            return new Explosive(context, row, column,
+                    widthObstacle, heightObstacle, horzPadding, vertPadding);
+        }
+                else{
             return null;
         }
     }

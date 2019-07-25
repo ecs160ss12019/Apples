@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Explosive extends DurabilityZero{
+public class Explosive extends Obstacle{
 
-    private final int DURABILITY_EXPLOSIVE = 0;
+    static final int DURABILITY_EXPLOSIVE = -1;
     int numNeighbors;
     Obstacle[] neighborsToDestroy;
 
@@ -27,7 +27,6 @@ public class Explosive extends DurabilityZero{
 
         numNeighbors = (rowEnd - rowStart + 1) * (columnEnd - columnStart + 1);
         this.neighborsToDestroy = new Obstacle[numNeighbors];
-        System.out.println(columnEnd);
 
         int index = 0;
         for(int c = columnStart; c <= columnEnd; c++) {
@@ -63,9 +62,8 @@ public class Explosive extends DurabilityZero{
     @Override
     public Obstacle reduceDurability() {
         for(int i = 0; i < this.numNeighbors; i++) {
-            if(neighborsToDestroy[i].getVisibility()) {
-                neighborsToDestroy[i].setInvisible();
-            }
+            neighborsToDestroy[i].setInvisible();
+            System.out.println("BOOM");
         }
         return this;
     }
