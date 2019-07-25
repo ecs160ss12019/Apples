@@ -32,8 +32,9 @@ public class Ball extends GameObject {
         this.screenX = screenX;
         this.screenY = screenY;
 
-        this.width = screenX / 50;
-        this.height = screenX / 50;
+        // Ball has issues here
+        this.width = 10;
+        this.height = 10;
 
         // creates new rectangle object for ball
         rect = new RectF();
@@ -42,7 +43,7 @@ public class Ball extends GameObject {
         randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
-        bitmapDimensions = new BitmapDimensions((int)width, (int)height);
+        bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
 
         // loads in asset and turns it into bitmaps
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
