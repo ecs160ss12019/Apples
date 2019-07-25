@@ -24,7 +24,7 @@ public class LevelThree extends Level{
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
-        numAliveBricks = 24;
+        numAliveBricks = 30;
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
