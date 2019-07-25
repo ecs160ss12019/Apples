@@ -2,6 +2,7 @@ package com.example.superbreakout;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.media.SoundPool;
@@ -43,7 +44,7 @@ public abstract class Level {
                         paint);
             }
         }
-        /*
+
         // Draw the debris if active
         for(int i = 0; i < bricksInLevel; i++) {
             if(debris[i].getActive()) {
@@ -63,7 +64,7 @@ public abstract class Level {
                 }
                 canvas.drawRect(debris[i].getRect(), paint);
             }
-        }*/
+        }
     }
 
     public boolean checkCollision(Ball ball){
@@ -107,4 +108,13 @@ public abstract class Level {
     public int getLevel(){ return level;}
 
     private void hitObstacle(){ numAliveBricks--;}
+
+    public void updateDebris() {
+        // Updates the position of all active debris
+        for(int i = 0; i < bricksInLevel; i++) {
+            if(debris[i].getActive()) {
+                debris[i].update();
+            }
+        }
+    }
 }

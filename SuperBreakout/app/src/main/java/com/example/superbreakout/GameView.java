@@ -156,8 +156,10 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         ball.update(fps);
+        level.updateDebris();
 
         ball.checkBallBatCollision(bat);
+
 
         if(!checkMissBall()) {
             if(level.checkCollision(ball)){

@@ -9,9 +9,9 @@ import java.util.Random;
 public class Debris {
 
     // Constant speed variables for each debris type.
-    private final float UPGRADE_SPEED = 200;
-    private final float DOWNGRADE_SPEED = 350;
-    private final float HARMFUL_SPEED = 500;
+    private final float UPGRADE_SPEED = 10;
+    private final float DOWNGRADE_SPEED = 20;
+    private final float HARMFUL_SPEED = 30;
 
     private RectF rect; // Square/Rect representing the falling debris
 
@@ -68,7 +68,7 @@ public class Debris {
         active = false;
     }
 
-    public void update(long fps) {
+    public void update() {
         // Change the top/bottom coordinates to imitate "falling"
         float SPEED = 0f;
         switch (debrisType) {
@@ -84,8 +84,8 @@ public class Debris {
             default:
                 break;
         }
-        rect.top = rect.top + SPEED/fps;
-        rect.bottom = rect.bottom + SPEED/fps;
+        rect.top = rect.top + SPEED;
+        rect.bottom = rect.bottom + SPEED;
     }
 
 }
