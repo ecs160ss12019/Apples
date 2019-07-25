@@ -94,16 +94,15 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         level.update(fps, bat, player);
-        if(!level.atLeastOneBallAlive()){
+        if (!level.atLeastOneBallAlive()) {
             paused = true;
 
-            if(!player.isAlive()){
-                endGame();
-            }else {
+            if (player.isAlive()) {
                 level.resetLevel();
             }
+
         }else{
-            if(level.levelCompleted()){
+            if (level.levelCompleted()) {
                 level = level.advanceNextLevel();
                 level.createBricks(getContext());
             }
@@ -138,7 +137,9 @@ public class GameView extends SurfaceView implements Runnable {
             checkAndDrawWinScreen();
 
             // Draw everything to the screen
-            ourHolder.unlockCanvasAndPost(canvas);
+            if (!checkAndDrawEndGame()) {
+                ourHolder.unlockCanvasAndPost((canvas));
+            }
         }
 
     }
@@ -168,7 +169,9 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: // Player has touched the screen
-                if (player.isAlive()){ paused = false;}
+                if (player.isAlive()) {
+                    paused = false;
+                }
                 bat.move(motionEvent.getX());
                 break;
 
@@ -177,7 +180,9 @@ public class GameView extends SurfaceView implements Runnable {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (!(player.getLives() == 0)){ paused = false;}
+                if (!(player.getLives() == 0)) {
+                    paused = false;
+                }
                 bat.move(motionEvent.getX());
                 break;
         }
@@ -187,31 +192,31 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     /************ HELPER FUNCTIONS ************/
-    private void startNewGame(){
+    private void startNewGame() {
         player = new Player();
         level = new LevelOne(screenX, screenY, getContext());
-        //level.createBricks(getContext());
         bat.reset(level.getLevel());
     }
 
-    private void endGame(){
-        //draw Loss;
-        canvas = ourHolder.lockCanvas();
-        canvas.drawText("Game Over!",
-                screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
-        ourHolder.unlockCanvasAndPost(canvas);
+    private boolean checkAndDrawEndGame() {
+        if (!player.isAlive()) {
+            canvas.drawText("Game Over!",
+                    screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+            ourHolder.unlockCanvasAndPost(canvas);
 
-        try {
-            // Wait 3 seconds then reset a new game
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                // Wait 3 seconds then reset a new game
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            startNewGame();
+            return true;
         }
-        startNewGame();
-
+        return false;
     }
 
-    private void drawStats(){
+    private void drawStats() {
         // Choose the brush color for drawing
         paint.setColor(Color.argb(255, 255, 255, 255));
         paint.setTextSize(50);
@@ -231,7 +236,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    private void checkAndDrawWinScreen(){
+    private void checkAndDrawWinScreen() {
         if (level.getLevel() == LevelThree.LEVEL_THREE && level.levelCompleted()) {
             paint.setColor(getResources().getColor(R.color.colorAccent));
             canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
@@ -240,13 +245,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    private void drawStage(){
+    private void drawStage() {
         // Draw stage
         paint.setColor(Color.argb(255, 255, 0, 0));
-        level.draw(canvas,paint);
+        level.draw(canvas, paint);
     }
 
-    private void drawBat(){
+    private void drawBat() {
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
 }
