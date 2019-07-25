@@ -12,7 +12,6 @@ public class LevelFour extends Level{
         level = LEVEL_FOUR;
         randomizer = new Randomizer();
         ballsInLevel = BALLS_IN_LEVEL;
-        createBricks(context);
     }
 
     @Override
@@ -33,8 +32,8 @@ public class LevelFour extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 0;
 
-                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
-                    rand = randomizer.getRandNumber(1,2);
+                if(randomizer.getRandBoolean()) {
+                    rand = randomizer.getRandNumber(1,3);
                 }
 
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
@@ -61,18 +60,22 @@ public class LevelFour extends Level{
 
     @Override
     public Level advanceNextLevel(){
-        // Add Win screen and create Level one again.
         return new LevelFive(screenX, screenY, context);
     }
 
     @Override
     public void createBalls(Context context, int screenX, int screenY){
-        balls = new Ball[BALLS_IN_LEVEL];
+        balls = new Ball[ballsInLevel];
 
-        for(int i =0; i<BALLS_IN_LEVEL; i++){
+        for(int i =0; i<ballsInLevel; i++){
             balls[i] = new Ball(context, screenX, screenY);
         }
-        balls[0].reset(screenX,screenY,level);
+        balls[0].makeActive();
+        balls[0].reset(screenX, screenY, level);
 
+
+        for(int i = 1; i < ballsInLevel; i++){
+            balls[i].reset(screenX,screenY,level);
+        }
     }
 }
