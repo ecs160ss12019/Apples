@@ -200,3 +200,17 @@
         </td>
     </tr>
 </table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">Player</td>
+    </tr>
+    <tr>
+        <td>Contains the basic aspects of a player ranging from number of lives and scoring</td>
+        <td>
+            <ul>
+                <li>None</li>
+            </ul>
+        </td>
+    </tr>
+</table>
