@@ -30,8 +30,7 @@ public class LevelOne extends Level {
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                //TODO revert back to Durability One
-                bricks[numBricks] = new Explosive(context, row, column, brickWidth, brickHeight,
+                bricks[numBricks] = new DurabilityOne(context, row, column, brickWidth, brickHeight,
                         brickWidth/5, brickHeight/4);
                 if(row == 1) {
                     bricks[numBricks].setInvisible();
@@ -41,6 +40,12 @@ public class LevelOne extends Level {
                 numBricks++;
             }
         }
+
+        bricks[2] = new Explosive(context, 2, 0, brickWidth, brickHeight,
+                brickWidth/5, brickHeight/4);
+
+        this.initializeExplosion();
+
     }
 
     @Override

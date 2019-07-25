@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 
 public class Explosive extends DurabilityZero{
 
+    private final int DURABILITY_EXPLOSIVE = 0;
     int numNeighbors;
-    Obstacle[] neighborsToDestroy = new Obstacle[numNeighbors];
+    Obstacle[] neighborsToDestroy;
 
     public Explosive(Context context, int row, int column, int widthObstacle, int heightObstacle,
                           int horzPadding, int vertPadding) {
@@ -17,27 +18,54 @@ public class Explosive extends DurabilityZero{
 
         numNeighbors = 0;
 
-        durability = DURABILITY_ZERO;
+        durability = DURABILITY_EXPLOSIVE;
         setBricksBitmap();
     }
 
-    @Override
-    public void setNeighbors(Obstacle[] potentialNeighbors, int numRows) {
-        for(int c = this.column-1; c < this.column+1; c++) {
-            for(int r = this.row-1; r < this.row+1; r++) {
-                if(potentialNeighbors[c*numRows + r].getVisibility()) {
-                    neighborsToDestroy[numNeighbors] = potentialNeighbors[c * numRows + r];
-                    numNeighbors++;
-                }
+    public void findNeighbors(Obstacle[] potentialNeighbors, int numRows,
+                              int rowStart, int columnStart, int rowEnd, int columnEnd) {
+
+        numNeighbors = (rowEnd - rowStart + 1) * (columnEnd - columnStart + 1);
+        this.neighborsToDestroy = new Obstacle[numNeighbors];
+        System.out.println(columnEnd);
+
+        int index = 0;
+        for(int c = columnStart; c <= columnEnd; c++) {
+            for(int r = rowStart; r <= rowEnd; r++) {
+                neighborsToDestroy[index] = potentialNeighbors[c*numRows + r];
             }
         }
+
+    }
+
+    @Override
+    public void setNeighbors(Obstacle[] potentialNeighbors, int numRows, int numCols) {
+        int rowStart = this.row - 1;
+        int rowEnd = this.row + 1;
+        int colStart = this.column - 1;
+        int colEnd = this.column + 1;
+        if(this.column == 0) {
+            colStart = 0;
+        }
+        if(this.row == 0) {
+            rowStart = 0;
+        }
+        if(this.column == numCols-1) {
+            colEnd = this.column;
+        }
+        if(this.row == numRows-1) {
+            rowEnd = this.row;
+        }
+        this.findNeighbors(potentialNeighbors, numRows, rowStart, colStart, rowEnd, colEnd);
+
     }
 
     @Override
     public Obstacle reduceDurability() {
         for(int i = 0; i < this.numNeighbors; i++) {
-            if(neighborsToDestroy[i].getVisibility())
+            if(neighborsToDestroy[i].getVisibility()) {
                 neighborsToDestroy[i].setInvisible();
+            }
         }
         return this;
     }
