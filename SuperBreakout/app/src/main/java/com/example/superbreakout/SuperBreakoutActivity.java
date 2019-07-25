@@ -45,6 +45,13 @@ public class SuperBreakoutActivity extends Activity {
                 setContentView(mainLayout);
             }
         });
+
+        final Button level = findViewById(R.id.level);
+        level.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(SuperBreakoutActivity.this, LevelMenu.class));
+            }
+        });
     }
 
     public void onBackPressed(){

@@ -28,6 +28,10 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>
+
+        <activity android:name=".LevelMenu"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
