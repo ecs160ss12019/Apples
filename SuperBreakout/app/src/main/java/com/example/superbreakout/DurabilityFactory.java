@@ -7,6 +7,7 @@ public class DurabilityFactory {
     public Obstacle getDurabilityObject(Context context, int row, int column, int widthObstacle,
                                       int heightObstacle, int horzPadding, int vertPadding,
                                       int durability){
+
         if(durability == DurabilityOne.DURABILITY_ONE){
 
             return new DurabilityOne(context, row, column,

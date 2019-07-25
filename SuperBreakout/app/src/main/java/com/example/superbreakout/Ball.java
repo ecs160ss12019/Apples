@@ -17,8 +17,6 @@ public class Ball extends GameObject {
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
     private int screenX;
     private int screenY;
-    private int scaleFactorWidth = 6;
-    private int scaleFactorHeight = 5;
 
     // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
@@ -29,11 +27,12 @@ public class Ball extends GameObject {
 
     public Ball(Context context, int screenX, int screenY) {
         super(ballWidth, ballHeight);
+
         this.screenX = screenX;
         this.screenY = screenY;
 
-        this.width = this.screenX / 30;
-        this.height = this.screenY / 25;
+        this.width = screenX / 50;
+        this.height = screenX / 50;
 
         // creates new rectangle object for ball
         rect = new RectF();
@@ -53,6 +52,7 @@ public class Ball extends GameObject {
      *
      * @fps: frame rate at which the ball refreshes
      */
+
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
