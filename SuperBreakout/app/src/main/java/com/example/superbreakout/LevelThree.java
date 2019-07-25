@@ -17,8 +17,8 @@ public class LevelThree extends Level{
     @Override
     public void createBricks(Context context){
         DurabilityFactory durabilityFactory = new DurabilityFactory();
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
+        int brickWidth = screenX / 12;
+        int brickHeight = screenY / 20;
         bricksInLevel = 32;
         rowsInLevel = 4;
         columnsInLevel = bricksInLevel / rowsInLevel;
