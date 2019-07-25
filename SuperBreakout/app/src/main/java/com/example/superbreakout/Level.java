@@ -94,6 +94,35 @@ public abstract class Level {
         return hit;
     }
 
+    public void checkDebrisCollision(Ball ball, Bat bat) {
+        for(int i = 0; i < bricksInLevel; i++) {
+            if(debris[i].getActive()) {
+
+                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
+                    // Checks ball/debris collision
+                    debris[i].deactivate();
+                } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                    // Checks ball/bat debris collision
+
+                    // receive effect based on debris type
+                    switch(debris[i].getDebrisType()) {
+                        case "Harmful":
+                            // do something
+                            break;
+                        case "Upgrade":
+                            // do something
+                            break;
+                        case "Downgrade":
+                            // do something
+                            break;
+                    }
+
+                    debris[i].deactivate();
+                }
+            }
+        }
+    }
+
     public Level advanceNextLevel(){
         return new LevelOne(screenX, screenY, context);
     }
