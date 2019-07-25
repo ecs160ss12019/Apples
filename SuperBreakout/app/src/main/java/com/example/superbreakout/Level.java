@@ -24,7 +24,6 @@ public abstract class Level {
 
     Randomizer randomizer;
     SoundEffects FX;
-    SoundPool sp;
 
     public Level(int x, int y, Context currentContext) {
         screenX = x;
@@ -116,9 +115,7 @@ public abstract class Level {
     }
 
     private void checkMissBall(Ball ball, Player player) {
-
-        boolean missBall = ball.checkMissBall();
-        if (missBall) {
+        if (ball.checkMissBall()) {
             player.missBrick(); // Reset consecutive hits
             ball.playerMissedBall();
 

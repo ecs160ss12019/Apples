@@ -10,7 +10,10 @@ public class LevelTwo extends Level {
     public LevelTwo(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_TWO;
+        ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
+        createBricks(context);
+
     }
 
     @Override
@@ -35,6 +38,8 @@ public class LevelTwo extends Level {
                 numBricks++;
             }
         }
+        createBalls(context,screenX,screenY);
+
     }
 
 

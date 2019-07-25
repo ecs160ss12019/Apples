@@ -11,6 +11,7 @@ public class LevelFive extends Level{
     public LevelFive(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_FIVE;
+        ballsInLevel = BALLS_IN_LEVEL;
     }
 
     @Override
@@ -51,6 +52,7 @@ public class LevelFive extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
+        createBalls(context,screenX,screenY);
     }
 
     @Override

@@ -8,12 +8,14 @@ import com.example.superbreakout.LevelFour;
 public class LevelThree extends Level{
 
     public static final int LEVEL_THREE = 3;
-    public static final int BALLS_IN_LEVEL = 1;
+    public static final int BALLS_IN_LEVEL = 2;
 
     public LevelThree(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_THREE;
+        ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
+        createBricks(context);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class LevelThree extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 1;
+                int rand = 0;
                 if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
                    rand = randomizer.getRandNumber(1,2);
                 }
@@ -41,7 +43,8 @@ public class LevelThree extends Level{
                         brickWidth/4, brickHeight/5,rand);
 
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
+
+              //  debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
@@ -54,12 +57,30 @@ public class LevelThree extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
+        createBalls(context,screenX,screenY);
+
     }
 
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
         return new LevelFour(screenX, screenY, context);
+    }
+
+    @Override
+    public void createBalls(Context context, int screenX, int screenY){
+        balls = new Ball[ballsInLevel];
+
+        for (int i = 0; i < ballsInLevel; i++) {
+            balls[i] = new Ball(context, screenX, screenY);
+        }
+        balls[0].makeActive();
+        balls[0].reset(screenX, screenY, level);
+
+       /*for(int i = 1; i < ballsInLevel; i++){
+            balls[i] = new Ball(context, screenX, screenY);
+            balls[i].reset(screenX,screenY,level);
+        }*/
     }
 
 }

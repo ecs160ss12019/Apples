@@ -11,6 +11,8 @@ public class LevelFour extends Level{
         super(x,y, currentContext);
         level = LEVEL_FOUR;
         randomizer = new Randomizer();
+        ballsInLevel = BALLS_IN_LEVEL;
+        createBricks(context);
     }
 
     @Override
@@ -53,6 +55,8 @@ public class LevelFour extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
+        createBalls(context,screenX,screenY);
+
     }
 
     @Override
