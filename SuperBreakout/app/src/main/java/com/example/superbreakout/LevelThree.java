@@ -43,17 +43,20 @@ public class LevelThree extends Level{
                 numBricks++;
             }
         }
-        for (int row = 1; row < 3; row++) {
-            bricks[1*rowsInLevel + row].setInvisible();
-            bricks[6*rowsInLevel + row].setInvisible();
-        }
-        for(int column = 3; column < 5; column++) {
-            for (int row = 1; row < 3; row++) {
+
+        this.createPocket(1,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(8,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(4,1, rowsInLevel, bricks, 3, 2);
+
+        this.initializeExplosion();
+    }
+
+    private void createPocket(int colStart, int rowStart, int rowsInLevel, Obstacle[] bricks, int width, int height) {
+        for(int column = colStart; column < colStart+width; column++) {
+            for (int row = rowStart; row < rowStart+height; row++) {
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
-
-        this.initializeExplosion();
     }
 
     @Override
