@@ -16,6 +16,8 @@ public abstract class Level {
     int screenY;
     int numAliveBricks;
     int level = 0;
+    int ballsInLevel;
+    Ball[] balls;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
     Debris[] debris = new Debris[bricksInLevel];
 //    Upgrade[] ug = new Upgrade[bricksInLevel];
@@ -24,9 +26,8 @@ public abstract class Level {
 
     Randomizer randomizer;
     SoundEffects FX;
-    SoundPool sp;
 
-    public Level(int x, int y, Context currentContext){
+    public Level(int x, int y, Context currentContext) {
         screenX = x;
         screenY = y;
 
@@ -35,9 +36,7 @@ public abstract class Level {
         FX = new SoundEffects(context);
     }
 
-    abstract void createBricks(Context context);
-
-    public void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint) {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
                 canvas.drawBitmap(bricks[i].getBricksBitmap(),
@@ -78,6 +77,7 @@ public abstract class Level {
     }
 
     public boolean checkCollision(Ball ball){
+    public boolean checkCollision(Ball ball) {
         boolean hit = false;
         // Check for ball colliding with a brick
         for (int i = 0; i < bricksInLevel; i++) {
@@ -85,13 +85,32 @@ public abstract class Level {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect()) || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
                     FX.playFX();
 
-                    if(bricks[i].getDurability() == 0) {
-                        bricks[i].setInvisible();
-                        hitObstacle();
+        if(ball.getActive()) {
+            for (int i = 0; i < bricksInLevel; i++) {
+                if (bricks[i].getVisibility()) {
+                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                        FX.playFX();
+
+                        if (bricks[i].getDurability() == 0) {
+                            bricks[i].setInvisible();
+                            hitObstacle();
+                        } else {
+                            bricks[i] = bricks[i].reduceDurability();
+                        }
+
+                        if (!debris[i].getDebrisType().equals("None")) {
+                            debris[i].activate();
+                        }
+                        ball.reverseYVelocity();
+                        hit = true;
                     }
-                    else {
-                        bricks[i] = bricks[i].reduceDurability();
-                    }
+                }
+            }
+            return hit;
+        }else{
+            for (int i = 0; i < bricksInLevel; i++) {
+                if (bricks[i].getVisibility()) {
+                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
 
                     if(!debris[i].getDebrisType().equals("None")) {
                         debris[i].activate();
@@ -103,13 +122,12 @@ public abstract class Level {
 //                            dg[i] = new Downgrade();
 //                        }
 
+                        ball.reverseYVelocity();
                     }
-                    ball.reverseYVelocity();
-                    hit = true;
                 }
             }
         }
-        return hit;
+        return false;
     }
 
     public void checkDebrisCollision(Ball ball, Bat bat) {
@@ -155,7 +173,68 @@ public abstract class Level {
             return false;
     }
 
-    public int getLevel(){ return level;}
+
+    private void hitObstacle() {
+        numAliveBricks--;
+    }
+
+    public void update(long fps, Bat bat, Player player) {
+        for (int i = 0; i < ballsInLevel; i++) {
+            balls[i].update(fps);
+            if (!balls[i].checkBallBatCollision(bat)) {// If bat didn't hit the ball
+                if (checkCollision(balls[i])&& balls[i].getActive() ) {
+                    player.hitBrick();
+                } else if (balls[i].getActive()) {
+                    checkMissBall(balls[i], player);
+                }
+            }
+            balls[i].checkWallBounce();
+        }
+    }
+
+    public boolean atLeastOneBallAlive() {
+        for (Ball ball : balls) {
+            if (ball.getActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected void checkMissBall(Ball ball, Player player) {
+        if (ball.checkMissBall()) {
+            player.missBrick(); // Reset consecutive hits
+            ball.playerMissedBall();
+
+            if(!atLeastOneBallAlive()){
+                player.reduceLifeByOne();
+            }
+        }
+    }
+
+    public void drawBall(Canvas canvas) {
+        for (int i = 0; i < ballsInLevel; i++) {
+            canvas.drawBitmap(balls[i].getBallBitmap(),
+                    balls[i].getRect().left,
+                    balls[i].getRect().top,
+                    null);
+        }
+    }
+
+    public void resetLevel() {
+        balls[0].makeActive();
+        balls[0].reset(screenX, screenY, level);
+    }
+
+    public void createBalls(Context context, int screenX, int screenY) {
+        balls = new Ball[ballsInLevel];
+        balls[0] = new Ball(context, screenX, screenY);
+        resetLevel();
+    }
+
+    abstract void createBricks(Context context);
+
+    abstract Level advanceNextLevel();
 
     private void hitObstacle(){ numAliveBricks--;}
 
@@ -189,4 +268,5 @@ public abstract class Level {
                 break;
         }
     }
+}
 }

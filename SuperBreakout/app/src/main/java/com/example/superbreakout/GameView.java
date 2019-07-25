@@ -35,7 +35,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     // Objects of the game
     Bat bat;
-    Ball ball;
     Player player;
     Level level;
 
@@ -114,10 +113,21 @@ public class GameView extends SurfaceView implements Runnable {
                     level = level.advanceNextLevel();
                     level.createBricks(getContext());
                 }
+        level.update(fps, bat, player);
+        if (!level.atLeastOneBallAlive()) {
+            paused = true;
+            if (player.isAlive()) {
+                level.resetLevel();
             }
             ball.checkWallBounce();
         }
 
+        }else{
+            if (level.levelCompleted()) {
+                level = level.advanceNextLevel();
+                level.createBricks(getContext());
+            }
+        }
     }
 
     // Draw the newly updated scene
@@ -130,6 +140,11 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
+            // Gets resources for background images
+            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            //Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+
+
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
@@ -140,11 +155,15 @@ public class GameView extends SurfaceView implements Runnable {
             drawBat();
             drawStage();
             drawStats();
+            level.drawBall(canvas);
             checkAndDrawWinScreen();
             boolean end = checkAndDrawEndGame();
 
             // Draw everything to the screen
             if(!end){ourHolder.unlockCanvasAndPost(canvas);}
+            if (!checkAndDrawEndGame()) {
+                ourHolder.unlockCanvasAndPost((canvas));
+            }
         }
 
     }
@@ -187,6 +206,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             case MotionEvent.ACTION_MOVE:
                 if (!(player.getLives() == 0)) {
+                if (player.isAlive()) {
                     paused = false;
                 }
                 bat.move(motionEvent.getX());
@@ -203,7 +223,7 @@ public class GameView extends SurfaceView implements Runnable {
         //TODO change starting levels here
         level = new LevelThree(screenX, screenY, getContext());
         level.createBricks(getContext());
-        ball.reset(screenX, screenY, level.getLevel());
+        bat = new Bat(getContext(),screenX, screenY, densityDpi);
         bat.reset(level.getLevel());
     }
 
@@ -216,11 +236,15 @@ public class GameView extends SurfaceView implements Runnable {
             try {
                 // Wait 3 seconds then reset a new game
                 Thread.sleep(3000);
+<<<<<<< HEAD
                 startNewGame();
+=======
+>>>>>>> refactor-ball/an
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             startNewGame();
+<<<<<<< HEAD
             return true;
         }
         return false;
@@ -233,6 +257,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             ball.reset(screenX, screenY, level.getLevel());
             paused = true;
+=======
+>>>>>>> refactor-ball/an
             return true;
         }
         return false;
@@ -259,7 +285,11 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void checkAndDrawWinScreen() {
+<<<<<<< HEAD
         if (level.getLevel() == LevelThree.LEVEL_THREE && level.levelCompleted()) {
+=======
+        if (level.getLevel() == LevelFive.LEVEL_FIVE && level.levelCompleted()) {
+>>>>>>> refactor-ball/an
             paint.setColor(getResources().getColor(R.color.colorAccent));
             canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
                     (densityDpi / 1), paint);
@@ -271,6 +301,7 @@ public class GameView extends SurfaceView implements Runnable {
         // Draw stage
         paint.setColor(Color.argb(255, 255, 0, 0));
         level.draw(canvas, paint);
+<<<<<<< HEAD
     }
 
     private void drawBat() {
@@ -281,4 +312,11 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(ball.getBallBitmap(), ball.getRect().left, ball.getRect().top, paint);
     }
 
+=======
+    }
+
+    private void drawBat() {
+        canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+    }
+>>>>>>> refactor-ball/an
 }

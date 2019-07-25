@@ -1,22 +1,23 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+
 
 public class LevelOne extends Level {
 
     public static final int LEVEL_ONE = 1;
+    public static final int BALLS_IN_LEVEL = 1;
 
     public LevelOne(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_ONE;
+        ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
     }
 
     @Override
     public void createBricks(Context context){
+        DurabilityFactory durabilityFactory = new DurabilityFactory();
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
         bricksInLevel = 24;
@@ -32,6 +33,8 @@ public class LevelOne extends Level {
             for (int row = 0; row < rowsInLevel; row++) {
                 bricks[numBricks] = new DurabilityZero(context, row, column, brickWidth, brickHeight,
                         brickWidth/5, brickHeight/4);
+                bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row, column, brickWidth, brickHeight,
+                        brickWidth/5, brickHeight/4,0);
                 if(row == 1) {
                     bricks[numBricks].setInvisible();
                 }
@@ -40,10 +43,13 @@ public class LevelOne extends Level {
                 numBricks++;
             }
         }
+
+        createBalls(context,screenX,screenY);
     }
 
     @Override
     public Level advanceNextLevel(){
         return new LevelTwo(screenX, screenY, context);
     }
+
 }
