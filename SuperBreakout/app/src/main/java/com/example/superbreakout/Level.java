@@ -69,6 +69,14 @@ public abstract class Level {
         }
     }
 
+    public void initializeExplosion() {
+        for(int i = 0; i < bricksInLevel; i++) {
+            if(bricks[i] instanceof Explosive) {
+                bricks[i].setNeighbors(bricks, rowsInLevel, columnsInLevel);
+            }
+        }
+    }
+
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick

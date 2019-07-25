@@ -24,8 +24,12 @@ public class DurabilityZero extends Obstacle{
     }
 
     @Override
+    public void setNeighbors(Obstacle[] potentialNeighbors, int numRows, int numCols) {
+        // do nothing
+    }
+
+    @Override
     public Obstacle reduceDurability() {
-        setInvisible();
         return this;
     }
 

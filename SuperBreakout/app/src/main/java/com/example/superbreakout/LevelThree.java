@@ -31,8 +31,8 @@ public class LevelThree extends Level{
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 1;
-                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
-                   rand = randomizer.getRandNumber(1,2);
+                if(randomizer.getRandBoolean()) {
+                   rand = randomizer.getRandNumber(-1,2);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
@@ -52,6 +52,8 @@ public class LevelThree extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
+
+        this.initializeExplosion();
     }
 
     @Override

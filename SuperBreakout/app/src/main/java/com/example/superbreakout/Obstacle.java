@@ -56,5 +56,7 @@ public abstract class Obstacle extends GameObject {
 
     abstract Obstacle reduceDurability();
 
+    abstract void setNeighbors(Obstacle[] potentialNeighbors, int numRows, int numCols);
+
     abstract void setBricksBitmap();
 }
