@@ -5,10 +5,12 @@ import android.content.Context;
 public class LevelTwo extends Level {
 
     public static final int LEVEL_TWO = 2;
+    public static final int BALLS_IN_LEVEL = 1;
 
     public LevelTwo(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_TWO;
+        ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
     }
 
@@ -34,6 +36,8 @@ public class LevelTwo extends Level {
                 numBricks++;
             }
         }
+        createBalls(context,screenX,screenY);
+
     }
 
 

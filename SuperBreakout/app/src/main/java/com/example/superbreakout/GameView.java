@@ -35,7 +35,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     // Objects of the game
     Bat bat;
-    Ball ball;
     Player player;
     Level level;
 
@@ -47,6 +46,8 @@ public class GameView extends SurfaceView implements Runnable {
     Randomizer randomizer;
 
     Bitmap backgroundImage;
+    // Sets gesture compat object
+    //private GestureDetectorCompat gestureDetectorCompat = null;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,8 +73,6 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
-        bat = new Bat(context, screenX, screenY, densityDpi);
-        ball = new Ball(context, screenX, screenY);
         startNewGame();
 
         randomizer = new Randomizer();
@@ -114,10 +113,19 @@ public class GameView extends SurfaceView implements Runnable {
                     level = level.advanceNextLevel();
                     level.createBricks(getContext());
                 }
+        level.update(fps, bat, player);
+        if (!level.atLeastOneBallAlive()) {
+            paused = true;
+            if (player.isAlive()) {
+                level.resetLevel();
             }
-            ball.checkWallBounce();
-        }
 
+        }else{
+            if (level.levelCompleted()) {
+                level = level.advanceNextLevel();
+                level.createBricks(getContext());
+            }
+        }
     }
 
     // Draw the newly updated scene
@@ -130,6 +138,12 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
+=======
+            // Gets resources for background images
+            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            //Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+
+
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
@@ -140,16 +154,20 @@ public class GameView extends SurfaceView implements Runnable {
             drawBat();
             drawStage();
             drawStats();
+            level.drawBall(canvas);
             checkAndDrawWinScreen();
             boolean end = checkAndDrawEndGame();
 
             // Draw everything to the screen
             if(!end){ourHolder.unlockCanvasAndPost(canvas);}
+            if (!checkAndDrawEndGame()) {
+                ourHolder.unlockCanvasAndPost((canvas));
+            }
         }
 
     }
 
-    // If GameActivity is paused/stopped
+    // If GameActivity is paused/stoppedq
     // shutdown our thread.
     public void pause() {
         playing = false;
@@ -187,6 +205,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             case MotionEvent.ACTION_MOVE:
                 if (!(player.getLives() == 0)) {
+                if (player.isAlive()) {
                     paused = false;
                 }
                 bat.move(motionEvent.getX());
@@ -203,7 +222,7 @@ public class GameView extends SurfaceView implements Runnable {
         //TODO change starting levels here
         level = new LevelThree(screenX, screenY, getContext());
         level.createBricks(getContext());
-        ball.reset(screenX, screenY, level.getLevel());
+        bat = new Bat(getContext(),screenX, screenY, densityDpi);
         bat.reset(level.getLevel());
     }
 
@@ -281,4 +300,9 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(ball.getBallBitmap(), ball.getRect().left, ball.getRect().top, paint);
     }
 
+    }
+
+    private void drawBat() {
+        canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
+    }
 }

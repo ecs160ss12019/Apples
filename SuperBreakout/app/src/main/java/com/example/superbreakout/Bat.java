@@ -94,6 +94,10 @@ public class Bat extends GameObject {
             rect.right = x + width;
         } else {
             stunTimer -= 1;
+        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10 && rect.left>= x){
+            x -= paddleSpeed / fps;
+        }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
+            x += paddleSpeed/fps;
         }
     }
 

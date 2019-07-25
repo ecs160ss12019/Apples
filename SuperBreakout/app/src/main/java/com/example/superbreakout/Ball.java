@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-
 import java.util.Random;
 
 public class Ball extends GameObject {
@@ -18,6 +17,8 @@ public class Ball extends GameObject {
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
     private int screenX;
     private int screenY;
+    private boolean active;
+    Context context;
 
     // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
@@ -31,11 +32,15 @@ public class Ball extends GameObject {
 
         this.screenX = screenX;
         this.screenY = screenY;
+<<<<<<< HEAD
 
         // Ball has issues here
         this.width = 10;
         this.height = 10;
 
+=======
+        this.context = context;
+>>>>>>> refactor-ball/an
         // creates new rectangle object for ball
         rect = new RectF();
 
@@ -44,10 +49,9 @@ public class Ball extends GameObject {
 
         // width and height has to be added by these specific numbers to make ball look proportional
         bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
-
-        // loads in asset and turns it into bitmaps
-        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
-        ballBitmap = Bitmap.createScaledBitmap(ballBitmap, bitmapDimensions.width, bitmapDimensions.height, true);
+        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inactiveball);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap,
+                bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
     /* This function updates the movement of the ball
@@ -96,7 +100,7 @@ public class Ball extends GameObject {
                 this.setBallSpeed(11000);
                 break;
             default:
-                this.setBallSpeed(12000);
+                this.setBallSpeed(7000);
                 break;
         }
 
@@ -293,16 +297,43 @@ public class Ball extends GameObject {
         }
     }
 
-    public void checkBallBatCollision(Bat bat){
+    public boolean checkBallBatCollision(Bat bat){
         // Check for ball colliding with paddle
         if(this.intersect(bat)) {
+            if(!getActive()){
+                makeActive();
+            }
+
             // Interpolate the incoming position for computation of the new Velocity
             float midBall = getMiddle();
             float midBat = bat.getMiddle();
             float fracDisplacementFromMid = (midBall - midBat) / midBat;
 
             getNewVelocity(fracDisplacementFromMid, bat);
+
+            return true;
         }
+        return false;
     }
 
+<<<<<<< HEAD
+=======
+    public boolean checkMissBall(){
+        if (getRect().bottom > screenY) return true;
+        return false;
+    }
+
+    public boolean getActive(){ return active;}
+
+    public void makeActive(){
+        active =  true;
+        // loads in asset and turns it into bitmaps
+        ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
+        ballBitmap = Bitmap.createScaledBitmap(ballBitmap,
+                bitmapDimensions.width, bitmapDimensions.height, true);
+    }
+
+    public void playerMissedBall(){ active = false;}
+
+>>>>>>> refactor-ball/an
 }

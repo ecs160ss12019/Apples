@@ -1,16 +1,16 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import com.example.superbreakout.Obstacle;
-import com.example.superbreakout.Level;
-import com.example.superbreakout.LevelFour;
 
 public class LevelThree extends Level{
 
     public static final int LEVEL_THREE = 3;
+    public static final int BALLS_IN_LEVEL = 1;
+
     public LevelThree(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_THREE;
+        ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
     }
 
@@ -33,6 +33,9 @@ public class LevelThree extends Level{
                 int rand = 1;
                 if(randomizer.getRandBoolean()) {
                    rand = randomizer.getRandNumber(-1,2);
+                int rand = 0;
+                if(randomizer.getRandBoolean()) {
+                    rand = randomizer.getRandNumber(1,2);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
@@ -52,13 +55,26 @@ public class LevelThree extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
+<<<<<<< HEAD
 
         this.initializeExplosion();
+        createBalls(context,screenX,screenY);
     }
 
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
         return new LevelFour(screenX, screenY, context);
+    }
+
+    @Override
+    public void createBalls(Context context, int screenX, int screenY){
+        balls = new Ball[ballsInLevel];
+
+        for(int i =0; i<ballsInLevel; i++){
+            balls[i] = new Ball(context, screenX, screenY);
+            balls[i].reset(screenX,screenY,level);
+        }
+        balls[0].makeActive();
     }
 }
