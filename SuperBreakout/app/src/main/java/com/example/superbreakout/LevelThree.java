@@ -51,14 +51,6 @@ public class LevelThree extends Level{
         this.initializeExplosion();
     }
 
-    private void createPocket(int colStart, int rowStart, int rowsInLevel, Obstacle[] bricks, int width, int height) {
-        for(int column = colStart; column < colStart+width; column++) {
-            for (int row = rowStart; row < rowStart+height; row++) {
-                bricks[column * rowsInLevel + row].setInvisible();
-            }
-        }
-    }
-
     @Override
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.

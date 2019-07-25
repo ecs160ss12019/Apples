@@ -77,6 +77,14 @@ public abstract class Level {
         }
     }
 
+    public void createPocket(int colStart, int rowStart, int rowsInLevel, Obstacle[] bricks, int width, int height) {
+        for(int column = colStart; column < colStart+width; column++) {
+            for (int row = rowStart; row < rowStart+height; row++) {
+                bricks[column * rowsInLevel + row].setInvisible();
+            }
+        }
+    }
+
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick
