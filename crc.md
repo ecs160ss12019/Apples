@@ -98,6 +98,7 @@
                 <li>Obstacle</li>
                 <li>Frame</li>
                 <li>SuperBreakoutGame</li>
+                <li>Effect</li>
             </ul>
         </td>
     </tr>
@@ -228,6 +229,7 @@
                 <li>Downgrade</li>
                 <li>Ball</li>
                 <li>Bat</li>
+                <li>Debris</li>
             </ul>
         </td>
     </tr>
