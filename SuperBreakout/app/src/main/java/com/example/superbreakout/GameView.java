@@ -66,7 +66,6 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
-        bat = new Bat(context, screenX, screenY, densityDpi);
         startNewGame();
 
         randomizer = new Randomizer();
@@ -96,7 +95,6 @@ public class GameView extends SurfaceView implements Runnable {
         level.update(fps, bat, player);
         if (!level.atLeastOneBallAlive()) {
             paused = true;
-
             if (player.isAlive()) {
                 level.resetLevel();
             }
@@ -130,10 +128,10 @@ public class GameView extends SurfaceView implements Runnable {
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
 
-            level.drawBall(canvas);
             drawBat();
             drawStage();
             drawStats();
+            level.drawBall(canvas);
             checkAndDrawWinScreen();
 
             // Draw everything to the screen
@@ -194,7 +192,8 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame() {
         player = new Player();
-        level = new LevelOne(screenX, screenY, getContext());
+        level = new LevelThree(screenX, screenY, getContext());
+        level.createBricks(getContext());
         bat = new Bat(getContext(),screenX, screenY, densityDpi);
         bat.reset(level.getLevel());
     }
