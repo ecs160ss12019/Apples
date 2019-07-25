@@ -34,8 +34,8 @@ public abstract class Obstacle extends GameObject {
 
         rect = new RectF( column * width + horzPadding,
                 row * height + vertPadding,
-                column * width + width + horzPadding,
-                row * height + height + vertPadding);
+                column * width + width + horzPadding - horzPadding/20,
+                row * height + height + vertPadding - vertPadding/15);
     }
 
     public Bitmap getBricksBitmap() {return bricksBitmap;}
