@@ -237,7 +237,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void checkAndDrawWinScreen() {
-        if (level.getLevel() == LevelThree.LEVEL_THREE && level.levelCompleted()) {
+        if (level.getLevel() == LevelFive.LEVEL_FIVE && level.levelCompleted()) {
             paint.setColor(getResources().getColor(R.color.colorAccent));
             canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
                     (densityDpi / 1), paint);
