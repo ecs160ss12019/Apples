@@ -70,22 +70,6 @@
 
 <table>
     <tr>
-        <td style="text-align: center;"colspan="2">Frame</td>
-    </tr>
-    <tr>
-        <td>Boundary that the ball can bounce around. Note that only any collision with the edge under the Bat will result in a defeat. Also, Debris falls through the bottom edge.</td>
-        <td>
-            <ul>
-                <li>Ball</li>
-                <li>Debris</li>
-                <li>SuperBreakoutGame</li>
-            </ul>
-        </td>
-    </tr>
-</table>
-
-<table>
-    <tr>
         <td style="text-align: center;" colspan="2">Obstacle</td>
     </tr>
     <tr>
@@ -152,6 +136,66 @@
                 <li>SuperBreakoutActivity</li>
                 <li>GameObject</li>
                 <li>BitmapDimensions</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">DurabilityZero - DurabilityThree</td>
+    </tr>
+    <tr>
+        <td>Creates new obstacles for each durability for new bitmap.</td>
+        <td>
+            <ul>
+                <li>Obstacle</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">DurabilityFactory</td>
+    </tr>
+    <tr>
+        <td>Creates new obstacles with varying durability</td>
+        <td>
+            <ul>
+                <li>Obstacle</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">Level</td>
+    </tr>
+    <tr>
+        <td>The map design for each level and contains the balls for the level. Once beat level, advance to the next</td>
+        <td>
+            <ul>
+                <li>Obstacle</li>
+                <li>Debris</li>
+                <li>Balls</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">LevelOne - LevelFive</td>
+    </tr>
+    <tr>
+        <td>Each level has a design for that specify level ranging from map design, obstacle durability, and number of balls.</td>
+        <td>
+            <ul>
+                <li>Level</li>
             </ul>
         </td>
     </tr>
