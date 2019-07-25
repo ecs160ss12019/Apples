@@ -143,7 +143,7 @@
 
 <table>
     <tr>
-        <td style="text-align: center;"colspan="2">DurabilityZero - DurabilityThree</td>
+        <td style="text-align: center;"colspan="2">DurabilityZero - DurabilityThree and Explosive</td>
     </tr>
     <tr>
         <td>Creates new obstacles for each durability for new bitmap.</td>
@@ -161,7 +161,7 @@
         <td style="text-align: center;"colspan="2">DurabilityFactory</td>
     </tr>
     <tr>
-        <td>Creates new obstacles with varying durability</td>
+        <td>Creates new obstacles with varying durability and characteristics</td>
         <td>
             <ul>
                 <li>Obstacle</li>
