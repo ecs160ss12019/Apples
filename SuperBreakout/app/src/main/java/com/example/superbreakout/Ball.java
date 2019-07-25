@@ -32,15 +32,11 @@ public class Ball extends GameObject {
 
         this.screenX = screenX;
         this.screenY = screenY;
-<<<<<<< HEAD
-
         // Ball has issues here
         this.width = 10;
         this.height = 10;
 
-=======
         this.context = context;
->>>>>>> refactor-ball/an
         // creates new rectangle object for ball
         rect = new RectF();
 
@@ -265,11 +261,6 @@ public class Ball extends GameObject {
         }
     }
 
-    public boolean checkMissBall(){
-        if (getRect().bottom > screenY) return true;
-        return false;
-    }
-
     // Setter for ball speed
     // Might be needed for additional features (upgrades or downgrades to ball speed)
     public void setBallSpeed(double ballSpeed) {
@@ -316,8 +307,6 @@ public class Ball extends GameObject {
         return false;
     }
 
-<<<<<<< HEAD
-=======
     public boolean checkMissBall(){
         if (getRect().bottom > screenY) return true;
         return false;
@@ -334,6 +323,4 @@ public class Ball extends GameObject {
     }
 
     public void playerMissedBall(){ active = false;}
-
->>>>>>> refactor-ball/an
 }

@@ -79,26 +79,18 @@ public class Bat extends GameObject {
     // This update method will be called from update in BreakoutView
     // It determines if the paddle needs to move and changes the coordinates
     // contained in rect if necessary
+
     public void update(long fps) {
 
-        // Do not update (move), if the bat is stunned.
-        if(stunTimer == 0) {
-            if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
-                x -= paddleSpeed / fps;
-            }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
-                x += paddleSpeed/fps;
-            }
-
-            // Apply the New position
-            rect.left = x;
-            rect.right = x + width;
-        } else {
-            stunTimer -= 1;
         if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10 && rect.left>= x){
             x -= paddleSpeed / fps;
         }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
             x += paddleSpeed/fps;
         }
+
+        // Apply the New position
+        rect.left = x;
+        rect.right = x + width;
     }
 
 

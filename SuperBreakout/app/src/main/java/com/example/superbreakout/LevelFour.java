@@ -30,16 +30,11 @@ public class LevelFour extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 1;
-                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
-                    rand = randomizer.getRandNumber(-1,3);
-                }
                 int rand = 0;
 
                 if(randomizer.getRandBoolean()) {
                     rand = randomizer.getRandNumber(1,3);
                 }
-
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
                         brickWidth/4, brickHeight/5,rand);

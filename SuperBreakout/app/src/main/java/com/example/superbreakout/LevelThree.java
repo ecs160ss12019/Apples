@@ -5,7 +5,7 @@ import android.content.Context;
 public class LevelThree extends Level{
 
     public static final int LEVEL_THREE = 3;
-    public static final int BALLS_IN_LEVEL = 1;
+    public static final int BALLS_IN_LEVEL = 2;
 
     public LevelThree(int x, int y, Context currentContext){
         super(x,y, currentContext);
@@ -30,9 +30,6 @@ public class LevelThree extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 1;
-                if(randomizer.getRandBoolean()) {
-                   rand = randomizer.getRandNumber(-1,2);
                 int rand = 0;
                 if(randomizer.getRandBoolean()) {
                     rand = randomizer.getRandNumber(1,2);
@@ -55,7 +52,6 @@ public class LevelThree extends Level{
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
-<<<<<<< HEAD
 
         this.initializeExplosion();
         createBalls(context,screenX,screenY);

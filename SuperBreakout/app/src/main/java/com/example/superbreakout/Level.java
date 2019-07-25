@@ -21,7 +21,7 @@ public abstract class Level {
     Ball[] balls;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
     Debris[] debris = new Debris[bricksInLevel];
-//    Upgrade[] ug = new Upgrade[bricksInLevel];
+    //    Upgrade[] ug = new Upgrade[bricksInLevel];
 //    Downgrade[] dg = new Downgrade[bricksInLevel];
     Context context;
 
@@ -37,6 +37,7 @@ public abstract class Level {
         FX = new SoundEffects(context);
     }
 
+    public void draw(Canvas canvas, Paint paint) {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
                 canvas.drawBitmap(bricks[i].getBricksBitmap(),
@@ -45,10 +46,9 @@ public abstract class Level {
                         paint);
             }
         }
-
         // Draw the debris if active
-        for(int i = 0; i < bricksInLevel; i++) {
-            if(debris[i].getActive()) {
+        for (int i = 0; i < bricksInLevel; i++) {
+            if (debris[i].getActive()) {
                 // Change paint color depending on debris type
                 switch (debris[i].getDebrisType()) {
                     case "Harmful":
@@ -69,8 +69,8 @@ public abstract class Level {
     }
 
     public void initializeExplosion() {
-        for(int i = 0; i < bricksInLevel; i++) {
-            if(bricks[i] instanceof Explosive) {
+        for (int i = 0; i < bricksInLevel; i++) {
+            if (bricks[i] instanceof Explosive) {
                 bricks[i].setNeighbors(bricks, rowsInLevel, columnsInLevel);
             }
         }
@@ -79,15 +79,12 @@ public abstract class Level {
     public boolean checkCollision(Ball ball) {
         boolean hit = false;
         // Check for ball colliding with a brick
-        for (int i = 0; i < bricksInLevel; i++) {
-            if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect()) || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
-                    FX.playFX();
+        if (ball.getActive()) {
 
-        if(ball.getActive()) {
             for (int i = 0; i < bricksInLevel; i++) {
                 if (bricks[i].getVisibility()) {
-                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())
+                            || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
                         FX.playFX();
 
                         if (bricks[i].getDurability() == 0) {
@@ -105,83 +102,58 @@ public abstract class Level {
                     }
                 }
             }
-            return hit;
-        }else{
+        } else {
             for (int i = 0; i < bricksInLevel; i++) {
                 if (bricks[i].getVisibility()) {
                     if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-
-                    if(!debris[i].getDebrisType().equals("None")) {
-                        debris[i].activate();
-
-                        // BUG
-//                        if(debris[i].getDebrisType().equals("Upgrade")) {
-//                            ug[i] = new Upgrade();
-//                        } else if(debris[i].getDebrisType().equals("Downgrade")) {
-//                            dg[i] = new Downgrade();
-//                        }
-
                         ball.reverseYVelocity();
                     }
                 }
             }
         }
+        return hit;
     }
 
-    public void checkDebrisCollision(Ball ball, Bat bat) {
-        for(int i = 0; i < bricksInLevel; i++) {
-            if(debris[i].getActive()) {
 
-                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
-                    // Checks ball/debris collision
-                    debris[i].deactivate();
-                } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    // Checks ball/bat debris collision
+    public void checkDebrisCollision(Bat bat) {
+        for (int i = 0; i < bricksInLevel; i++) {
+            for (int j = 0; j < ballsInLevel; j++) {
+                if (debris[i].getActive()) {
+                    if (RectF.intersects(debris[i].getRect(), balls[j].getRect())) {
+                        // Checks ball/debris collision
+                        debris[i].deactivate();
+                    } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
+                        // Checks ball/bat debris collision
 
-                    // receive effect based on debris type
-                    switch(debris[i].getDebrisType()) {
-                        case "Harmful":
-                            // do something
-                            bat.stun();
-                            break;
-                        case "Upgrade":
-                            Upgrade ugs = new Upgrade();
-                            applyUpgrade(ugs, ball, bat);
-                            break;
-                        case "Downgrade":
-                            Downgrade dgs = new Downgrade();
-                            applyDowngrade(dgs, ball, bat);
-                            break;
+                        // receive effect based on debris type
+                        switch (debris[i].getDebrisType()) {
+                            case "Harmful":
+                                // do something
+                                bat.stun();
+                                break;
+                            case "Upgrade":
+                                Upgrade ugs = new Upgrade();
+                                applyUpgrade(ugs, balls[j], bat);
+                                break;
+                            case "Downgrade":
+                                Downgrade dgs = new Downgrade();
+                                applyDowngrade(dgs, balls[j], bat);
+                                break;
+                        }
+
+                        debris[i].deactivate();
                     }
-
-                    debris[i].deactivate();
                 }
             }
         }
     }
 
-    public Level advanceNextLevel(){
-        return new LevelOne(screenX, screenY, context);
-    }
-
-    public boolean levelCompleted(){
-        if(numAliveBricks == 0)
-            return true;
-        else
-            return false;
-    }
-
-    public int getLevel(){ return level;}
-
-    private void hitObstacle() {
-        numAliveBricks--;
-    }
 
     public void update(long fps, Bat bat, Player player) {
         for (int i = 0; i < ballsInLevel; i++) {
             balls[i].update(fps);
             if (!balls[i].checkBallBatCollision(bat)) {// If bat didn't hit the ball
-                if (checkCollision(balls[i])&& balls[i].getActive() ) {
+                if (checkCollision(balls[i]) && balls[i].getActive()) {
                     player.hitBrick();
                 } else if (balls[i].getActive()) {
                     checkMissBall(balls[i], player);
@@ -205,7 +177,7 @@ public abstract class Level {
             player.missBrick(); // Reset consecutive hits
             ball.playerMissedBall();
 
-            if(!atLeastOneBallAlive()){
+            if (!atLeastOneBallAlive()) {
                 player.reduceLifeByOne();
             }
         }
@@ -231,23 +203,30 @@ public abstract class Level {
         resetLevel();
     }
 
-    abstract void createBricks(Context context);
+    private void hitObstacle() {
+        numAliveBricks--;
+    }
 
-    abstract Level advanceNextLevel();
+    public boolean levelCompleted() {
+        if (numAliveBricks == 0) return true;
+        else return false;
+    }
 
-    private void hitObstacle(){ numAliveBricks--;}
+    public int getLevel() {
+        return level;
+    }
 
     public void updateDebris() {
         // Updates the position of all active debris
-        for(int i = 0; i < bricksInLevel; i++) {
-            if(debris[i].getActive()) {
+        for (int i = 0; i < bricksInLevel; i++) {
+            if (debris[i].getActive()) {
                 debris[i].update();
             }
         }
     }
 
     private void applyUpgrade(Upgrade ug, Ball ball, Bat bat) {
-        switch(ug.getEffectTarget()) {
+        switch (ug.getEffectTarget()) {
             case "Ball":
                 ball.applyUpgrade(ug.upgradeName);
                 break;
@@ -258,7 +237,7 @@ public abstract class Level {
     }
 
     private void applyDowngrade(Downgrade dg, Ball ball, Bat bat) {
-        switch(dg.getEffectTarget()) {
+        switch (dg.getEffectTarget()) {
             case "Ball":
                 ball.applyDowngrade(dg.downgradeName);
                 break;
@@ -267,3 +246,9 @@ public abstract class Level {
                 break;
         }
     }
+
+    abstract void createBricks(Context context);
+
+    abstract Level advanceNextLevel();
+}
+
