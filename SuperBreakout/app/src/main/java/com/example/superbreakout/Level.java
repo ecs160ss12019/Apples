@@ -71,7 +71,7 @@ public abstract class Level {
         // Check for ball colliding with a brick
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect()) || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
                     FX.playFX();
 
                     if(bricks[i].getDurability() == 0) {
