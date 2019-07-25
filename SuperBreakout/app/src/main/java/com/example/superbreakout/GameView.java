@@ -1,8 +1,6 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,24 +8,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-
 import androidx.core.view.GestureDetectorCompat;
-
-import java.io.IOException;
-import java.lang.Math;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -60,14 +47,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     Bitmap backgroundImage;
 
-    // Sounds
-    // SoundPool sp;
-    // SoundEffects FX;
-
-    // Sets gesture compat object
-    private GestureDetectorCompat gestureDetectorCompat = null;
-
-
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
@@ -97,49 +76,6 @@ public class GameView extends SurfaceView implements Runnable {
         startNewGame();
 
         randomizer = new Randomizer();
-        // FX = new SoundEffects(getContext());
-
-
-        // Instantiate a SoundPool dependent on Android version
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // The new way
-            // Build an AudioAttributes object
-            AudioAttributes audioAttributes =
-                    // First method call
-                    new AudioAttributes.Builder()
-                            // Second method call
-                            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                            // Third method call
-                            .setContentType
-                                    (AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                            // Fourth method call
-                            .build();
-
-            // Initialize the SoundPool
-            sp = new SoundPool.Builder()
-                    .setMaxStreams(3) // sets maximum amount of fx at a single instance to be 3
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } */
-
-        /*
-        try{
-            // Create objects of the 2 required classes
-            AssetManager assetManager = getContext().getAssets();
-            AssetFileDescriptor descriptor1;
-            AssetFileDescriptor descriptor2;
-            // Load our fx in memory ready for use
-            descriptor1 = assetManager.openFd("blip-1.wav");
-            idFX1 = sp.load(descriptor1, 0);
-        } catch(IOException e){
-            // Print an error message to the console
-            Log.d("Error", "=Failed to load sound files");
-        } */
-
-
-        // Create bricks for level 1
-        // createBricksAndRestart(1);
     }
 
     @Override
@@ -193,23 +129,11 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
-            // Draw the background color
-            // canvas.drawColor(Color.argb(255, 153, 204, 255));
-
-            // Gets resources for background images
-            // Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
-            // Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
-
-
             // Gets background dimensions
             dest = new Rect(0, 0, getWidth(), getHeight());
 
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
-            // paint.setAlpha(100);
-            // canvas.drawBitmap(clouds, null, dest, paint);
-            // paint.setAlpha(255);
-
 
             drawBall();
             drawBat();
@@ -282,8 +206,8 @@ public class GameView extends SurfaceView implements Runnable {
         canvas = ourHolder.lockCanvas();
         canvas.drawText("Game Over!",
                 screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+        drawStats();
         ourHolder.unlockCanvasAndPost(canvas);
-        startNewGame();
 
         try {
             // Wait 3 seconds then reset a new game
@@ -291,6 +215,7 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        startNewGame();
     }
 
     private boolean checkMissBall() {
@@ -298,13 +223,11 @@ public class GameView extends SurfaceView implements Runnable {
             player.missBrick(); // Reset points
             player.reduceLifeByOne(); // Lose a life
 
-
-            ball.reset(screenX, screenY, level.getLevel());
-            paused = true;
-
             if (!player.isAlive()) {
                 endGame();
             }
+            ball.reset(screenX, screenY, level.getLevel());
+            paused = true;
             return true;
         }
         return false;
