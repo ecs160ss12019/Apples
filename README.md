@@ -20,5 +20,5 @@ Link to our repo:
 https://github.com/ecs160ss12019/Apples
 
 ## Screenshots 
-[screenshot_1](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/game.png)
-[screenshot 2](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/main-menu.png)
+![screenshot_1](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/game.png)
+![screenshot 2](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/main-menu.png)
