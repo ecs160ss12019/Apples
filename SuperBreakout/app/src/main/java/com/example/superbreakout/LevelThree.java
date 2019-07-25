@@ -8,6 +8,8 @@ import com.example.superbreakout.LevelFour;
 public class LevelThree extends Level{
 
     public static final int LEVEL_THREE = 3;
+    public static final int BALLS_IN_LEVEL = 1;
+
     public LevelThree(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_THREE;
@@ -59,4 +61,5 @@ public class LevelThree extends Level{
         // Add Win screen and create Level one again.
         return new LevelFour(screenX, screenY, context);
     }
+
 }

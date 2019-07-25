@@ -5,6 +5,8 @@ import android.content.Context;
 public class LevelFour extends Level{
 
     public static final int LEVEL_FOUR = 4;
+    public static final int BALLS_IN_LEVEL = 3;
+
     public LevelFour(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_FOUR;
@@ -27,10 +29,12 @@ public class LevelFour extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 1;
-               /*if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
+                int rand = 0;
+
+                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
                     rand = randomizer.getRandNumber(1,2);
-                }*/
+                }
+
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
                         brickWidth/4, brickHeight/5,rand);
@@ -55,5 +59,16 @@ public class LevelFour extends Level{
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
         return new LevelFive(screenX, screenY, context);
+    }
+
+    @Override
+    public void createBalls(Context context, int screenX, int screenY){
+        balls = new Ball[BALLS_IN_LEVEL];
+
+        for(int i =0; i<BALLS_IN_LEVEL; i++){
+            balls[i] = new Ball(context, screenX, screenY);
+        }
+        balls[0].reset(screenX,screenY,level);
+
     }
 }

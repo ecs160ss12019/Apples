@@ -16,7 +16,7 @@ public class Ball extends GameObject {
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
     private int screenX;
     private int screenY;
-    private boolean isActive;
+    private boolean active;
 
 
     // Make it a 60 pixel x 60 pixel square
@@ -250,16 +250,23 @@ public class Ball extends GameObject {
         }
     }
 
-    public void checkBallBatCollision(Bat bat){
+    public boolean checkBallBatCollision(Bat bat){
         // Check for ball colliding with paddle
         if(this.intersect(bat)) {
+            if(!getActive()){
+                makeActive();
+            }
+
             // Interpolate the incoming position for computation of the new Velocity
             float midBall = getMiddle();
             float midBat = bat.getMiddle();
             float fracDisplacementFromMid = (midBall - midBat) / midBat;
 
             getNewVelocity(fracDisplacementFromMid, bat);
+
+            return true;
         }
+        return false;
     }
 
     public boolean checkMissBall(){
@@ -267,7 +274,10 @@ public class Ball extends GameObject {
         return false;
     }
 
-    public boolean getIsActive(){ return isActive;}
+    public boolean getActive(){ return active;}
 
-    private void setIsActive(){ isActive = true;}
+    public void makeActive(){ active =  true;}
+
+    public void playerMissedBall(){ active = false;}
+
 }

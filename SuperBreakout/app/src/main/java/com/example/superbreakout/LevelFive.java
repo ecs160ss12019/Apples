@@ -6,6 +6,8 @@ import android.content.Context;
 public class LevelFive extends Level{
 
     public static final int LEVEL_FIVE = 5;
+    public static final int BALLS_IN_LEVEL = 3;
+
     public LevelFive(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_FIVE;
@@ -55,5 +57,15 @@ public class LevelFive extends Level{
     public Level advanceNextLevel(){
         // Add Win screen and create Level one again.
         return new LevelOne(screenX, screenY, context);
+    }
+
+    @Override
+    public void createBalls(Context context, int screenX, int screenY){
+        balls = new Ball[BALLS_IN_LEVEL];
+
+        for(int i =0; i<BALLS_IN_LEVEL; i++){
+            balls[i] = new Ball(context, screenX, screenY);
+        }
+        balls[0].reset(screenX,screenY,level);
     }
 }

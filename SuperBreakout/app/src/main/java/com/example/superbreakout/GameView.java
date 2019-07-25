@@ -1,8 +1,6 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,26 +8,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-import com.example.superbreakout.Level;
-import com.example.superbreakout.Level.*;
-
-import androidx.core.view.GestureDetectorCompat;
-
-import java.io.IOException;
-import java.lang.Math;
+//import androidx.core.view.GestureDetectorCompat;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -49,7 +34,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     // Objects of the game
     Bat bat;
-    Ball ball;
     Player player;
     Level level;
 
@@ -60,12 +44,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     Randomizer randomizer;
 
-    // Sounds
-    // SoundPool sp;
-    // SoundEffects FX;
-
     // Sets gesture compat object
-    private GestureDetectorCompat gestureDetectorCompat = null;
+    //private GestureDetectorCompat gestureDetectorCompat = null;
 
 
     public GameView(Context context, AttributeSet attrs) {
@@ -87,7 +67,6 @@ public class GameView extends SurfaceView implements Runnable {
         densityDpi = dm.densityDpi;
 
         bat = new Bat(context, screenX, screenY, densityDpi);
-        ball = new Ball(context, screenX, screenY);
         startNewGame();
 
         randomizer = new Randomizer();
@@ -114,24 +93,21 @@ public class GameView extends SurfaceView implements Runnable {
     public void update() {
 
         bat.update(fps);
-        ball.update(fps);
-        //updateDebris(fps);
-        //ballDebrisCollision();
-        //batDebrisCollision();
+        level.update(fps, bat, player);
+        if(!level.atLeastOneBallAlive()){
+            paused = true;
 
-        ball.checkBallBatCollision(bat);
-
-        if(!checkMissBall()) {
-           if(level.checkCollision(ball)){
-                player.hitBrick();
-                if(level.levelCompleted()){
-                    level = level.advanceNextLevel();
-                    level.createBricks(getContext());
-                }
+            if(!player.isAlive()){
+                endGame();
+            }else {
+                level.resetLevel();
             }
-            ball.checkWallBounce();
+        }else{
+            if(level.levelCompleted()){
+                level = level.advanceNextLevel();
+                level.createBricks(getContext());
+            }
         }
-
     }
 
     // Draw the newly updated scene
@@ -144,12 +120,9 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
 
-            // Draw the background color
-            // canvas.drawColor(Color.argb(255, 153, 204, 255));
-
             // Gets resources for background images
             Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
-            Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
+            //Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
 
 
             // Gets background dimensions
@@ -157,12 +130,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
-            // paint.setAlpha(100);
-            // canvas.drawBitmap(clouds, null, dest, paint);
-            // paint.setAlpha(255);
 
-
-            drawBall();
+            level.drawBall(canvas);
             drawBat();
             drawStage();
             drawStats();
@@ -221,8 +190,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void startNewGame(){
         player = new Player();
         level = new LevelOne(screenX, screenY, getContext());
-        level.createBricks(getContext());
-        ball.reset(screenX, screenY, level.getLevel());
+        //level.createBricks(getContext());
         bat.reset(level.getLevel());
     }
 
@@ -241,23 +209,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
         startNewGame();
 
-    }
-
-    private boolean checkMissBall(){
-        if (ball.checkMissBall()) {
-            player.missBrick(); // Reset points
-            player.reduceLifeByOne(); // Lose a life
-
-
-            ball.reset(screenX, screenY, level.getLevel());
-            paused = true;
-
-            if (!player.isAlive()) {
-                endGame();
-            }
-            return true;
-        }
-        return false;
     }
 
     private void drawStats(){
@@ -298,42 +249,4 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawBat(){
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
-
-    private void drawBall(){
-        canvas.drawBitmap(ball.getBallBitmap(),ball.getRect().left,ball.getRect().top,paint);
-    }
-
-    /*
-    private void updateDebris(long fps) {
-        // Updates the position of all active debris
-        for (int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                debris[i].update(fps);
-            }
-        }
-    }
-
-    private void ballDebrisCollision() {
-        // Check for ball colliding with a debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), ball.getRect())) {
-                    debris[i].deactivate();
-                }
-            }
-        }
-    }
-
-    private void batDebrisCollision() {
-        // Check for bat colliding with a Debris
-        for(int i = 0; i < numBricks; i++) {
-            if(debris[i].getActive()) {
-                if(RectF.intersects(debris[i].getRect(), bat.getRect())) {
-                    debris[i].deactivate();
-                    // implement apply debris effect to bat
-                }
-            }
-        }
-    }
-    */
 }
