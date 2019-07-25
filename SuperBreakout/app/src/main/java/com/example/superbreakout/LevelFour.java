@@ -14,41 +14,38 @@ public class LevelFour extends Level{
     @Override
     public void createBricks(Context context){
         DurabilityFactory durabilityFactory = new DurabilityFactory();
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
-        bricksInLevel = 32;
+        int brickWidth = screenX / 12;
+        int brickHeight = screenY / 20;
+        bricksInLevel = 44;
         rowsInLevel = 4;
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
-        numAliveBricks = 24;
+        numAliveBricks = 30;
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 1;
-                if(randomizer.getRandBoolean() && bricks[numBricks].getVisibility()) {
-                    rand = randomizer.getRandNumber(-1,3);
+                if(randomizer.getRandBoolean()) {
+                    rand = randomizer.getRandNumber(-1,2);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
-                        brickWidth/4, brickHeight/5,rand);
+                        brickWidth/2, brickHeight/3,rand);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
-        for (int row = 1; row < 3; row++) {
-            bricks[1*rowsInLevel + row].setInvisible();
-            bricks[6*rowsInLevel + row].setInvisible();
-        }
-        for(int column = 3; column < 5; column++) {
-            for (int row = 1; row < 3; row++) {
-                bricks[column * rowsInLevel + row].setInvisible();
-            }
-        }
+
+        this.createPocket(1,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(8,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(4,1, rowsInLevel, bricks, 3, 2);
+
+        this.initializeExplosion();
     }
 
     @Override
