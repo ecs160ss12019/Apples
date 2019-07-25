@@ -15,7 +15,7 @@ public abstract class Level {
     int screenY;
     int numAliveBricks;
     int level = 0;
-    int ballsInLevel = 1;
+    int ballsInLevel;
 
     Ball[] balls;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
@@ -38,8 +38,8 @@ public abstract class Level {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
                 canvas.drawBitmap(bricks[i].getBricksBitmap(),
-                        bricks[i].getRect().left,
-                        bricks[i].getRect().top,
+                        null,
+                        bricks[i].getRect(),
                         paint);
             }
         }
@@ -49,30 +49,40 @@ public abstract class Level {
         boolean hit = false;
         // Check for ball colliding with a brick
 
-        for (int i = 0; i < bricksInLevel; i++) {
-            if (bricks[i].getVisibility()) {
-                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    FX.playFX();
+        if(ball.getActive()) {
+            for (int i = 0; i < bricksInLevel; i++) {
+                if (bricks[i].getVisibility()) {
+                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                        FX.playFX();
 
-                    if (bricks[i].getDurability() == 0) {
-                        bricks[i].setInvisible();
-                        hitObstacle();
-                    } else {
-                        bricks[i] = bricks[i].reduceDurability();
-                    }
+                        if (bricks[i].getDurability() == 0) {
+                            bricks[i].setInvisible();
+                            hitObstacle();
+                        } else {
+                            bricks[i] = bricks[i].reduceDurability();
+                        }
 
-                    if (!debris[i].getDebrisType().equals("None")) {
-                        debris[i].activate();
+                        if (!debris[i].getDebrisType().equals("None")) {
+                            debris[i].activate();
+                        }
+                        ball.reverseYVelocity();
+                        hit = true;
                     }
-                    ball.reverseYVelocity();
-                    hit = true;
+                }
+            }
+            return hit;
+        }else{
+            for (int i = 0; i < bricksInLevel; i++) {
+                if (bricks[i].getVisibility()) {
+                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+
+                        ball.reverseYVelocity();
+                    }
                 }
             }
         }
-        return hit;
+        return false;
     }
-
-    abstract Level advanceNextLevel();
 
     public boolean levelCompleted() {
         if (numAliveBricks == 0)
@@ -93,13 +103,13 @@ public abstract class Level {
         for (int i = 0; i < ballsInLevel; i++) {
             balls[i].update(fps);
             if (!balls[i].checkBallBatCollision(bat)) {// If bat didn't hit the ball
-                if (checkCollision(balls[i]) && balls[i].getActive()) {
+                if (checkCollision(balls[i])&& balls[i].getActive() ) {
                     player.hitBrick();
                 } else if (balls[i].getActive()) {
                     checkMissBall(balls[i], player);
                 }
-                balls[i].checkWallBounce();
             }
+            balls[i].checkWallBounce();
         }
     }
 
@@ -112,7 +122,7 @@ public abstract class Level {
         return false;
     }
 
-    private void checkMissBall(Ball ball, Player player) {
+    protected void checkMissBall(Ball ball, Player player) {
         if (ball.checkMissBall()) {
             player.missBrick(); // Reset consecutive hits
             ball.playerMissedBall();
@@ -143,10 +153,11 @@ public abstract class Level {
         for (int i = 0; i < ballsInLevel; i++) {
             balls[i] = new Ball(context, screenX, screenY);
         }
-        balls[0].makeActive();
-        balls[0].reset(screenX, screenY, level);
-
+        resetLevel();
     }
 
     abstract void createBricks(Context context);
+
+    abstract Level advanceNextLevel();
+
 }

@@ -12,8 +12,6 @@ public class LevelTwo extends Level {
         level = LEVEL_TWO;
         ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
-        createBricks(context);
-
     }
 
     @Override

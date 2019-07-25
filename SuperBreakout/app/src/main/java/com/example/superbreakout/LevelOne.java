@@ -13,11 +13,11 @@ public class LevelOne extends Level {
         level = LEVEL_ONE;
         ballsInLevel = BALLS_IN_LEVEL;
         randomizer = new Randomizer();
-        createBricks(context);
     }
 
     @Override
     public void createBricks(Context context){
+        DurabilityFactory durabilityFactory = new DurabilityFactory();
         int brickWidth = screenX / 8;
         int brickHeight = screenY / 10;
         bricksInLevel = 24;
@@ -31,8 +31,8 @@ public class LevelOne extends Level {
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                bricks[numBricks] = new DurabilityZero(context, row, column, brickWidth, brickHeight,
-                        brickWidth/5, brickHeight/4);
+                bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row, column, brickWidth, brickHeight,
+                        brickWidth/5, brickHeight/4,0);
                 if(row == 1) {
                     bricks[numBricks].setInvisible();
                 }

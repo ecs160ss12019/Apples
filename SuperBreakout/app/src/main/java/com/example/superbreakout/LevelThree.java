@@ -67,13 +67,8 @@ public class LevelThree extends Level{
 
         for(int i =0; i<ballsInLevel; i++){
             balls[i] = new Ball(context, screenX, screenY);
-        }
-        balls[0].makeActive();
-        balls[0].reset(screenX, screenY, level);
-
-
-        for(int i = 1; i < ballsInLevel; i++){
             balls[i].reset(screenX,screenY,level);
         }
+        balls[0].makeActive();
     }
 }
