@@ -144,7 +144,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    // If GameActivity is paused/stopped
+    // If GameActivity is paused/stoppedq
     // shutdown our thread.
     public void pause() {
         playing = false;
@@ -180,7 +180,7 @@ public class GameView extends SurfaceView implements Runnable {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (!(player.getLives() == 0)) {
+                if (player.isAlive()) {
                     paused = false;
                 }
                 bat.move(motionEvent.getX());
@@ -195,6 +195,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void startNewGame() {
         player = new Player();
         level = new LevelOne(screenX, screenY, getContext());
+        bat = new Bat(getContext(),screenX, screenY, densityDpi);
         bat.reset(level.getLevel());
     }
 
