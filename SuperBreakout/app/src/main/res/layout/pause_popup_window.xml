@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/clouds">
+
+    <TextView
+        android:id="@+id/pauseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="Paused" />
+
+    <Button
+        android:id="@+id/mainMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pauseLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Main Menu"
+        android:textAllCaps="true" />
+
+    <Button
+    android:id="@+id/settingsButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/mainMenuButton"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="16dp"
+    android:gravity="center"
+    android:text="Settings"
+    android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/leaderboardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Leaderboard"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/resumeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/leaderboardButton"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"
+        android:text="Tap Outside this window to resume" />
+
+</RelativeLayout>

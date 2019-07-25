@@ -32,7 +32,7 @@ public class DurabilityZero extends Obstacle{
     @Override
     public void setBricksBitmap(){
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
-        bitmapDimensions = new BitmapDimensions(200, 50);
+        bitmapDimensions = new BitmapDimensions((int) width, (int) height);
 
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.sprite_01);

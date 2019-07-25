@@ -19,7 +19,6 @@ public class Ball extends GameObject {
     private int screenX;
     private int screenY;
 
-
     // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
@@ -29,8 +28,12 @@ public class Ball extends GameObject {
 
     public Ball(Context context, int screenX, int screenY) {
         super(ballWidth, ballHeight);
+
         this.screenX = screenX;
         this.screenY = screenY;
+
+        this.width = screenX / 50;
+        this.height = screenX / 50;
 
         // creates new rectangle object for ball
         rect = new RectF();
@@ -39,7 +42,7 @@ public class Ball extends GameObject {
         randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
-        bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
+        bitmapDimensions = new BitmapDimensions((int)width, (int)height);
 
         // loads in asset and turns it into bitmaps
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
@@ -50,6 +53,7 @@ public class Ball extends GameObject {
      *
      * @fps: frame rate at which the ball refreshes
      */
+
     public void update(long fps) {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
@@ -63,10 +67,12 @@ public class Ball extends GameObject {
      * @high: upper bound of randomly generated integer
      * @low : lower bound of randomly generated integer
      */
+
+    /*
     public int boundedRandomInt(int high, int low) {
         Random generator = new Random();
         return generator.nextInt(high - low) + low;
-    }
+    }*/
 
     /* This function sets the ball's velocity
      * at random Vy/Vx ratios and the magnitude
