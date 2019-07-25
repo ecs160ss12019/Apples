@@ -72,9 +72,7 @@ public abstract class Level {
         return hit;
     }
 
-    public Level advanceNextLevel() {
-        return new LevelOne(screenX, screenY, context);
-    }
+    abstract Level advanceNextLevel();
 
     public boolean levelCompleted() {
         if (numAliveBricks == 0)
