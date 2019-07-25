@@ -232,3 +232,18 @@
         </td>
     </tr>
 </table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">PauseMenuPopUp</td>
+    </tr>
+    <tr>
+        <td>Contains the pause menu and the options it provides</td>
+        <td>
+            <ul>
+                <li>SettingsMenuPopup</li>
+                <li>SuperBreakoutActivity</li>
+            </ul>
+        </td>
+    </tr>
+</table>
