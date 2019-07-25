@@ -66,11 +66,11 @@ public abstract class Level {
         }*/
     }
 
-    //TODO public void initializeExplosion()
     public void initializeExplosion() {
         for(int i = 0; i < bricksInLevel; i++) {
-            if(bricks[i] instanceof Explosive)
+            if(bricks[i] instanceof Explosive) {
                 bricks[i].setNeighbors(bricks, rowsInLevel, columnsInLevel);
+            }
         }
     }
 

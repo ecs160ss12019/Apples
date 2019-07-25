@@ -32,9 +32,9 @@ public class Explosive extends Obstacle{
         for(int c = columnStart; c <= columnEnd; c++) {
             for(int r = rowStart; r <= rowEnd; r++) {
                 neighborsToDestroy[index] = potentialNeighbors[c*numRows + r];
+                index++;
             }
         }
-
     }
 
     @Override
