@@ -1,13 +1,9 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 
 public class DurabilityThree extends Obstacle {
 
