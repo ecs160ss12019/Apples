@@ -192,7 +192,7 @@ public class GameView extends SurfaceView implements Runnable {
     /************ HELPER FUNCTIONS ************/
     private void startNewGame() {
         player = new Player();
-        level = new LevelThree(screenX, screenY, getContext());
+        level = new LevelFive(screenX, screenY, getContext());
         level.createBricks(getContext());
         bat = new Bat(getContext(),screenX, screenY, densityDpi);
         bat.reset(level.getLevel());

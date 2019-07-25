@@ -87,7 +87,7 @@ public class Ball extends GameObject {
                 this.setBallSpeed(11000);
                 break;
             default:
-                this.setBallSpeed(12000);
+                this.setBallSpeed(7000);
                 break;
         }
 

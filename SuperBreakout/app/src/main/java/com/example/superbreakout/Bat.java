@@ -80,7 +80,7 @@ public class Bat extends GameObject {
     // contained in rect if necessary
     public void update(long fps) {
 
-        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10){
+        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10 && rect.left>= x){
             x -= paddleSpeed / fps;
         }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
             x += paddleSpeed/fps;

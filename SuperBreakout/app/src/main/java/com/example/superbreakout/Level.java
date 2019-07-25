@@ -149,10 +149,7 @@ public abstract class Level {
 
     public void createBalls(Context context, int screenX, int screenY) {
         balls = new Ball[ballsInLevel];
-
-        for (int i = 0; i < ballsInLevel; i++) {
-            balls[i] = new Ball(context, screenX, screenY);
-        }
+        balls[0] = new Ball(context, screenX, screenY);
         resetLevel();
     }
 
