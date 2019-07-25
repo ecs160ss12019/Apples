@@ -214,3 +214,21 @@
         </td>
     </tr>
 </table>
+
+<table>
+    <tr>
+        <td style="text-align: center;"colspan="2">Effect</td>
+    </tr>
+    <tr>
+        <td>Contains the basic aspects of an effect (upgrade or downgrade)</td>
+        <td>
+            <ul>
+                <li>Effect</li>
+                <li>Upgrade</li>
+                <li>Downgrade</li>
+                <li>Ball</li>
+                <li>Bat</li>
+            </ul>
+        </td>
+    </tr>
+</table>
