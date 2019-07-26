@@ -46,6 +46,14 @@ public class SuperBreakoutActivity extends Activity {
                 setContentView(mainLayout);
             }
         });
+
+        final Button setLevel = findViewById(R.id.level);
+        setLevel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                superBreakoutGame.levelIndicator = 3;
+            }
+        });
+
     }
 
     public void onBackPressed(){
