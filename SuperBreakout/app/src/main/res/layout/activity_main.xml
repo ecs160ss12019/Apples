@@ -34,10 +34,4 @@
         android:layout_below="@+id/startGame"
         android:text="Set Level" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
 </RelativeLayout>
