@@ -38,10 +38,17 @@ public class SuperBreakoutActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        /**
+         * Gets intent from level
+         */
+        Intent receiveLevelMenu = getIntent();
+        LevelIndicator =  receiveLevelMenu.getIntExtra("LevelIndicator",LevelIndicator);
+
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                superBreakoutGame.levelIndicator = LevelIndicator;
                 // Code here executes on main thread after user presses button
                 superBreakoutGame.startNewGame();
                 setContentView(mainLayout);
@@ -51,7 +58,9 @@ public class SuperBreakoutActivity extends Activity {
         final Button setLevel = findViewById(R.id.level);
         setLevel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                superBreakoutGame.levelIndicator = 3;
+                Intent LevelMenu = new Intent(SuperBreakoutActivity.this, LevelMenu.class);
+                LevelMenu.putExtra("LevelIndicator", LevelIndicator);
+                startActivity(LevelMenu);
             }
         });
 
