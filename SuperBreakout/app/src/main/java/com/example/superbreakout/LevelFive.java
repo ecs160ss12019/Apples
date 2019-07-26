@@ -18,8 +18,8 @@ public class LevelFive extends Level{
     @Override
     public void createBricks(Context context){
         DurabilityFactory durabilityFactory = new DurabilityFactory();
-        int brickWidth = screenX / 8;
-        int brickHeight = screenY / 10;
+        int brickWidth = screenX / 12;
+        int brickHeight = screenY / 20;
         bricksInLevel = 32;
         rowsInLevel = 4;
         columnsInLevel = bricksInLevel / rowsInLevel;
@@ -38,11 +38,12 @@ public class LevelFive extends Level{
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
-                        brickWidth/4, brickHeight/5,rand);
+                        brickWidth/4+screenX/7, brickHeight/5,rand);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
+
             }
         }
         for (int row = 1; row < 3; row++) {

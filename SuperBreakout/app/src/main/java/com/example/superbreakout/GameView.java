@@ -228,7 +228,7 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setTextSize(200);
             paint.setARGB(255,144,12,12);
             canvas.drawText("Game Over!",
-                    screenX / 2 - (densityDpi / 2.0f), (screenY / 2), paint);
+                    screenX / 2 - densityDpi , (screenY / 2), paint);
             ourHolder.unlockCanvasAndPost(canvas);
 
             try {
@@ -251,7 +251,7 @@ public class GameView extends SurfaceView implements Runnable {
         // Score Text
         canvas.drawText(
                 "Score: " + player.getScore()
-                , (densityDpi / 5)-47,180, paint);
+                , (densityDpi / 5)-49,180, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
