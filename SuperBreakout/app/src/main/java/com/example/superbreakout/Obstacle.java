@@ -2,9 +2,6 @@ package com.example.superbreakout;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.RectF;
-
 import android.graphics.RectF;
 
 public abstract class Obstacle extends GameObject {

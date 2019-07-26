@@ -1,13 +1,9 @@
 package com.example.superbreakout;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-import java.io.InputStream;
 
-import java.io.IOException;
 
 public class DurabilityOne extends Obstacle {
 
@@ -40,7 +36,7 @@ public class DurabilityOne extends Obstacle {
         bitmapDimensions = new BitmapDimensions( (int) width,  (int) height);
 
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.sprite_05);
+                R.drawable.tiletwo);
 
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
                 bitmapDimensions.height, true);

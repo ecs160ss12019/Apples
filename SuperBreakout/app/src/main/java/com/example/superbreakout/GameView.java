@@ -185,7 +185,6 @@ public class GameView extends SurfaceView implements Runnable {
                 bat.move(motionEvent.getX());
                 break;
         }
-
         return true;
 
     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
-import java.util.Random;
 
 public class Ball extends GameObject {
     private RectF rect; // rectangle that represents the ball

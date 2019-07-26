@@ -36,7 +36,7 @@ public class DurabilityThree extends Obstacle {
         bitmapDimensions = new BitmapDimensions((int) width, (int) height);
 
         bricksBitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.sprite_09);
+                R.drawable.tilefour);
 
         bricksBitmap = Bitmap.createScaledBitmap(bricksBitmap, bitmapDimensions.width,
                 bitmapDimensions.height, true);
