@@ -223,15 +223,15 @@ public class GameView extends SurfaceView implements Runnable {
         // Score Text
         canvas.drawText(
                 "Score: " + player.getScore()
-                , densityDpi / 5, (screenY / 2) + (densityDpi / 1.50f), paint);
+                , (densityDpi / 5)-50,(screenY / 2) + 420, paint);
 
         // Lives Text
-        canvas.drawText("Lives: " + player.getLives()
-                , densityDpi / 5, screenY / 2, paint);
+        canvas.drawText("Lives:  " + player.getLives()
+                , (densityDpi / 5)-50, screenY / 2+360, paint);
 
         // Levels Text
-        canvas.drawText("Level: " + level.getLevel()
-                , densityDpi / 5, screenY / 2 + (densityDpi / 3f), paint);
+        canvas.drawText("Level:  " + level.getLevel()
+                , (densityDpi / 5)-50, screenY / 2 + 300, paint);
 
     }
 
