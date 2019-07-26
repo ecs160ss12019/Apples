@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
+    private int LevelIndicator = 0;
     FrameLayout game;
 
     @Override

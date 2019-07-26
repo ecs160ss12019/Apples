@@ -56,5 +56,11 @@ public class LevelMenu extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backToMainMenu = new Intent(LevelMenu.this, SuperBreakoutActivity.class);
+        backToMainMenu.putExtra("LevelIndicator", LevelIndicator);
+        startActivity(backToMainMenu);
     }
 }
