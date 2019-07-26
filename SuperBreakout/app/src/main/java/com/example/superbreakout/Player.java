@@ -3,7 +3,7 @@ package com.example.superbreakout;
 public class Player {
 
     private final int STARTING_LIVES = 3;
-    private final int FREE_LIFE_POINTS = 100;
+    private final int FREE_LIFE_POINTS = 300;
     int score = 0;
     int consecutiveHits = 0;
     int nextLife = 0;
