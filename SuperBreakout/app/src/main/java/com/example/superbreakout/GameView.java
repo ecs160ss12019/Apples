@@ -44,6 +44,8 @@ public class GameView extends SurfaceView implements Runnable {
     Randomizer randomizer;
     Bitmap backgroundImage;
 
+    public static int levelIndicator = 1;
+
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
