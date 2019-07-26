@@ -38,10 +38,11 @@ public class SuperBreakoutActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
-        final Button button = findViewById(R.id.startGame);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button StartGame = findViewById(R.id.startGame);
+        StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
+                superBreakoutGame.startNewGame();
                 setContentView(mainLayout);
             }
         });

@@ -70,10 +70,37 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
-        startNewGame();
-
         randomizer = new Randomizer();
     }
+
+    /**
+     * Starts an new instance of SuperBreakout
+     */
+    public void startNewGame() {
+        player = new Player();
+        switch(levelIndicator) {
+            case 2:
+                level = new LevelTwo(screenX, screenY, getContext());
+                break;
+            case 3:
+                level = new LevelThree(screenX, screenY, getContext());
+                break;
+            case 4:
+                level = new LevelFour(screenX, screenY, getContext());
+                break;
+            case 5:
+                level = new LevelFive(screenX, screenY, getContext());
+                break;
+            default:
+                level = new LevelOne(screenX, screenY, getContext());
+                break;
+        }
+
+        level.createBricks(getContext());
+        bat = new Bat(getContext(),screenX, screenY, densityDpi);
+        bat.reset(level.getLevel());
+    }
+
 
     @Override
     public void run() {
@@ -191,14 +218,8 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
 
     }
+
     /************ HELPER FUNCTIONS ************/
-    private void startNewGame() {
-        player = new Player();
-        level = new LevelThree(screenX, screenY, getContext());
-        level.createBricks(getContext());
-        bat = new Bat(getContext(),screenX, screenY, densityDpi);
-        bat.reset(level.getLevel());
-    }
 
     private boolean checkAndDrawEndGame() {
         if (!player.isAlive()) {
