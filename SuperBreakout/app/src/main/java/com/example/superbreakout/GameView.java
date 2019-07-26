@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.graphics.Typeface;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -55,6 +56,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         ourHolder = getHolder();
         paint = new Paint();
+        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Pacifico.ttf");
+        paint.setTypeface(type);
 
         Resources res = getContext().getResources();
 
@@ -199,9 +202,10 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean checkAndDrawEndGame() {
         if (!player.isAlive()) {
-            paint.setTextSize(100);
+            paint.setTextSize(200);
+            paint.setARGB(255,144,12,12);
             canvas.drawText("Game Over!",
-                    screenX / 2 - (densityDpi / 2.0f), (screenY / 2) - 40, paint);
+                    screenX / 2 - (densityDpi / 2.0f), (screenY / 2), paint);
             ourHolder.unlockCanvasAndPost(canvas);
 
             try {
@@ -224,15 +228,15 @@ public class GameView extends SurfaceView implements Runnable {
         // Score Text
         canvas.drawText(
                 "Score: " + player.getScore()
-                , (densityDpi / 5)-25,180, paint);
+                , (densityDpi / 5)-47,180, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
-                , (densityDpi / 5)-25, 120, paint);
+                , (densityDpi / 5)-40, 120, paint);
 
         // Levels Text
         canvas.drawText("Level:  " + level.getLevel()
-                , (densityDpi / 5)-25, 60, paint);
+                , (densityDpi / 5)-40, 60, paint);
 
     }
 
