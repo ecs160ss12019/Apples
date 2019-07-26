@@ -36,7 +36,7 @@ public class LevelThree extends Level{
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
-                        brickWidth/4, brickHeight/5,rand);
+                        (brickWidth/4)+screenX/7, brickHeight/5,rand);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
