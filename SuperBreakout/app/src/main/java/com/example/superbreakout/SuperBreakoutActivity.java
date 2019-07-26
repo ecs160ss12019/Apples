@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
+    private int LevelIndicator = 0;
     FrameLayout game;
 
     @Override
@@ -34,14 +35,32 @@ public class SuperBreakoutActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        /**
+         * Gets intent from level
+         */
+        Intent receiveLevelMenu = getIntent();
+        LevelIndicator =  receiveLevelMenu.getIntExtra("LevelIndicator",LevelIndicator);
+
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
-        final Button button = findViewById(R.id.startGame);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button StartGame = findViewById(R.id.startGame);
+        StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                superBreakoutGame.levelIndicator = LevelIndicator;
                 // Code here executes on main thread after user presses button
+                superBreakoutGame.startNewGame();
                 setContentView(mainLayout);
             }
         });
+
+        final Button setLevel = findViewById(R.id.level);
+        setLevel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent LevelMenu = new Intent(SuperBreakoutActivity.this, LevelMenu.class);
+                LevelMenu.putExtra("LevelIndicator", LevelIndicator);
+                startActivity(LevelMenu);
+            }
+        });
+
     }
 
     public void onBackPressed(){
