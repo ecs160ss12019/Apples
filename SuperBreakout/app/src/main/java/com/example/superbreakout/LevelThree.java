@@ -19,12 +19,12 @@ public class LevelThree extends Level{
         DurabilityFactory durabilityFactory = new DurabilityFactory();
         int brickWidth = screenX / 12;
         int brickHeight = screenY / 20;
-        bricksInLevel = 32;
+        bricksInLevel = 44;
         rowsInLevel = 4;
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
-        numAliveBricks = 24;
+        numAliveBricks = 30;
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
@@ -36,22 +36,17 @@ public class LevelThree extends Level{
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
-                        (brickWidth/4)+screenX/7, brickHeight/5,rand);
+                        brickWidth/2, brickHeight/3,rand);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
                 numBricks++;
             }
         }
-        for (int row = 1; row < 3; row++) {
-            bricks[1*rowsInLevel + row].setInvisible();
-            bricks[6*rowsInLevel + row].setInvisible();
-        }
-        for(int column = 3; column < 5; column++) {
-            for (int row = 1; row < 3; row++) {
-                bricks[column * rowsInLevel + row].setInvisible();
-            }
-        }
+
+        this.createPocket(1,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(8,1, rowsInLevel, bricks, 2,2);
+        this.createPocket(4,1, rowsInLevel, bricks, 3, 2);
 
         this.initializeExplosion();
         createBalls(context,screenX,screenY);

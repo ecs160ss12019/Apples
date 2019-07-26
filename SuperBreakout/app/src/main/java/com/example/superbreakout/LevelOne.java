@@ -18,22 +18,24 @@ public class LevelOne extends Level {
     @Override
     public void createBricks(Context context){
         DurabilityFactory durabilityFactory = new DurabilityFactory();
+
         int brickWidth = screenX / 12;
         int brickHeight = screenY / 20;
-        bricksInLevel = 24;
-        rowsInLevel = 3;
+        bricksInLevel = 50;
+        rowsInLevel = 5;
+
         columnsInLevel = bricksInLevel / rowsInLevel;
         bricks = new Obstacle[bricksInLevel];
         debris = new Debris[bricksInLevel];
-        numAliveBricks = 16;
+        numAliveBricks = 20;
 
         // Build a wall of bricks and its potential debris
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row, column, brickWidth, brickHeight,
-                        brickWidth/5 +screenX/7, brickHeight/4,0);
-                if(row == 1) {
+                        brickWidth, brickHeight/3, 0);
+                if(row == 1 || row == 2 || row == 3) {
                     bricks[numBricks].setInvisible();
                 }
                 // can possibly change this to spawnDebris()
