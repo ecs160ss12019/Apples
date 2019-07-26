@@ -89,7 +89,7 @@ public class Ball extends GameObject {
                 this.setBallSpeed(9000);
                 break;
             case 3:
-                this.setBallSpeed(10000);
+                this.setBallSpeed(5000);
                 break;
             case 4:
                 this.setBallSpeed(11000);
@@ -197,6 +197,15 @@ public class Ball extends GameObject {
         rect.left = x / 2;
         rect.top = y - 200;
         rect.right = x / 2 + width;
+        rect.bottom = y - 100 - height;
+
+        this.setRandomVelocity(level);
+    }
+    public void setBallLocation(int x, int y, int level){
+        // Place the ball in the centre of the screen at the bottom
+        rect.left = x ;
+        rect.top = y-200;
+        rect.right = x + width;
         rect.bottom = y - 100 - height;
 
         this.setRandomVelocity(level);
