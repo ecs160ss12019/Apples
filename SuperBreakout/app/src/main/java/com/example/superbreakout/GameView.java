@@ -199,8 +199,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean checkAndDrawEndGame() {
         if (!player.isAlive()) {
+            paint.setTextSize(100);
             canvas.drawText("Game Over!",
-                    screenX / 2 - (densityDpi / 1.90f), screenY / 2 + (densityDpi), paint);
+                    screenX / 2 - (densityDpi / 2.0f), (screenY / 2) - 40, paint);
             ourHolder.unlockCanvasAndPost(canvas);
 
             try {
@@ -217,21 +218,21 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawStats() {
         // Choose the brush color for drawing
-        paint.setColor(Color.argb(255, 255, 255, 255));
+        paint.setColor(Color.argb(255, 8, 8, 8));
         paint.setTextSize(50);
 
         // Score Text
         canvas.drawText(
                 "Score: " + player.getScore()
-                , (densityDpi / 5)-50,(screenY / 2) + 420, paint);
+                , (densityDpi / 5)-25,180, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
-                , (densityDpi / 5)-50, screenY / 2+360, paint);
+                , (densityDpi / 5)-25, 120, paint);
 
         // Levels Text
         canvas.drawText("Level:  " + level.getLevel()
-                , (densityDpi / 5)-50, screenY / 2 + 300, paint);
+                , (densityDpi / 5)-25, 60, paint);
 
     }
 
