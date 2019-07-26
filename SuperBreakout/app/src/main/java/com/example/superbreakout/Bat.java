@@ -49,7 +49,7 @@ public class Bat extends GameObject {
 
         rect = new RectF(x, y, x + width, y + height);
 
-        batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bat);
+        batBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.paddle);
         batBitmap = Bitmap.createScaledBitmap(batBitmap,
                 bitmapDimensions.width,
                 bitmapDimensions.height,
