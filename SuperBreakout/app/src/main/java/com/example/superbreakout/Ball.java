@@ -27,13 +27,13 @@ public class Ball extends GameObject {
 
 
     public Ball(Context context, int screenX, int screenY) {
-        super(ballWidth, ballHeight);
+        super(screenX/40, screenX/40);
 
         this.screenX = screenX;
         this.screenY = screenY;
         // Ball has issues here
-        this.width = 10;
-        this.height = 10;
+        this.width = screenX/40;
+        this.height = screenX/40;
 
         this.context = context;
         // creates new rectangle object for ball
@@ -43,7 +43,7 @@ public class Ball extends GameObject {
         randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
-        bitmapDimensions = new BitmapDimensions((int)width + 65, (int)height + 55);
+        bitmapDimensions = new BitmapDimensions(screenX/40, screenX/40);
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inactiveball);
         ballBitmap = Bitmap.createScaledBitmap(ballBitmap,
                 bitmapDimensions.width, bitmapDimensions.height, true);
@@ -58,7 +58,7 @@ public class Ball extends GameObject {
         rect.left = rect.left + ((float)xVelocity / fps);
         rect.top = rect.top + ((float)yVelocity / fps);
         rect.right = rect.left + width;
-        rect.bottom = rect.top - height;
+        rect.bottom = rect.top + height;
     }
 
     /* This function generates a random integer
@@ -197,7 +197,7 @@ public class Ball extends GameObject {
         rect.left = x / 2;
         rect.top = y - 200;
         rect.right = x / 2 + width;
-        rect.bottom = y - 100 - height;
+        rect.bottom = y - 100 + height;
 
         this.setRandomVelocity(level);
     }
@@ -226,16 +226,13 @@ public class Ball extends GameObject {
 
     // This function reverses the vertical velocity and adds a little momentum to it
     public void reverseYVelocity() {
-        yVelocity = -yVelocity + 50;
+        yVelocity = -yVelocity;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
     // This function reverses the horizontal velocity and adds a little momentum to it
-    private void reverseXVelocity() {
-        if(xVelocity > 0) //collision on right wall
-            xVelocity = -xVelocity - 50;
-        else //collision on left wall
-            xVelocity = -xVelocity + 50;
+    public void reverseXVelocity() {
+        xVelocity = -xVelocity;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 

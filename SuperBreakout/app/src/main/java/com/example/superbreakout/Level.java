@@ -83,6 +83,20 @@ public abstract class Level {
         }
     }
 
+    public void ballObstacleCollision(Ball ball, RectF obstacle) {
+
+        RectF ballRect = ball.getRect();
+        float leftRight = Math.abs(obstacle.left - ballRect.right);
+        float bottomTop = Math.abs(obstacle.bottom - ballRect.top);
+
+        if((leftRight < bottomTop) && (leftRight < bottomTop))
+            ball.reverseXVelocity();
+        else if((leftRight < bottomTop) && (leftRight < bottomTop))
+            ball.reverseXVelocity();
+        else
+            ball.reverseYVelocity();
+    }
+
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick
@@ -104,7 +118,7 @@ public abstract class Level {
                         if (!debris[i].getDebrisType().equals("None")) {
                             debris[i].activate();
                         }
-                        ball.reverseYVelocity();
+                        ballObstacleCollision(ball,bricks[i].getRect());
                         hit = true;
                     }
                 }
@@ -113,7 +127,7 @@ public abstract class Level {
             for (int i = 0; i < bricksInLevel; i++) {
                 if (bricks[i].getVisibility()) {
                     if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                        ball.reverseYVelocity();
+                        ballObstacleCollision(ball,bricks[i].getRect());
                     }
                 }
             }
