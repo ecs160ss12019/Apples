@@ -73,8 +73,8 @@ public class LevelThree extends Level{
         balls[0].makeActive();
         resetLevel();
 
-        balls[1].setBallLocation(475,300,level);
-        balls[2].setBallLocation(1225,300,level);
+        balls[1].setBallLocation(200,300,level);
+        balls[2].setBallLocation(1000,300,level);
 
     }
 }
