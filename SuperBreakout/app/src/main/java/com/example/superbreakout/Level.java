@@ -86,12 +86,15 @@ public abstract class Level {
     public void ballObstacleCollision(Ball ball, RectF obstacle) {
 
         RectF ballRect = ball.getRect();
-        float leftRight = Math.abs(obstacle.left - ballRect.right);
-        float bottomTop = Math.abs(obstacle.bottom - ballRect.top);
 
-        if((leftRight < bottomTop) && (leftRight < bottomTop))
+        float leftRight = Math.abs(obstacle.left - ballRect.right);
+        float rightLeft = Math.abs(obstacle.right = ballRect.left);
+        float bottomTop = Math.abs(obstacle.bottom - ballRect.top);
+        float topBottom = Math.abs(obstacle.top - ballRect.bottom);
+
+        if((leftRight < topBottom) && (leftRight < bottomTop))
             ball.reverseXVelocity();
-        else if((leftRight < bottomTop) && (leftRight < bottomTop))
+        else if((rightLeft < topBottom) && (rightLeft < bottomTop))
             ball.reverseXVelocity();
         else
             ball.reverseYVelocity();

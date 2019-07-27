@@ -167,7 +167,7 @@ public class Ball extends GameObject {
             newX -= bat.getPaddleSpeed()/5;
         }
 
-        this.clearObstacleY(bat.getRect().top - 20);
+        this.clearObstacleY(bat.getRect().top);
 
         this.normalizeVelocity(newX, newY); // keep it at constant speed
     }
