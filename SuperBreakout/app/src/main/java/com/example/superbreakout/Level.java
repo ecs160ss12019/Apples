@@ -201,6 +201,8 @@ public abstract class Level {
             }
             balls[i].checkWallBounce();
         }
+
+        updateDebris(fps);
     }
 
     public boolean atLeastOneBallAlive() {
@@ -256,7 +258,7 @@ public abstract class Level {
         return level;
     }
 
-    public void updateDebris(long fps) {
+    private void updateDebris(long fps) {
         // Updates the position of all active debris
         for (int i = 0; i < bricksInLevel; i++) {
             if (debris[i].getActive()) {
