@@ -86,15 +86,34 @@ public abstract class Level {
     public void ballObstacleCollision(Ball ball, RectF obstacle) {
 
         RectF ballRect = ball.getRect();
-        float leftRight = Math.abs(obstacle.left - ballRect.right);
-        float bottomTop = Math.abs(obstacle.bottom - ballRect.top);
 
-        if((leftRight < bottomTop) && (leftRight < bottomTop))
-            ball.reverseXVelocity();
-        else if((leftRight < bottomTop) && (leftRight < bottomTop))
-            ball.reverseXVelocity();
-        else
-            ball.reverseYVelocity();
+        //colliding on the left side of obstacle
+        if((ballRect.right <= obstacle.left) && (ball.xVelocity > 0)) {
+            if((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
+                ball.reverseXVelocity();
+                ball.clearObstacleX(obstacle.left - ball.width);
+            }
+        }
+        //colliding on the right side of obstacle
+        else if((ballRect.left >= obstacle.right) && (ball.xVelocity < 0)) {
+            if((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
+                ball.reverseXVelocity();
+                ball.clearObstacleX(obstacle.right);
+            }
+        }
+        //colliding on the top side of the obstacle
+        else if((ballRect.bottom >= obstacle.top) && (ball.yVelocity > 0)){
+            if((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
+                ball.reverseYVelocity();
+                ball.clearObstacleY(obstacle.top);
+            }
+        }
+        else if((ballRect.top <= obstacle.bottom) && (ball.yVelocity < 0)) {
+            if((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
+                ball.reverseYVelocity();
+                ball.clearObstacleY(obstacle.bottom + ball.height);
+            }
+        }
     }
 
     public boolean checkCollision(Ball ball){

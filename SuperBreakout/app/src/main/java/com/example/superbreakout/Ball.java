@@ -167,21 +167,21 @@ public class Ball extends GameObject {
             newX -= bat.getPaddleSpeed()/5;
         }
 
-        this.clearObstacleY(bat.getRect().top - 20);
+        this.clearObstacleY(bat.getRect().top);
 
         this.normalizeVelocity(newX, newY); // keep it at constant speed
     }
 
     // a fix for bug in Android RectF Class
-    private void clearObstacleY(float y) {
+    public void clearObstacleY(float y) {
         rect.bottom = y;
         rect.top = y - height;
     }
 
     // a fix for bug in Android RectF Class
-    private void clearObstacleX(float x) {
+    public void clearObstacleX(float x) {
         rect.left = x;
-        rect.right = x + width + 50;
+        rect.right = x + width;
     }
 
     /* This function resets the position of the ball and sets
