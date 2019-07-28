@@ -256,11 +256,11 @@ public abstract class Level {
         return level;
     }
 
-    public void updateDebris() {
+    public void updateDebris(long fps) {
         // Updates the position of all active debris
         for (int i = 0; i < bricksInLevel; i++) {
             if (debris[i].getActive()) {
-                debris[i].update();
+                debris[i].update(fps);
             }
         }
     }

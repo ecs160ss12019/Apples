@@ -127,7 +127,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         bat.update(fps);
         level.update(fps, bat, player);
-        level.updateDebris();
+        level.updateDebris(fps);
 
         if (!level.atLeastOneBallAlive()) {
             paused = true;
