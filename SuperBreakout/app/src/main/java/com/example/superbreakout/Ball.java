@@ -201,6 +201,7 @@ public class Ball extends GameObject {
 
         this.setRandomVelocity(level);
     }
+
     public void setBallLocation(int x, int y, int level){
         // Place the ball in the centre of the screen at the bottom
         rect.left = x ;
@@ -209,6 +210,7 @@ public class Ball extends GameObject {
         rect.bottom = y - 100 - height;
 
         this.setRandomVelocity(level);
+        this.xVelocity = 0;
     }
 
     // This function gets the horizontal center of the ball
@@ -298,6 +300,7 @@ public class Ball extends GameObject {
         if(this.intersect(bat)) {
             if(!getActive()){
                 makeActive();
+                setRandomVelocity(3);
             }
 
             // Interpolate the incoming position for computation of the new Velocity
