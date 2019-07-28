@@ -39,7 +39,7 @@ public class LevelThree extends Level{
                         brickWidth/2, brickHeight/3,rand);
 
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
+                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
                 numBricks++;
             }
         }

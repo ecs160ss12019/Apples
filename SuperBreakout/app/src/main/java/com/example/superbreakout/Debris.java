@@ -23,14 +23,14 @@ public class Debris {
      * Debris constructor that takes in the initial coordinates
      * of a destroyed obstacle.
      */
-    public Debris(int row, int column, int width, int height) {
+    public Debris(int row, int column, int width, int height, int horzPadding, int vertPadding) {
 
         int padding = height/5;
 
-        rect = new RectF(column * width + padding,
-                row * height + padding,
-                column * width + width - padding,
-                row * height + height - padding);
+        rect = new RectF( column * width + horzPadding,
+                row * height + vertPadding,
+                column * width + width + horzPadding - horzPadding/20,
+                row * height + height + vertPadding - vertPadding/15);
 
 
         // sets the debris type randomly from the 4 types.

@@ -39,7 +39,7 @@ public class LevelOne extends Level {
                     bricks[numBricks].setInvisible();
                 }
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight);
+                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
                 numBricks++;
             }
         }
