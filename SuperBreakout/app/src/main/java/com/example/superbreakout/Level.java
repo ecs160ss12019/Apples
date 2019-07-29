@@ -162,7 +162,9 @@ public abstract class Level {
                 if (debris[i].getActive()) {
                     if (RectF.intersects(debris[i].getRect(), balls[j].getRect())) {
                         // Checks ball/debris collision
-                        debris[i].deactivate();
+                        if(balls[j].getActive()) {
+                            debris[i].deactivate();
+                        }
                     } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
                         // Checks ball/bat debris collision
 
