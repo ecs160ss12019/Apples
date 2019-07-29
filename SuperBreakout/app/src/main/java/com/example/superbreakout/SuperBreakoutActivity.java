@@ -41,6 +41,9 @@ public class SuperBreakoutActivity extends Activity {
         Intent receiveLevelMenu = getIntent();
         LevelIndicator =  receiveLevelMenu.getIntExtra("LevelIndicator",LevelIndicator);
 
+        Intent musicService = new Intent(SuperBreakoutActivity.this, BackgroundMusic.class);
+        startService(musicService);
+
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
