@@ -32,7 +32,7 @@ public class LevelTwo extends Level {
                 bricks[numBricks] = new DurabilityZero(context, row, column, brickWidth, brickHeight,
                         brickWidth/2, brickHeight/3);
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
+                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);
                 numBricks++;
             }
         }

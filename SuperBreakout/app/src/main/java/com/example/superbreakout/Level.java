@@ -130,12 +130,13 @@ public abstract class Level {
                         if (bricks[i].getDurability() == 0) {
                             bricks[i].setInvisible();
                             hitObstacle();
+
+                            if (!debris[i].getDebrisType().equals("None")) {
+                                debris[i].activate();
+                            }
+
                         } else {
                             bricks[i] = bricks[i].reduceDurability();
-                        }
-
-                        if (!debris[i].getDebrisType().equals("None")) {
-                            debris[i].activate();
                         }
                         ballObstacleCollision(ball,bricks[i].getRect());
                         hit = true;
