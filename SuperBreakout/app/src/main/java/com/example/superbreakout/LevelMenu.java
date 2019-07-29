@@ -1,15 +1,22 @@
 package com.example.superbreakout;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class LevelMenu extends Activity {
-    int LevelIndicator = 0;
-    
+    /**
+     * Values to be passed back to superBreakoutActivity
+     */
+    private int LevelIndicator = 0;
     private int SlideIndicator = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +26,6 @@ public class LevelMenu extends Activity {
         final Button level1 = findViewById(R.id.level1);
         level1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent LevelMenu = getIntent();
                 LevelIndicator = 1;
             }
         });
@@ -27,7 +33,6 @@ public class LevelMenu extends Activity {
         final Button level2 = findViewById(R.id.level2);
         level2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent LevelMenu = getIntent();
                 LevelIndicator = 2;
             }
         });
@@ -35,7 +40,6 @@ public class LevelMenu extends Activity {
         final Button level3 = findViewById(R.id.level3);
         level3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent LevelMenu = getIntent();
                 LevelIndicator = 3;
             }
         });
@@ -43,7 +47,6 @@ public class LevelMenu extends Activity {
         final Button level4 = findViewById(R.id.level4);
         level4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent LevelMenu = getIntent();
                 LevelIndicator = 4;
             }
         });
@@ -51,7 +54,6 @@ public class LevelMenu extends Activity {
         final Button level5 = findViewById(R.id.level5);
         level5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent LevelMenu = getIntent();
                 LevelIndicator = 5;
             }
         });
@@ -76,12 +78,18 @@ public class LevelMenu extends Activity {
         });
     }
 
+    /**
+     * On press of the back button
+     * Puts in LevelIndicator and SlideIndicator into the intent and sends it back to superBreakoutActivity
+     */
     @Override
     public void onBackPressed() {
+        Intent backToMainMenu = new Intent();
+        backToMainMenu.putExtra("LI", LevelIndicator);
         backToMainMenu.putExtra("SI", SlideIndicator);
+
+        this.setResult(RESULT_OK, backToMainMenu);
+        this.finish();
         super.onBackPressed();
-        Intent backToMainMenu = new Intent(LevelMenu.this, SuperBreakoutActivity.class);
-        backToMainMenu.putExtra("LevelIndicator", LevelIndicator);
-        startActivity(backToMainMenu);
     }
 }

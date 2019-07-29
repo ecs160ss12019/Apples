@@ -17,6 +17,8 @@ public class SuperBreakoutActivity extends Activity {
     private GameView superBreakoutGame;
     private int LevelIndicator = 0;
     private int SlideIndicator = 0;
+    private static final int REQUEST_CODE = 1; // code to confirm result returned from intent
+
     FrameLayout game;
 
     @Override
@@ -40,6 +42,9 @@ public class SuperBreakoutActivity extends Activity {
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                /**
+                 * Sets the indicators for the game
+                 */
                 superBreakoutGame.levelIndicator = LevelIndicator;
                 superBreakoutGame.slideIndicator = SlideIndicator;
 
@@ -53,6 +58,7 @@ public class SuperBreakoutActivity extends Activity {
         setLevel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent LevelMenu = new Intent(SuperBreakoutActivity.this, LevelMenu.class);
+                startActivityForResult(LevelMenu, REQUEST_CODE);
             }
         });
 
@@ -108,5 +114,23 @@ public class SuperBreakoutActivity extends Activity {
         super.onPause();
         superBreakoutGame.pause();
     }
+
+    /**
+     * Receives code from settings menu
+     * Sets the level and slide indicator for the game to determine sliding or levels
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data); // super is needed for code to run
+
+        if(requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                this.LevelIndicator = data.getIntExtra("LI", 1);
                 this.SlideIndicator = data.getIntExtra("SI", 0);
+            }
+        }
+    }
 }
