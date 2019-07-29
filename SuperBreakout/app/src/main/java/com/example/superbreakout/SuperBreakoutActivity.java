@@ -12,12 +12,19 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
+    HashMap <String, Integer> indicators;
+
     private int LevelIndicator = 0;
     private int SlideIndicator = 0;
-    private static final int REQUEST_CODE = 1; // code to confirm result returned from intent
+
+    private static final int REQUEST_CODE_FOR_SETTINGS = 2; // code to confirm result returned from settings intent
+    private static final int REQUEST_CODE_FOR_LEADERBOARD = 1; // code to confirm result returned from leaderboard intent
 
     FrameLayout game;
 
@@ -29,6 +36,8 @@ public class SuperBreakoutActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
 
+        indicators = new HashMap<>();
+
         superBreakoutGame = new GameView(this, size.x, size.y);
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
@@ -38,18 +47,23 @@ public class SuperBreakoutActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        /**
+         * Starts the background music service
+         */
         Intent musicService = new Intent(SuperBreakoutActivity.this, BackgroundMusic.class);
         startService(musicService);
 
-        // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
+        /**
+         * Creates a listener for the button so everytime the button is clicked, it runs this piece of code
+         */
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 /**
                  * Sets the indicators for the game
                  */
-                superBreakoutGame.levelIndicator = LevelIndicator;
-                superBreakoutGame.slideIndicator = SlideIndicator;
+                superBreakoutGame.levelIndicator = indicators.get("LevelIndicator");
+                superBreakoutGame.slideIndicator = indicators.get("SlideIndicator");
 
                 // Code here executes on main thread after user presses button
                 superBreakoutGame.startNewGame();
@@ -61,7 +75,7 @@ public class SuperBreakoutActivity extends Activity {
         setLevel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent LevelMenu = new Intent(SuperBreakoutActivity.this, LevelMenu.class);
-                startActivityForResult(LevelMenu, REQUEST_CODE);
+                startActivityForResult(LevelMenu, REQUEST_CODE_FOR_SETTINGS);
             }
         });
 
@@ -129,10 +143,10 @@ public class SuperBreakoutActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data); // super is needed for code to run
 
-        if(requestCode == REQUEST_CODE) {
+        if(requestCode == REQUEST_CODE_FOR_SETTINGS) {
             if (resultCode == RESULT_OK) {
-                this.LevelIndicator = data.getIntExtra("LI", 1);
-                this.SlideIndicator = data.getIntExtra("SI", 0);
+                indicators.put("LevelIndicator", data.getIntExtra("LI", 1));
+                indicators.put("SlideIndicator", data.getIntExtra("SI", 0));
             }
         }
     }
