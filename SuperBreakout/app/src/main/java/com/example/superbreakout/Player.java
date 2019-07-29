@@ -8,6 +8,7 @@ public class Player {
     int consecutiveHits = 0;
     int nextLife = 0;
     int lives;
+    String name;
 
     public Player(){
         lives = STARTING_LIVES;

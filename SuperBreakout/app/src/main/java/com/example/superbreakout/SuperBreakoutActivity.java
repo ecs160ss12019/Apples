@@ -45,6 +45,12 @@ public class SuperBreakoutActivity extends Activity {
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent inputNickname = new Intent(SuperBreakoutActivity.this, NicknameInput.class);
+                startActivityForResult(inputNickname, 1);
+
+                //return player name to superBreakoutGame
+
+
                 superBreakoutGame.levelIndicator = LevelIndicator;
                 // Code here executes on main thread after user presses button
                 superBreakoutGame.startNewGame();
@@ -61,6 +67,18 @@ public class SuperBreakoutActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                superBreakoutGame.player.name = data.getStringExtra("NickName");
+            }
+        }
+        System.out.println(superBreakoutGame.player.name);
     }
 
     public void onBackPressed(){

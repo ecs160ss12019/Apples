@@ -27,6 +27,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     volatile boolean playing;
     boolean paused = true;
+    boolean gameOver = false;
 
     // Resolution of screen
     int screenX;
@@ -238,10 +239,6 @@ public class GameView extends SurfaceView implements Runnable {
                 e.printStackTrace();
             }
 
-            //move to leaderboard input page
-
-
-            startNewGame();
             return true;
         }
         return false;
