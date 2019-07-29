@@ -20,19 +20,30 @@
         </activity>
 
         <activity android:name=".PauseMenuPopUp"
+            android:parentActivityName=".SuperBreakoutActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>
 
         <activity android:name=".SettingsMenuPopUp"
+            android:parentActivityName=".PauseMenuPopUp"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>
 
         <activity android:name=".LevelMenu"
+            android:parentActivityName=".SuperBreakoutActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>
+
+        <activity android:name=".NicknameInput"
+            android:parentActivityName=".SuperBreakoutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+
+        </activity>
+
     </application>
 
 </manifest>

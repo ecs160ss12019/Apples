@@ -237,6 +237,10 @@ public class GameView extends SurfaceView implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            //move to leaderboard input page
+
+
             startNewGame();
             return true;
         }
