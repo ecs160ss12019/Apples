@@ -9,9 +9,9 @@ import java.util.Random;
 public class Debris {
 
     // Constant speed variables for each debris type.
-    private final float UPGRADE_SPEED = 1500;
-    private final float DOWNGRADE_SPEED = 1800;
-    private final float HARMFUL_SPEED = 3000;
+    private final float UPGRADE_SPEED = 1100;
+    private final float DOWNGRADE_SPEED = 1350;
+    private final float HARMFUL_SPEED = 1500;
 
     private RectF rect; // Square/Rect representing the falling debris
 
@@ -24,8 +24,6 @@ public class Debris {
      * of a destroyed obstacle.
      */
     public Debris(int row, int column, int width, int height, int horzPadding, int vertPadding) {
-
-        int padding = height/5;
 
         rect = new RectF( column * width + horzPadding,
                 row * height + vertPadding,
