@@ -131,6 +131,12 @@ public abstract class Level {
                             bricks[i].setInvisible();
                             hitObstacle();
 
+                            // Checks if there ball has an explosion upgrade
+                            if(ball.Explosion) {
+                                // destroy left/right neighboring obstacles
+                                explodingBall(i);
+                            }
+
                             if (!debris[i].getDebrisType().equals("None")) {
                                 debris[i].activate();
                             }
@@ -291,6 +297,40 @@ public abstract class Level {
                 bat.applyDowngrade(dg.downgradeName);
                 break;
         }
+    }
+
+    private void explodingBall(int index) {
+
+        if(index < (rowsInLevel * columnsInLevel) &&
+                index >= (rowsInLevel * columnsInLevel - rowsInLevel)) {
+            // Bricks on the right-most column
+
+            // Checks if there's a brick/pocket there
+            if(bricks[index-rowsInLevel].getVisibility()) {
+                bricks[index-rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        } else if (index >= 0 && index <rowsInLevel) {
+            // Bricks on the left-most column
+
+            //Checks if there's a brick/pocket there
+            if(bricks[index+rowsInLevel].getVisibility()) {
+                bricks[index+rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        } else {
+            // Everything else in between
+            if(bricks[index+rowsInLevel].getVisibility()) {
+                bricks[index+rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+
+            if(bricks[index-rowsInLevel].getVisibility()) {
+                bricks[index-rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        }
+
     }
 
     abstract void createBricks(Context context);
