@@ -10,7 +10,8 @@ public class Ball extends GameObject {
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
     public double yVelocity; // vertical component of velocity (positive in the downwards direction)
     private double speed; // speed of the ball with formula Math.sqrt(xVelocity^2 + yVelocity^2)
-    public boolean Explosion;
+    public boolean explosion = false;
+    public boolean hollow = false;
 
     private Bitmap ballBitmap;
     private BitmapDimensions bitmapDimensions; // specifies the dimensions of the bitmap image
@@ -248,7 +249,7 @@ public class Ball extends GameObject {
 
         switch(upgradeName) {
             case "Explosion":
-                Explosion = true;
+                explosion = true;
                 break;
             case "Slow":
                 speed = speed - speed/4;
@@ -260,7 +261,7 @@ public class Ball extends GameObject {
 
         switch(downgradeName) {
             case "Hollow":
-                // implement code
+                hollow = false;
                 break;
             case "Slow":
                 // Implement code

@@ -119,8 +119,15 @@ public abstract class Level {
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick
-        if (ball.getActive()) {
 
+        // Check if ball has hollow ball downgrade
+        /*
+        if (ball.hollow) {
+            return hit;
+        }
+        */
+
+        if (ball.getActive()) {
             for (int i = 0; i < bricksInLevel; i++) {
                 if (bricks[i].getVisibility()) {
                     if (RectF.intersects(bricks[i].getRect(), ball.getRect())
@@ -132,7 +139,7 @@ public abstract class Level {
                             hitObstacle();
 
                             // Checks if there ball has an explosion upgrade
-                            if(ball.Explosion) {
+                            if(ball.explosion) {
                                 // destroy left/right neighboring obstacles
                                 explodingBall(i);
                             }
