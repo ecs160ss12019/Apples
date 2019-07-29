@@ -82,15 +82,22 @@ public class Bat extends GameObject {
 
     public void update(long fps) {
 
-        if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10 && rect.left>= x){
-            x -= paddleSpeed / fps;
-        }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
-            x += paddleSpeed/fps;
+        if(stunTimer == 0) {
+
+            if (paddleMoving == Direction.LEFT && x >= -MYscreenDPI/10 && rect.left>= x){
+                x -= paddleSpeed / fps;
+            }else if (paddleMoving == Direction.RIGHT && x <= scrX - width - MYscreenDPI/14){
+                x += paddleSpeed/fps;
+            }
+
+            // Apply the New position
+            rect.left = x;
+            rect.right = x + width;
+
+        } else {
+            stunTimer--;
         }
 
-        // Apply the New position
-        rect.left = x;
-        rect.right = x + width;
     }
 
 
@@ -130,7 +137,7 @@ public class Bat extends GameObject {
 
         // If the brick is already stunned, do not add. If not, then add to the timer. (avoids stacking)
         if(stunTimer == 0) {
-            stunTimer += 30;
+            stunTimer += 15;
         }
     }
 
