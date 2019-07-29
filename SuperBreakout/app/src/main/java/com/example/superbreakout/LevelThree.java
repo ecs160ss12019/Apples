@@ -32,14 +32,14 @@ public class LevelThree extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 0;
                 if(randomizer.getRandBoolean()) {
-                    rand = randomizer.getRandNumber(1,3);
+                    rand = randomizer.getRandNumber(-1,3);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
                         brickWidth/2, brickHeight/3,rand);
 
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row, column, brickWidth, brickHeight);
+                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
                 numBricks++;
             }
         }
@@ -68,7 +68,7 @@ public class LevelThree extends Level{
         balls[0].makeActive();
         resetLevel();
 
-        balls[1].setBallLocation(225,300,level);
+        balls[1].setBallLocation(350,300,level);
         balls[2].setBallLocation(1025,300,level);
 
     }

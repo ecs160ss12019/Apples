@@ -9,9 +9,9 @@ import java.util.Random;
 public class Debris {
 
     // Constant speed variables for each debris type.
-    private final float UPGRADE_SPEED = 10;
-    private final float DOWNGRADE_SPEED = 20;
-    private final float HARMFUL_SPEED = 30;
+    private final float UPGRADE_SPEED = 1500;
+    private final float DOWNGRADE_SPEED = 1800;
+    private final float HARMFUL_SPEED = 3000;
 
     private RectF rect; // Square/Rect representing the falling debris
 
@@ -23,14 +23,14 @@ public class Debris {
      * Debris constructor that takes in the initial coordinates
      * of a destroyed obstacle.
      */
-    public Debris(int row, int column, int width, int height) {
+    public Debris(int row, int column, int width, int height, int horzPadding, int vertPadding) {
 
         int padding = height/5;
 
-        rect = new RectF(column * width + padding,
-                row * height + padding,
-                column * width + width - padding,
-                row * height + height - padding);
+        rect = new RectF( column * width + horzPadding,
+                row * height + vertPadding,
+                column * width + width + horzPadding - horzPadding/20,
+                row * height + height + vertPadding - vertPadding/15);
 
 
         // sets the debris type randomly from the 4 types.
@@ -68,7 +68,7 @@ public class Debris {
         active = false;
     }
 
-    public void update() {
+    public void update(long fps) {
         // Change the top/bottom coordinates to imitate "falling"
         float SPEED = 0f;
         switch (debrisType) {
@@ -84,8 +84,8 @@ public class Debris {
             default:
                 break;
         }
-        rect.top = rect.top + SPEED;
-        rect.bottom = rect.bottom + SPEED;
+        rect.top = rect.top + SPEED/fps;
+        rect.bottom = rect.bottom + SPEED/fps;
     }
 
 }

@@ -167,21 +167,21 @@ public class Ball extends GameObject {
             newX -= bat.getPaddleSpeed()/5;
         }
 
-        this.clearObstacleY(bat.getRect().top - 20);
+        this.clearObstacleY(bat.getRect().top);
 
         this.normalizeVelocity(newX, newY); // keep it at constant speed
     }
 
     // a fix for bug in Android RectF Class
-    private void clearObstacleY(float y) {
+    public void clearObstacleY(float y) {
         rect.bottom = y;
         rect.top = y - height;
     }
 
     // a fix for bug in Android RectF Class
-    private void clearObstacleX(float x) {
+    public void clearObstacleX(float x) {
         rect.left = x;
-        rect.right = x + width + 50;
+        rect.right = x + width;
     }
 
     /* This function resets the position of the ball and sets
@@ -201,6 +201,7 @@ public class Ball extends GameObject {
 
         this.setRandomVelocity(level);
     }
+
     public void setBallLocation(int x, int y, int level){
         // Place the ball in the centre of the screen at the bottom
         rect.left = x ;
@@ -209,6 +210,7 @@ public class Ball extends GameObject {
         rect.bottom = y - 100 - height;
 
         this.setRandomVelocity(level);
+        this.xVelocity = 0;
     }
 
     // This function gets the horizontal center of the ball
@@ -298,6 +300,7 @@ public class Ball extends GameObject {
         if(this.intersect(bat)) {
             if(!getActive()){
                 makeActive();
+                setRandomVelocity(3);
             }
 
             // Interpolate the incoming position for computation of the new Velocity

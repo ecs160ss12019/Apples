@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <service
+            android:name="com.example.superbreakout.BackgroundMusic"
+            android:enabled="true" />
+
         <activity
             android:name="com.example.superbreakout.SuperBreakoutActivity"
             android:screenOrientation="landscape" >
