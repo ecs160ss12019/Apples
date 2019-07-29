@@ -203,6 +203,7 @@ public abstract class Level {
         }
 
         updateDebris(fps);
+        checkDebrisCollision(bat);
     }
 
     public boolean atLeastOneBallAlive() {
