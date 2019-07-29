@@ -9,6 +9,7 @@ import android.widget.Button;
 public class LevelMenu extends Activity {
     int LevelIndicator = 0;
     
+    private int SlideIndicator = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +55,30 @@ public class LevelMenu extends Activity {
                 LevelIndicator = 5;
             }
         });
+
+        /**
+         * If switch is checked, set the sliding indicator to one and zero otherwise
+         */
+        final Switch slideSwitcher = findViewById(R.id.toggleSwitch);
+        slideSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked) {
+                    System.out.println(1);
+                    SlideIndicator = 1;
+                }
+
+                else {
+                    System.out.println(0);
+                    SlideIndicator = 0;
+                }
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
+        backToMainMenu.putExtra("SI", SlideIndicator);
         super.onBackPressed();
         Intent backToMainMenu = new Intent(LevelMenu.this, SuperBreakoutActivity.class);
         backToMainMenu.putExtra("LevelIndicator", LevelIndicator);

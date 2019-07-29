@@ -32,6 +32,5 @@
         android:layout_marginBottom="269dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/startGame"
-        android:text="Set Level" />
-
+        android:text="Settings" />
 </RelativeLayout>

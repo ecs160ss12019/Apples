@@ -31,15 +31,6 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
-        final Button settingsButton = findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //settings (for Steven)
-                startActivity(new Intent(PauseMenuPopUp.this, SettingsMenuPopUp.class));
-                finish();
-            }
-        });
-
         final Button leaderboardButton = findViewById(R.id.leaderboardButton);
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

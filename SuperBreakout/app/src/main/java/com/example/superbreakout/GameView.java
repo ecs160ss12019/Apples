@@ -46,6 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
     Bitmap backgroundImage;
 
     public static int levelIndicator = 1;
+    public static int slideIndicator = 0;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -214,7 +215,10 @@ public class GameView extends SurfaceView implements Runnable {
                 if (player.isAlive()) {
                     paused = false;
                 }
-                bat.move(motionEvent.getX());
+
+                if (slideIndicator == 1) {
+                    bat.move(motionEvent.getX());
+                }
                 break;
         }
         return true;
@@ -281,4 +285,5 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawBat() {
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
+
 }
