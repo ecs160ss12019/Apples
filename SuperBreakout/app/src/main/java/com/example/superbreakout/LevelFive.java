@@ -51,6 +51,7 @@ public class LevelFive extends Level{
         this.createPocket(4,1, rowsInLevel, bricks, 3, 2);
 
         this.initializeExplosion();
+        createBalls(context,screenX,screenY);
     }
 
     @Override

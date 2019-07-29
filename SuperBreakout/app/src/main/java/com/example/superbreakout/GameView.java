@@ -82,6 +82,8 @@ public class GameView extends SurfaceView implements Runnable {
      */
     public void startNewGame() {
         player = new Player();
+        level = new LevelFour(screenX, screenY, getContext());
+
         switch(levelIndicator) {
             case 2:
                 level = new LevelTwo(screenX, screenY, getContext());
