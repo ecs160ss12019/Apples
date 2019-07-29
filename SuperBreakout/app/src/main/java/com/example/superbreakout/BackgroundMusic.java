@@ -1,5 +1,12 @@
 package com.example.superbreakout;
 
+/**
+ * Music by Eric Matyas
+ *
+ * Code is based from StackOverflow
+ * Link: https://stackoverflow.com/questions/46838443/play-music-with-background-service
+ */
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,7 +20,7 @@ public class BackgroundMusic extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        player = MediaPlayer.create(this, R.raw.summer);
+        player = MediaPlayer.create(this, R.raw.puzzledreams);
         player.setLooping(true);
         player.setVolume(100,100);
     }
