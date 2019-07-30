@@ -44,6 +44,13 @@
 
         </activity>
 
+        <activity android:name=".Leaderboard"
+            android:parentActivityName=".PauseMenuPopUp"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+
+        </activity>
+
     </application>
 
 </manifest>

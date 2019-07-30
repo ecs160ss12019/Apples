@@ -45,7 +45,9 @@ public class PauseMenuPopUp extends Activity {
             public void onClick(View v) {
                 //retrieve leaderboard
                 Intent hsIntent = new Intent(PauseMenuPopUp.this, Leaderboard.class);
+                hsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(hsIntent);
+
             }
         });
 
