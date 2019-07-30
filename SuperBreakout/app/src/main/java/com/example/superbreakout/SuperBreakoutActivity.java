@@ -77,6 +77,14 @@ public class SuperBreakoutActivity extends Activity {
             }
         });
 
+        final Button leaderboard = findViewById(R.id.leaderboard);
+        leaderboard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent ldrbrd = new Intent(SuperBreakoutActivity.this, Leaderboard.class);
+                startActivity(ldrbrd);
+            }
+        });
+
     }
 
     @Override
