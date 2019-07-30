@@ -16,6 +16,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.graphics.Typeface;
 
+import java.util.List;
+
 public class GameView extends SurfaceView implements Runnable {
 
     // OS stuff
@@ -135,12 +137,14 @@ public class GameView extends SurfaceView implements Runnable {
             paused = true;
             if (player.isAlive()) {
                 level.resetLevel();
+                level.resetEffects(player, bat);
             }
 
         }else{
             if (level.levelCompleted()) {
                 level = level.advanceNextLevel();
                 level.createBricks(getContext());
+                level.resetEffects(player, bat);
             }
         }
     }
@@ -265,6 +269,26 @@ public class GameView extends SurfaceView implements Runnable {
         // Levels Text
         canvas.drawText("Level:  " + level.getLevel()
                 , (densityDpi / 5)-40, 60, paint);
+
+        // Upgrade/Downgrade text
+        canvas.drawText("Effects:",(densityDpi/5)-40, 240, paint );
+
+        List<Upgrade> playerUpgrades = player.getActiveUpgrades();
+        List<Downgrade> playerDowngrades = player.getActiveDowngrades();
+        int y = 240;
+        for (int i = 0; i < playerUpgrades.size(); i++) {
+            y += 60;
+            canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-40, y, paint);
+        }
+
+        for (int i = 0; i < playerDowngrades.size(); i++) {
+            y += 60;
+            canvas.drawText(playerDowngrades.get(i).downgradeName, (densityDpi/5)-40, y, paint);
+        }
+
+
+
+
 
     }
 

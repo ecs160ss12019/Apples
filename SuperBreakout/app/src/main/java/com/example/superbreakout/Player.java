@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
     private final int STARTING_LIVES = 3;
@@ -8,6 +11,8 @@ public class Player {
     int consecutiveHits = 0;
     int nextLife = 0;
     int lives;
+    private List<Upgrade> activeUpgrades = new ArrayList<Upgrade>();
+    private List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
 
     public Player(){
         lives = STARTING_LIVES;
@@ -38,4 +43,111 @@ public class Player {
         if(lives == 0) return false;
         else return true;
     }
+
+    public List<Upgrade> getActiveUpgrades() { return activeUpgrades; }
+
+    public List<Downgrade> getActiveDowngrades() { return activeDowngrades; }
+
+    public void updateEffects(Bat bat, Ball ball) {
+
+        for (int i = 0; i < activeUpgrades.size(); i++) {
+            activeUpgrades.get(i).reduceTimer();
+            if (activeUpgrades.get(i).effectTimer == 0) {
+                resetEffects(activeUpgrades.get(i).upgradeName, bat, ball);
+                activeUpgrades.remove(i);
+                i = i - 1;
+            }
+        }
+
+        for (int i = 0; i < activeDowngrades.size(); i++) {
+            activeDowngrades.get(i).reduceTimer();
+            if (activeDowngrades.get(i).effectTimer == 0) {
+                resetEffects(activeDowngrades.get(i).downgradeName, bat, ball);
+                activeDowngrades.remove(i);
+                i = i - 1;
+            }
+        }
+    }
+
+    public void resetEffects(String effectName, Bat bat, Ball ball) {
+
+        switch(effectName) {
+            case "SpeedUp":
+                bat.setPaddleSpeed(bat.getPaddleSpeed()/2);
+                break;
+            case "SizeUp":
+                bat.resetBatWidth();
+                break;
+            case "Explosion":
+                ball.explosion = false;
+                break;
+            case "Slow":
+                ball.setBallSpeed(ball.getBallSpeed()*2);
+                break;
+            case "SpeedDown":
+                bat.setPaddleSpeed(bat.getPaddleSpeed()*1.25f);
+                break;
+            case "SizeDown":
+                bat.resetBatWidth();
+                break;
+            case "Hollow":
+                ball.hollow = false;
+                break;
+//            case "Confusion":
+//                break;
+        }
+    }
+
+    public boolean addUpgrade(Upgrade ug) {
+
+        boolean duplicate = false;
+        for (int i = 0; i < activeUpgrades.size(); i++) {
+            if(activeUpgrades.get(i).upgradeName.equals(ug.upgradeName)) {
+                duplicate = true;
+                break;
+            } else {
+                continue;
+            }
+        }
+
+        if(!duplicate) {
+            activeUpgrades.add(ug);
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean addDowngrade(Downgrade dg) {
+
+        boolean duplicate = false;
+        for (int i = 0; i < activeDowngrades.size(); i++) {
+            if(activeDowngrades.get(i).downgradeName.equals(dg.downgradeName)) {
+                duplicate = true;
+                break;
+            } else {
+                continue;
+            }
+        }
+
+        if(!duplicate) {
+            activeDowngrades.add(dg);
+            return true;
+        }
+        return false;
+    }
+
+    public void clearEffects(Bat bat, Ball ball) {
+
+        for (int i = 0; i < activeUpgrades.size(); i++) {
+            resetEffects(activeUpgrades.get(i).upgradeName, bat, ball);
+        }
+        for (int i = 0; i < activeDowngrades.size(); i++) {
+            resetEffects(activeDowngrades.get(i).downgradeName, bat, ball);
+        }
+
+        activeUpgrades.clear();
+        activeDowngrades.clear();
+    }
+
 }

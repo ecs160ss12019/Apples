@@ -20,8 +20,6 @@ public abstract class Level {
     Ball[] balls;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
     Debris[] debris = new Debris[bricksInLevel];
-    //    Upgrade[] ug = new Upgrade[bricksInLevel];
-//    Downgrade[] dg = new Downgrade[bricksInLevel];
     Context context;
 
     Randomizer randomizer;
@@ -119,8 +117,15 @@ public abstract class Level {
     public boolean checkCollision(Ball ball){
         boolean hit = false;
         // Check for ball colliding with a brick
-        if (ball.getActive()) {
 
+        // Check if ball has hollow ball downgrade
+
+        if (ball.hollow) {
+            return hit;
+        }
+
+
+        if (ball.getActive()) {
             for (int i = 0; i < bricksInLevel; i++) {
                 if (bricks[i].getVisibility()) {
                     if (RectF.intersects(bricks[i].getRect(), ball.getRect())
@@ -130,12 +135,19 @@ public abstract class Level {
                         if (bricks[i].getDurability() == 0) {
                             bricks[i].setInvisible();
                             hitObstacle();
+
+                            // Checks if there ball has an explosion upgrade
+                            if(ball.explosion) {
+                                // destroy left/right neighboring obstacles
+                                explodingBall(i);
+                            }
+
+                            if (!debris[i].getDebrisType().equals("None")) {
+                                debris[i].activate();
+                            }
+
                         } else {
                             bricks[i] = bricks[i].reduceDurability();
-                        }
-
-                        if (!debris[i].getDebrisType().equals("None")) {
-                            debris[i].activate();
                         }
                         ballObstacleCollision(ball,bricks[i].getRect());
                         hit = true;
@@ -155,13 +167,15 @@ public abstract class Level {
     }
 
 
-    public void checkDebrisCollision(Bat bat) {
+    public void checkDebrisCollision(Bat bat, Player player) {
         for (int i = 0; i < bricksInLevel; i++) {
             for (int j = 0; j < ballsInLevel; j++) {
                 if (debris[i].getActive()) {
                     if (RectF.intersects(debris[i].getRect(), balls[j].getRect())) {
                         // Checks ball/debris collision
-                        debris[i].deactivate();
+                        if(balls[j].getActive()) {
+                            debris[i].deactivate();
+                        }
                     } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
                         // Checks ball/bat debris collision
 
@@ -173,11 +187,15 @@ public abstract class Level {
                                 break;
                             case "Upgrade":
                                 Upgrade ugs = new Upgrade();
-                                applyUpgrade(ugs, balls[j], bat);
+                                if (player.addUpgrade(ugs)) {
+                                    applyUpgrade(ugs, balls[0], bat);
+                                }
                                 break;
                             case "Downgrade":
                                 Downgrade dgs = new Downgrade();
-                                applyDowngrade(dgs, balls[j], bat);
+                                if (player.addDowngrade(dgs)) {
+                                    applyDowngrade(dgs, balls[0], bat);
+                                }
                                 break;
                         }
 
@@ -203,7 +221,9 @@ public abstract class Level {
         }
 
         updateDebris(fps);
-        checkDebrisCollision(bat);
+        checkDebrisCollision(bat, player);
+        player.updateEffects(bat, balls[0]);
+
     }
 
     public boolean atLeastOneBallAlive() {
@@ -240,6 +260,10 @@ public abstract class Level {
         balls[0].reset(screenX, screenY, level);
     }
 
+    public void resetEffects(Player player, Bat bat) {
+        player.clearEffects(bat, balls[0]);
+    }
+
     public void createBalls(Context context, int screenX, int screenY) {
         balls = new Ball[ballsInLevel];
         balls[0] = new Ball(context, screenX, screenY);
@@ -263,7 +287,7 @@ public abstract class Level {
         // Updates the position of all active debris
         for (int i = 0; i < bricksInLevel; i++) {
             if (debris[i].getActive()) {
-                debris[i].update(fps);
+                debris[i].update(fps, screenY);
             }
         }
     }
@@ -288,6 +312,40 @@ public abstract class Level {
                 bat.applyDowngrade(dg.downgradeName);
                 break;
         }
+    }
+
+    private void explodingBall(int index) {
+
+        if(index < (rowsInLevel * columnsInLevel) &&
+                index >= (rowsInLevel * columnsInLevel - rowsInLevel)) {
+            // Bricks on the right-most column
+
+            // Checks if there's a brick/pocket there
+            if(bricks[index-rowsInLevel].getVisibility()) {
+                bricks[index-rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        } else if (index >= 0 && index <rowsInLevel) {
+            // Bricks on the left-most column
+
+            //Checks if there's a brick/pocket there
+            if(bricks[index+rowsInLevel].getVisibility()) {
+                bricks[index+rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        } else {
+            // Everything else in between
+            if(bricks[index+rowsInLevel].getVisibility()) {
+                bricks[index+rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+
+            if(bricks[index-rowsInLevel].getVisibility()) {
+                bricks[index-rowsInLevel].setInvisible();
+                hitObstacle();
+            }
+        }
+
     }
 
     abstract void createBricks(Context context);
