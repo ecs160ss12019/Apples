@@ -32,14 +32,6 @@ public class SuperBreakoutActivity extends Activity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        hiScores = getSharedPreferences(HI_SCORES, 0);
-
-        superBreakoutGame = new GameView(this, size.x, size.y, hiScores);
-        game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
-        game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
-
-        final RelativeLayout mainLayout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
-        mainLayout.addView(game);
 
         setContentView(R.layout.activity_main);
 
@@ -49,15 +41,21 @@ public class SuperBreakoutActivity extends Activity {
         Intent receiveLevelMenu = getIntent();
         LevelIndicator =  receiveLevelMenu.getIntExtra("LevelIndicator",LevelIndicator);
 
+        hiScores = getSharedPreferences(HI_SCORES, 0);
+
+        superBreakoutGame = new GameView(this, size.x, size.y, hiScores);
+        game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
+        game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
+
+        final RelativeLayout mainLayout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
+        mainLayout.addView(game);
+
         // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inputNickname = new Intent(SuperBreakoutActivity.this, NicknameInput.class);
                 startActivityForResult(inputNickname, 1);
-
-                //return player name to superBreakoutGame
-
 
                 superBreakoutGame.levelIndicator = LevelIndicator;
                 // Code here executes on main thread after user presses button

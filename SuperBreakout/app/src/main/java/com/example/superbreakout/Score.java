@@ -3,7 +3,7 @@ package com.example.superbreakout;
 
 public class Score implements Comparable<Score> {
 
-    private String playerName;
+    public String playerName;
     public int scoreValue;
 
     public Score(String name, int value) {

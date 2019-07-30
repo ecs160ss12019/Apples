@@ -54,7 +54,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     // File to score highscores
     private SharedPreferences hiScores;
-    public static final String HI_SCORES = "HSFile";
 
     public static int levelIndicator = 1;
 
@@ -244,12 +243,16 @@ public class GameView extends SurfaceView implements Runnable {
                     screenX / 2 - densityDpi , (screenY / 2), paint);
             ourHolder.unlockCanvasAndPost(canvas);
 
+            setHighScore();
+
             try {
                 // Wait 3 seconds then reset a new game
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            startNewGame();
 
             return true;
         }
@@ -281,6 +284,7 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(getResources().getColor(R.color.colorAccent));
             canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
                     (densityDpi / 1), paint);
+            setHighScore();
         }
 
     }
@@ -302,6 +306,7 @@ public class GameView extends SurfaceView implements Runnable {
         String scores = hiScores.getString("highScores", "");
 
         if(scores.length() > 0) {
+            System.out.println(scores.length());
             // there are existing scores
             List<Score> scoreStrings = new ArrayList<Score>();
             String[] exScores = scores.split("\\|"); // Split strings
@@ -314,6 +319,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Make a new score object with current player's score
             Score newScore = new Score(player.name, currentScore);
+            System.out.println(newScore.playerName + " - " + newScore.scoreValue);
             scoreStrings.add(newScore);
 
             //Sort scores
@@ -327,13 +333,17 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             scoreEditor.putString("highScores", scoreString.toString());
+            scoreEditor.commit();
 
+            System.out.println("Stuck");
         }
         else {
             // There are no existing scores
             scoreEditor.putString("highScores", "" + player.name + " - " + currentScore);
+            scoreEditor.commit();
+            //System.out.println("Stuck");
         }
 
-        scoreEditor.commit();
+        return;
     }
 }
