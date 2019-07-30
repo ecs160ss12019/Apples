@@ -134,12 +134,14 @@ public class GameView extends SurfaceView implements Runnable {
             paused = true;
             if (player.isAlive()) {
                 level.resetLevel();
+                level.resetEffects(player, bat);
             }
 
         }else{
             if (level.levelCompleted()) {
                 level = level.advanceNextLevel();
                 level.createBricks(getContext());
+                level.resetEffects(player, bat);
             }
         }
     }

@@ -262,6 +262,10 @@ public abstract class Level {
         balls[0].reset(screenX, screenY, level);
     }
 
+    public void resetEffects(Player player, Bat bat) {
+        player.clearEffects(bat, balls[0]);
+    }
+
     public void createBalls(Context context, int screenX, int screenY) {
         balls = new Ball[ballsInLevel];
         balls[0] = new Ball(context, screenX, screenY);
