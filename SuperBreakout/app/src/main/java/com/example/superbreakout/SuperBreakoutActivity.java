@@ -37,6 +37,8 @@ public class SuperBreakoutActivity extends Activity {
         display.getSize(size);
 
         indicators = new HashMap<>();
+        indicators.put("LevelIndicator", 1);
+        indicators.put("SlideIndicator", 0);
 
         superBreakoutGame = new GameView(this, size.x, size.y);
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
