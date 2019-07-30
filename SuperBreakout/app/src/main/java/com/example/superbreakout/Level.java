@@ -169,7 +169,7 @@ public abstract class Level {
     }
 
 
-    public void checkDebrisCollision(Bat bat) {
+    public void checkDebrisCollision(Bat bat, Player player) {
         for (int i = 0; i < bricksInLevel; i++) {
             for (int j = 0; j < ballsInLevel; j++) {
                 if (debris[i].getActive()) {
@@ -189,11 +189,15 @@ public abstract class Level {
                                 break;
                             case "Upgrade":
                                 Upgrade ugs = new Upgrade();
-                                applyUpgrade(ugs, balls[j], bat);
+                                if (player.addUpgrade(ugs)) {
+                                    applyUpgrade(ugs, balls[j], bat);
+                                }
                                 break;
                             case "Downgrade":
                                 Downgrade dgs = new Downgrade();
-                                applyDowngrade(dgs, balls[j], bat);
+                                if (player.addDowngrade(dgs)) {
+                                    applyDowngrade(dgs, balls[j], bat);
+                                }
                                 break;
                         }
 
@@ -219,7 +223,7 @@ public abstract class Level {
         }
 
         updateDebris(fps);
-        checkDebrisCollision(bat);
+        checkDebrisCollision(bat, player);
     }
 
     public boolean atLeastOneBallAlive() {
