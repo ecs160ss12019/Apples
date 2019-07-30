@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.content.SharedPreferences;
 
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
     private int LevelIndicator = 0;
     FrameLayout game;
+    private SharedPreferences hiScores;
+    public static final String HI_SCORES = "HSFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class SuperBreakoutActivity extends Activity {
         mainLayout.addView(game);
 
         setContentView(R.layout.activity_main);
+        hiScores = getSharedPreferences(HI_SCORES, 0);
 
         /**
          * Gets intent from level
@@ -69,6 +73,22 @@ public class SuperBreakoutActivity extends Activity {
 
     }
 
+    private void setHighScore() {
+        int currentScore = superBreakoutGame.player.getScore();
+
+        SharedPreferences.Editor scoreEditor = hiScores.edit();
+        String scores = hiScores.getString("highScores", "");
+        if(scores.length() > 0) {
+            // there are existing scores
+        }
+        else {
+            // There are no existing scores
+            scoreEditor.putString("highScores", "" + superBreakoutGame.player.name + " - " + currentScore);
+            scoreEditor.commit();
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,7 +98,6 @@ public class SuperBreakoutActivity extends Activity {
                 superBreakoutGame.player.name = data.getStringExtra("NickName");
             }
         }
-        System.out.println(superBreakoutGame.player.name);
     }
 
     public void onBackPressed(){
