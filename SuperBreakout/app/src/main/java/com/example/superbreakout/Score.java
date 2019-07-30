@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+/* Source:
+ * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825
+ */
 
 public class Score implements Comparable<Score> {
 

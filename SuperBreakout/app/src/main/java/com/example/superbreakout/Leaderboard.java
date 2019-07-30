@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/* Source:
+ * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825
+ */
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;

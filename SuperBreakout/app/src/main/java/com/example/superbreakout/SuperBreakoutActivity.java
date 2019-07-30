@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/* Source:
+ * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ */
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
