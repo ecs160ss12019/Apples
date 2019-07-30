@@ -13,6 +13,7 @@ public class Player {
     int lives;
     private List<Upgrade> activeUpgrades = new ArrayList<Upgrade>();
     private List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
+    String name;
 
     public Player(){
         lives = STARTING_LIVES;
