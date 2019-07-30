@@ -40,6 +40,8 @@ public class LevelThree extends Level{
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);
+                String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None"};
+                debris[numBricks].setDebrisType(types);
                 numBricks++;
             }
         }

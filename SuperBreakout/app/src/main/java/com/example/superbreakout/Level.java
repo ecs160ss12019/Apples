@@ -20,8 +20,6 @@ public abstract class Level {
     Ball[] balls;
     Obstacle[] bricks = new Obstacle[bricksInLevel];
     Debris[] debris = new Debris[bricksInLevel];
-    //    Upgrade[] ug = new Upgrade[bricksInLevel];
-//    Downgrade[] dg = new Downgrade[bricksInLevel];
     Context context;
 
     Randomizer randomizer;

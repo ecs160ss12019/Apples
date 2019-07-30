@@ -33,6 +33,8 @@ public class LevelTwo extends Level {
                         brickWidth/2, brickHeight/3);
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);
+                String[] types = {"Harmful", "Upgrade", "Downgrade", "None"};
+                debris[numBricks].setDebrisType(types);
                 numBricks++;
             }
         }
