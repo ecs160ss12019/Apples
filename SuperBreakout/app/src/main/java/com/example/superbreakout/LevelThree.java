@@ -11,7 +11,6 @@ public class LevelThree extends Level{
         super(x,y, currentContext);
         level = LEVEL_THREE;
         ballsInLevel = BALLS_IN_LEVEL;
-        randomizer = new Randomizer();
     }
 
     @Override
@@ -30,13 +29,13 @@ public class LevelThree extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 0;
-                if(randomizer.getRandBoolean()) {
-                    rand = randomizer.getRandNumber(-1,3);
+                int randNumber = 0;
+                if(Randomizer.getRandBoolean()) {
+                    randNumber = Randomizer.getRandNumber(-1,3);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
-                        brickWidth/2, brickHeight/3,rand);
+                        brickWidth/2, brickHeight/3,randNumber);
 
                 // can possibly change this to spawnDebris()
                 debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);

@@ -44,7 +44,6 @@ public class GameView extends SurfaceView implements Runnable {
     DisplayMetrics dm;
     int densityDpi;
 
-    Randomizer randomizer;
     Bitmap backgroundImage;
 
     public static int levelIndicator = 1;
@@ -75,8 +74,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
-
-        randomizer = new Randomizer();
     }
 
     /**

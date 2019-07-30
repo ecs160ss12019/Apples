@@ -22,7 +22,6 @@ public abstract class Level {
     Debris[] debris = new Debris[bricksInLevel];
     Context context;
 
-    Randomizer randomizer;
     SoundEffects FX;
 
     public Level(int x, int y, Context currentContext) {

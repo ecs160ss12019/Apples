@@ -11,7 +11,6 @@ public class LevelFour extends Level{
         super(x,y, currentContext);
         level = LEVEL_FOUR;
         ballsInLevel = BALLS_IN_LEVEL;
-        randomizer = new Randomizer();
     }
 
     @Override
@@ -31,8 +30,8 @@ public class LevelFour extends Level{
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 1;
-                if(randomizer.getRandBoolean()) {
-                    rand = randomizer.getRandNumber(-1,2);
+                if(Randomizer.getRandBoolean()) {
+                    rand = Randomizer.getRandNumber(-1,2);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,

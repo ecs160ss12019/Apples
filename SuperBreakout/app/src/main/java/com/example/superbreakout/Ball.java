@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
+import java.util.Random;
+
 public class Ball extends GameObject {
     private RectF rect; // rectangle that represents the ball
     public double xVelocity; // horizontal component of velocity (positive in the right direction)
@@ -24,8 +26,6 @@ public class Ball extends GameObject {
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
 
-    Randomizer randomizeVelocity;
-
 
     public Ball(Context context, int screenX, int screenY) {
         super(screenX/40, screenX/40);
@@ -39,9 +39,6 @@ public class Ball extends GameObject {
         this.context = context;
         // creates new rectangle object for ball
         rect = new RectF();
-
-        // creates new randomizer
-        randomizeVelocity = new Randomizer();
 
         // width and height has to be added by these specific numbers to make ball look proportional
         bitmapDimensions = new BitmapDimensions(screenX/40, screenX/40);
@@ -102,13 +99,13 @@ public class Ball extends GameObject {
 
         int Vx, Vy; // Proposed horizontal and vertical components of velocity
         // randomly generate a variable that determines if the ball starts by moving left/right
-        int xDirection = randomizeVelocity.getRandNumber(1,3);
+        int xDirection = Randomizer.getRandNumber(1,3);
         if(xDirection >= 2)
-            Vx = randomizeVelocity.getRandNumber(4,8);
+            Vx = Randomizer.getRandNumber(4,8);
         else
-            Vx = -randomizeVelocity.getRandNumber(4,8);
+            Vx = -Randomizer.getRandNumber(4,8);
 
-        Vy = -randomizeVelocity.getRandNumber(10,16); // Always start with upwards velocity
+        Vy = -Randomizer.getRandNumber(10,16); // Always start with upwards velocity
 
         this.normalizeVelocity(Vx, Vy); // Make velocity constant speed
     }
