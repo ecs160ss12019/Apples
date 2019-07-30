@@ -13,6 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
@@ -73,19 +77,47 @@ public class SuperBreakoutActivity extends Activity {
 
     }
 
+
     private void setHighScore() {
         int currentScore = superBreakoutGame.player.getScore();
 
         SharedPreferences.Editor scoreEditor = hiScores.edit();
         String scores = hiScores.getString("highScores", "");
+
         if(scores.length() > 0) {
             // there are existing scores
+            List<Score> scoreStrings = new ArrayList<Score>();
+            String[] exScores = scores.split("\\|"); // Split strings
+
+            // Add scores to the list in specified format
+            for(String eSc : exScores) {
+                String[] parts = eSc.split(" - ");
+                scoreStrings.add(new Score(parts[0], Integer.parseInt(parts[1])));
+            }
+
+            // Make a new score object with current player's score
+            Score newScore = new Score(superBreakoutGame.player.name, currentScore);
+            scoreStrings.add(newScore);
+
+            //Sort scores
+            Collections.sort(scoreStrings);
+
+            StringBuilder scoreString = new StringBuilder("");
+            for(int i = 0; i < scoreStrings.size(); i++) {
+                if(i >= 5) break; // we only store top 5 scores
+                if(i > 0) scoreString.append("|"); // separate different high scores
+                scoreString.append(scoreStrings.get(i).getScoreText());
+            }
+
+            scoreEditor.putString("highScores", scoreString.toString());
+
         }
         else {
             // There are no existing scores
             scoreEditor.putString("highScores", "" + superBreakoutGame.player.name + " - " + currentScore);
-            scoreEditor.commit();
         }
+
+        scoreEditor.commit();
     }
 
 
