@@ -153,6 +153,11 @@ public class Bat extends GameObject {
                 break;
             case "SizeUp":
                 width = width + width/4;
+                bitmapDimensions.width = (int)width;
+                batBitmap = Bitmap.createScaledBitmap(batBitmap,
+                        bitmapDimensions.width,
+                        bitmapDimensions.height,
+                        true);
                 break;
         }
     }
@@ -161,12 +166,26 @@ public class Bat extends GameObject {
 
         switch(downgradeName) {
             case "SpeedDown":
-                paddleSpeed = paddleSpeed - paddleSpeed/4;
+                paddleSpeed = paddleSpeed/1.25f;
                 break;
             case "SizeDown":
                 width = width - width/4;
+                bitmapDimensions.width = (int)width;
+                batBitmap = Bitmap.createScaledBitmap(batBitmap,
+                        bitmapDimensions.width,
+                        bitmapDimensions.height,
+                        true);
                 break;
         }
+    }
+
+    public void resetBatWidth() {
+        width = MYscreenDPI/2;
+        bitmapDimensions.width = (int)width;
+        batBitmap = Bitmap.createScaledBitmap(batBitmap,
+                bitmapDimensions.width,
+                bitmapDimensions.height,
+                true);
     }
 
     // Setter for paddleSpeed

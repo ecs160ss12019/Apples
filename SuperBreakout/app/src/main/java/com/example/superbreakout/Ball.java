@@ -252,7 +252,7 @@ public class Ball extends GameObject {
                 explosion = true;
                 break;
             case "Slow":
-                speed = speed - speed/4;
+                speed = speed/2;
                 break;
         }
     }
@@ -274,6 +274,8 @@ public class Ball extends GameObject {
     public void setBallSpeed(double ballSpeed) {
         this.speed = ballSpeed;
     }
+
+    public double getBallSpeed() { return this.speed; }
 
     // Check if the ball hit the walls on the screen to change ball's trajectory
     public void checkWallBounce(){
