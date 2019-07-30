@@ -311,7 +311,6 @@ public class GameView extends SurfaceView implements Runnable {
         String scores = hiScores.getString("highScores", "");
 
         if(scores.length() > 0) {
-            System.out.println(scores.length());
             // there are existing scores
             List<Score> scoreStrings = new ArrayList<Score>();
             String[] exScores = scores.split("\\|"); // Split strings
@@ -339,14 +338,11 @@ public class GameView extends SurfaceView implements Runnable {
 
             scoreEditor.putString("highScores", scoreString.toString());
             scoreEditor.commit();
-
-            System.out.println("Stuck");
         }
         else {
             // There are no existing scores
             scoreEditor.putString("highScores", "" + player.name + " - " + currentScore);
             scoreEditor.commit();
-            //System.out.println("Stuck");
         }
 
         return;
