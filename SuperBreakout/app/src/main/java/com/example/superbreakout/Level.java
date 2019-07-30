@@ -121,11 +121,11 @@ public abstract class Level {
         // Check for ball colliding with a brick
 
         // Check if ball has hollow ball downgrade
-        /*
+
         if (ball.hollow) {
             return hit;
         }
-        */
+
 
         if (ball.getActive()) {
             for (int i = 0; i < bricksInLevel; i++) {
@@ -190,13 +190,13 @@ public abstract class Level {
                             case "Upgrade":
                                 Upgrade ugs = new Upgrade();
                                 if (player.addUpgrade(ugs)) {
-                                    applyUpgrade(ugs, balls[j], bat);
+                                    applyUpgrade(ugs, balls[0], bat);
                                 }
                                 break;
                             case "Downgrade":
                                 Downgrade dgs = new Downgrade();
                                 if (player.addDowngrade(dgs)) {
-                                    applyDowngrade(dgs, balls[j], bat);
+                                    applyDowngrade(dgs, balls[0], bat);
                                 }
                                 break;
                         }
@@ -224,6 +224,8 @@ public abstract class Level {
 
         updateDebris(fps);
         checkDebrisCollision(bat, player);
+        player.updateEffects(bat, balls[0]);
+
     }
 
     public boolean atLeastOneBallAlive() {

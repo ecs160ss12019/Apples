@@ -261,7 +261,7 @@ public class Ball extends GameObject {
 
         switch(downgradeName) {
             case "Hollow":
-                hollow = false;
+                hollow = true;
                 break;
             case "Slow":
                 // Implement code
