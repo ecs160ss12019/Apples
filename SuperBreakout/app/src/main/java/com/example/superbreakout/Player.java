@@ -11,8 +11,8 @@ public class Player {
     int consecutiveHits = 0;
     int nextLife = 0;
     int lives;
-    public List<Upgrade> activeUpgrades = new ArrayList<Upgrade>();
-    public List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
+    private List<Upgrade> activeUpgrades = new ArrayList<Upgrade>();
+    private List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
 
     public Player(){
         lives = STARTING_LIVES;
@@ -43,6 +43,10 @@ public class Player {
         if(lives == 0) return false;
         else return true;
     }
+
+    public List<Upgrade> getActiveUpgrades() { return activeUpgrades; }
+
+    public List<Downgrade> getActiveDowngrades() { return activeDowngrades; }
 
     public void updateEffects(Bat bat, Ball ball) {
 
