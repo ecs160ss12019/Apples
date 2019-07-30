@@ -30,14 +30,13 @@ public class Debris {
                 column * width + width + horzPadding - horzPadding/20,
                 row * height + height + vertPadding - vertPadding/15);
 
-
-        // sets the debris type randomly from the 4 types.
-        String[] types = {"Harmful", "Upgrade", "Downgrade", "None", "None", "None"};
-        Random random = new Random();
-
-        debrisType = types[random.nextInt(types.length)];
-
         active = false;
+    }
+
+    public void setDebrisType(String[] types) {
+
+        Random random = new Random();
+        debrisType = types[random.nextInt(types.length)];
     }
 
     public RectF getRect() {
@@ -66,8 +65,12 @@ public class Debris {
         active = false;
     }
 
-    public void update(long fps) {
+    public void update(long fps, int screenY) {
         // Change the top/bottom coordinates to imitate "falling"
+        if(rect.bottom > screenY) {
+            deactivate();
+        }
+
         float SPEED = 0f;
         switch (debrisType) {
             case "Harmful":

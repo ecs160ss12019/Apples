@@ -289,7 +289,7 @@ public abstract class Level {
         // Updates the position of all active debris
         for (int i = 0; i < bricksInLevel; i++) {
             if (debris[i].getActive()) {
-                debris[i].update(fps);
+                debris[i].update(fps, screenY);
             }
         }
     }
