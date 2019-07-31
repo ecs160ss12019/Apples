@@ -1,17 +1,22 @@
 package com.example.superbreakout;
 
+/*
+ *  This class handles all the debris type.
+ *  Falling objects that can destroy the bat, or grant either an upgrade or downgrade
+ */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import java.util.Random;
 
-/*
- *  Falling objects that can destroy the bat, or grant either an upgrade or downgrade
- */
+
 public class Debris {
 
-    // Constant speed variables for each debris type.
+    /**
+     * Constant speed variables for each debris type.
+     */
     private final float UPGRADE_SPEED = 1100;
     private final float DOWNGRADE_SPEED = 1350;
     private final float HARMFUL_SPEED = 1500;
@@ -42,26 +47,49 @@ public class Debris {
         active = false;
     }
 
+    /**
+     *
+     * @param types Types of the debris.
+     */
     public void setDebrisType(String[] types) {
 
         Random random = new Random();
         debrisType = types[random.nextInt(types.length)];
     }
 
+    /**
+     *
+     * @return Bitmap file of debris.
+     */
     public Bitmap getDebrisBitmap() { return debrisBitmap; }
 
+    /**
+     *
+     * @return Rect object of debris.
+     */
     public RectF getRect() {
         return this.rect;
     }
 
+    /**
+     *
+     * @return Type of the debris.
+     */
     public String getDebrisType() {
         return debrisType;
     }
 
+    /**
+     *
+     * @return The state of the debris' effects.
+     */
     public boolean getActive() {
         return active;
     }
 
+    /**
+     * Actiavtes the debris on destroying an obstacle.
+     */
     public void activate() {
         // Used once the ball hits an obstacle
         active = true;
@@ -77,6 +105,9 @@ public class Debris {
 
     }
 
+    /**
+     * Sets the debris bitmaps.
+     */
     public void setDebrisBitmap() {
         bitmapDimensions = new BitmapDimensions( (int)rect.width(), (int)rect.height() );
         switch(debrisType) {

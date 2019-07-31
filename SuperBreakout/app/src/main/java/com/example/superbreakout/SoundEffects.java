@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * This class hanldes the blipping sound effect when the ball hits an obstacle.
+ */
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -14,6 +18,10 @@ public class SoundEffects {
     SoundPool sp;
     int idFX;
 
+    /**
+     *
+     * @param context Context of GameView
+     */
     public SoundEffects(Context context){
         // Instantiate a SoundPool dependent on Android version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -51,6 +59,9 @@ public class SoundEffects {
         }
     }
 
+    /**
+     * Plays the SoundFX.
+     */
     public void playFX() {
         sp.play(idFX, 1, 1, 0, 0, 1);
     }

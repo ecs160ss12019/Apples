@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * This class handles setting the nickname for each instance of playing the game.
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +14,10 @@ import android.widget.EditText;
 
 public class NicknameInput extends Activity {
 
+    /**
+     * Constructor for setting up the nickname of the game.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,4 +48,3 @@ public class NicknameInput extends Activity {
     }
 
 }
-

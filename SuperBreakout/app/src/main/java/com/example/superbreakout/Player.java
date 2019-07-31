@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * This class contains all the information of the player.
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +19,35 @@ public class Player {
     private List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
     String name;
 
+    /**
+     * Constructor to set lives of the player per stage.
+     */
     public Player(){
         lives = STARTING_LIVES;
     }
 
+    /**
+     * Reduces player's life.
+     */
     public void reduceLifeByOne(){ lives--;}
 
+    /**
+     *
+     * @return Score of player currently..
+     */
     public int getScore(){ return score;}
 
+    /**
+     *
+     * @return Lives of player currently.
+     */
     public int getLives(){ return lives;}
 
+    /**
+     * Adds points if player hits a brick.
+     * Adds multiplier if player hits brick continuously.
+     * Brings cumulative points to the next level.
+     */
     public void hitBrick(){
         consecutiveHits += 1;
         score += (int)(10.0*(float)(consecutiveHits/10.0));
@@ -36,19 +59,39 @@ public class Player {
         }
     }
 
+    /**
+     * Resets continuous multiplier if player misses the ball.
+     */
     public void missBrick(){
         consecutiveHits = 0;
     }
 
+    /**
+     *
+     * @return True / False if player is alive or not.
+     */
     public boolean isAlive(){
         if(lives == 0) return false;
         else return true;
     }
 
+    /**
+     *
+     * @return Player's activated upgrades.
+     */
     public List<Upgrade> getActiveUpgrades() { return activeUpgrades; }
 
+    /**
+     *
+     * @return Player's activated downgrades.
+     */
     public List<Downgrade> getActiveDowngrades() { return activeDowngrades; }
 
+    /**
+     * Updates the effect for a certain period of time.
+     * @param bat Bat object of the game.
+     * @param ball Ball object of the game.
+     */
     public void updateEffects(Bat bat, Ball ball) {
 
         for (int i = 0; i < activeUpgrades.size(); i++) {
@@ -69,6 +112,13 @@ public class Player {
             }
         }
     }
+
+    /**
+     * Resets the effect of the player to original properties.
+     * @param effectName Type of the effect
+     * @param bat Bat object of the game.
+     * @param ball Ball object of the game.
+     */
 
     public void resetEffects(String effectName, Bat bat, Ball ball) {
 

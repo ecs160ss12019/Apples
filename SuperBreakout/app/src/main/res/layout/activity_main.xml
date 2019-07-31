@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
     tools:context=".SuperBreakoutActivity">
+
 
     <TextView
         android:id="@+id/title"
@@ -13,6 +15,7 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:text="Super Breakout"
+        android:textColor="@color/colorWhite"
         android:textSize="50dp" />
 
     <Button
@@ -31,7 +34,7 @@
         android:layout_marginTop="24dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/startGame"
-        android:text="Set Level" />
+        android:text="Settings" />
 
     <Button
         android:id="@+id/leaderboard"
@@ -41,5 +44,4 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/level"
         android:text="Leaderboard" />
-
 </RelativeLayout>

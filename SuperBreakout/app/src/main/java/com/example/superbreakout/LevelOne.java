@@ -12,7 +12,6 @@ public class LevelOne extends Level {
         super(x,y, currentContext);
         level = LEVEL_ONE;
         ballsInLevel = BALLS_IN_LEVEL;
-        randomizer = new Randomizer();
     }
 
     @Override

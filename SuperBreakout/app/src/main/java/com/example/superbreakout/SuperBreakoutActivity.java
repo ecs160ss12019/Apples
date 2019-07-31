@@ -2,6 +2,9 @@ package com.example.superbreakout;
 
 /* Source:
  * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ *
+ * This class handles the view of the app.
+ * Code based on Pong game by Packt Publishing.
  */
 
 import android.content.Intent;
@@ -17,6 +20,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +29,14 @@ import java.util.List;
 public class SuperBreakoutActivity extends Activity {
 
     private GameView superBreakoutGame;
+    HashMap <String, Integer> indicators;
+
     private int LevelIndicator = 0;
+    private int SlideIndicator = 0;
+
+    private static final int REQUEST_CODE_FOR_SETTINGS = 2; // code to confirm result returned from settings intent
+    private static final int REQUEST_CODE_FOR_LEADERBOARD = 1; // code to confirm result returned from leaderboard intent
+
     FrameLayout game;
     private SharedPreferences hiScores;
     public static final String HI_SCORES = "HSFile";
@@ -37,13 +49,9 @@ public class SuperBreakoutActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
 
-        setContentView(R.layout.activity_main);
-
-        /**
-         * Gets intent from level
-         */
-        Intent receiveLevelMenu = getIntent();
-        LevelIndicator =  receiveLevelMenu.getIntExtra("LevelIndicator",LevelIndicator);
+        indicators = new HashMap<>();
+        indicators.put("LevelIndicator", 1);
+        indicators.put("SlideIndicator", 0);
 
         hiScores = getSharedPreferences(HI_SCORES, 0);
 
@@ -54,14 +62,29 @@ public class SuperBreakoutActivity extends Activity {
         final RelativeLayout mainLayout = (RelativeLayout) View.inflate(this, R.layout.pause_ui, null);
         mainLayout.addView(game);
 
-        // Creates a listener for the button so everytime the button is clicked, it runs this piece of code
-        final Button StartGame = findViewById(R.id.startGame);
+        setContentView(R.layout.activity_main);
+
+        /**
+         * Starts the background music service
+         */
+        Intent musicService = new Intent(SuperBreakoutActivity.this, BackgroundMusic.class);
+        startService(musicService);
+
+        /**
+         * Creates a listener for the button so everytime the button is clicked, it runs this piece of code
+         */
+         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent inputNickname = new Intent(SuperBreakoutActivity.this, NicknameInput.class);
-                startActivityForResult(inputNickname, 1);
+                /**
+                 * Sets the indicators for the game
+                 */
+                superBreakoutGame.levelIndicator = indicators.get("LevelIndicator");
+                superBreakoutGame.slideIndicator = indicators.get("SlideIndicator");
 
-                superBreakoutGame.levelIndicator = LevelIndicator;
+                Intent inputNickname = new Intent(SuperBreakoutActivity.this, NicknameInput.class);
+                startActivityForResult(inputNickname, REQUEST_CODE_FOR_LEADERBOARD);
+
                 // Code here executes on main thread after user presses button
                 superBreakoutGame.startNewGame();
                 setContentView(mainLayout);
@@ -72,8 +95,7 @@ public class SuperBreakoutActivity extends Activity {
         setLevel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent LevelMenu = new Intent(SuperBreakoutActivity.this, LevelMenu.class);
-                LevelMenu.putExtra("LevelIndicator", LevelIndicator);
-                startActivity(LevelMenu);
+                startActivityForResult(LevelMenu, REQUEST_CODE_FOR_SETTINGS);
             }
         });
 
@@ -85,17 +107,6 @@ public class SuperBreakoutActivity extends Activity {
             }
         });
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                superBreakoutGame.player.name = data.getStringExtra("NickName");
-            }
-        }
     }
 
     public void onBackPressed(){
@@ -146,7 +157,32 @@ public class SuperBreakoutActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        
         superBreakoutGame.pause();
+    }
+
+    /**
+     * Receives code from settings menu
+     * Sets the level and slide indicator for the game to determine sliding or levels
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data); // super is needed for code to run
+
+        if(requestCode == REQUEST_CODE_FOR_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                indicators.put("LevelIndicator", data.getIntExtra("LI", 1));
+                indicators.put("SlideIndicator", data.getIntExtra("SI", 0));
+            }
+        }
+
+        if(requestCode == REQUEST_CODE_FOR_LEADERBOARD) {
+            if(resultCode == RESULT_OK) {
+                superBreakoutGame.player.name = data.getStringExtra("NickName");
+            }
+        }
+
     }
 }

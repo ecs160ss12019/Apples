@@ -10,7 +10,6 @@ public class LevelFour extends Level{
     public LevelFour(int x, int y, Context currentContext){
         super(x,y, currentContext);
         level = LEVEL_FOUR;
-        randomizer = new Randomizer();
         ballsInLevel = BALLS_IN_LEVEL;
     }
 
@@ -31,8 +30,8 @@ public class LevelFour extends Level{
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 1;
-                if(randomizer.getRandBoolean()) {
-                    rand = randomizer.getRandNumber(-1,2);
+                if(Randomizer.getRandBoolean()) {
+                    rand = Randomizer.getRandNumber(-1,2);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
@@ -51,12 +50,14 @@ public class LevelFour extends Level{
         this.createPocket(4,1, rowsInLevel, bricks, 3, 2);
 
         this.initializeExplosion();
+        createBalls(context,screenX,screenY);
     }
 
     @Override
     public Level advanceNextLevel(){
         return new LevelFive(screenX, screenY, context);
     }
+
 
     @Override
     public void createBalls(Context context, int screenX, int screenY){
@@ -66,6 +67,7 @@ public class LevelFour extends Level{
             balls[i] = new Ball(context, screenX, screenY);
             balls[i].reset(screenX,screenY,level);
         }
+
         balls[0].makeActive();
     }
 }

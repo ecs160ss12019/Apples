@@ -3,6 +3,10 @@ package com.example.superbreakout;
 /* Sources:
  * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825\
  * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ *
+ * This class handles the view of the game.
+ * Renders the game.
+ * Code based on Pong game by Packt Publishing.
  */
 
 import android.content.Context;
@@ -31,39 +35,58 @@ import java.util.List;
 
 public class GameView extends SurfaceView implements Runnable {
 
-    // OS stuff
+    /**
+     * OS stuff.
+     */
     Thread gameThread = null;
     SurfaceHolder ourHolder;
     Canvas canvas;
     Paint paint;
     long fps; // sets the frame rate for the game
 
+    /**
+     * States of the game.
+     */
     volatile boolean playing;
     boolean paused = true;
     boolean gameOver = false;
 
-    // Resolution of screen
+    /**
+     * Resolution of screen.
+     */
     int screenX;
     int screenY;
 
-    // Objects of the game
+    /**
+     * Objects of the game.
+     */
     Bat bat;
     Player player;
     Level level;
 
-    // Screen items
+    /**
+     * Screen items.
+     */
     Rect dest;
     DisplayMetrics dm;
     int densityDpi;
 
-    Randomizer randomizer;
     Bitmap backgroundImage, backgroundLayer;
 
     // File to score highscores
     private SharedPreferences hiScores;
 
+    /**
+     * Indicators to set slide and level.
+     */
     public static int levelIndicator = 1;
+    public static int slideIndicator = 0;
 
+    /**
+     * Default constructor.
+     * @param context Context of GameView.
+     * @param attrs AttributeSet of GameView.
+     */
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
@@ -91,8 +114,6 @@ public class GameView extends SurfaceView implements Runnable {
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
 
-        randomizer = new Randomizer();
-
         hiScores = hs;
     }
 
@@ -101,6 +122,8 @@ public class GameView extends SurfaceView implements Runnable {
      */
     public void startNewGame() {
         player = new Player();
+        level = new LevelFour(screenX, screenY, getContext());
+
         switch(levelIndicator) {
             case 2:
                 level = new LevelTwo(screenX, screenY, getContext());
@@ -125,6 +148,9 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
 
+    /**
+     * Runs the SurfaceView.
+     */
     @Override
     public void run() {
         while (playing) {
@@ -142,7 +168,9 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
+    /**
+     * Updates the game every time.
+     */
     public void update() {
 
         bat.update(fps);
@@ -164,7 +192,9 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    // Draw the newly updated scene
+    /**
+     * Draw the newly updated scene
+     */
     public void draw() {
         // Make sure our drawing surface is valid or we crash
         if (ourHolder.getSurface().isValid()) {
@@ -207,8 +237,10 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    // If GameActivity is paused/stoppedq
-    // shutdown our thread.
+    /**
+     * If GameActivity is paused / stopped
+     * shutdown our thread.
+     */
     public void pause() {
         playing = false;
         try {
@@ -218,17 +250,21 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    // If GameActivity is started
-    // start our thread.
+    /**
+     * If GameActivity is started
+     * start our thread.
+     */
+
     public void resume() {
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
     }
 
-    // The SurfaceView class implements onTouchListener
-    // So we can override this method and detect screen touches.
-
+    /**
+     * The SurfaceView class implements onTouchListener
+     * So we can override this method and detect screen touches.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -247,7 +283,10 @@ public class GameView extends SurfaceView implements Runnable {
                 if (player.isAlive()) {
                     paused = false;
                 }
-                bat.move(motionEvent.getX());
+
+                if (slideIndicator == 1) {
+                    bat.move(motionEvent.getX());
+                }
                 break;
         }
         return true;
@@ -256,6 +295,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     /************ HELPER FUNCTIONS ************/
 
+
+    /**
+     * Displays message if out of live
+     * @return True / False if game is over or not.
+     */
     private boolean checkAndDrawEndGame() {
         if (!player.isAlive()) {
             paint.setTextSize(200);
@@ -280,6 +324,10 @@ public class GameView extends SurfaceView implements Runnable {
         return false;
     }
 
+    /**
+     * Outputs the player's stats on the screen.
+     * Lives, Score, Level, Effects.
+     */
     private void drawStats() {
         // Choose the brush color for drawing
         paint.setColor(Color.argb(255, 8, 8, 8));
@@ -313,9 +361,11 @@ public class GameView extends SurfaceView implements Runnable {
             y += 60;
             canvas.drawText(playerDowngrades.get(i).downgradeName, (densityDpi/5)-40, y, paint);
         }
-
     }
 
+    /**
+     * Displays message if finish level 5.
+     */
     private void checkAndDrawWinScreen() {
         if (level.getLevel() == LevelFive.LEVEL_FIVE && level.levelCompleted()) {
             paint.setColor(getResources().getColor(R.color.colorAccent));
@@ -326,16 +376,25 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    /**
+     * Sets the tools for drawing the objects of the game.
+     */
     private void drawStage() {
         // Draw stage
         paint.setColor(Color.argb(255, 255, 0, 0));
         level.draw(canvas, paint);
     }
 
+    /**
+     * Draws the bat in the screen.
+     */
     private void drawBat() {
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
 
+    /**
+     * Sets the leaderboard score.
+     */
     private void setHighScore() {
         int currentScore = player.getScore();
 
@@ -379,4 +438,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         return;
     }
+
+
 }

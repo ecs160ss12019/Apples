@@ -10,6 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:enabled="true"
+            android:name=".BackgroundMusic"></service>
+
         <activity android:name=".SuperBreakoutActivity"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -21,12 +24,6 @@
 
         <activity android:name=".PauseMenuPopUp"
             android:parentActivityName=".SuperBreakoutActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.pauseMenuTheme">
-        </activity>
-
-        <activity android:name=".SettingsMenuPopUp"
-            android:parentActivityName=".PauseMenuPopUp"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme">
         </activity>

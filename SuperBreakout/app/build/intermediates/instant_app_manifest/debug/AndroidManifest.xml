@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <service
+            android:name="com.example.superbreakout.BackgroundMusic"
+            android:enabled="true" />
+
         <activity
             android:name="com.example.superbreakout.SuperBreakoutActivity"
             android:screenOrientation="landscape" >
@@ -32,12 +36,6 @@
         <activity
             android:name="com.example.superbreakout.PauseMenuPopUp"
             android:parentActivityName="com.example.superbreakout.SuperBreakoutActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.pauseMenuTheme" >
-        </activity>
-        <activity
-            android:name="com.example.superbreakout.SettingsMenuPopUp"
-            android:parentActivityName="com.example.superbreakout.PauseMenuPopUp"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>

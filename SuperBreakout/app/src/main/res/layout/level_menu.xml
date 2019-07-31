@@ -75,5 +75,42 @@
         android:text="Level 5"
         android:textAllCaps="true" />
 
+    <TextView
+        android:id="@+id/controlText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/level3"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="Controls" />
+
+
+    <TextView
+        android:id="@+id/slideOnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/controlText"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Slide"
+        android:textAllCaps="true" />
+
+    <Switch
+        android:id="@+id/toggleSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/slideOnButton"
+        android:layout_below="@+id/controlText"
+        android:layout_marginTop="11dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+
 
 </RelativeLayout>

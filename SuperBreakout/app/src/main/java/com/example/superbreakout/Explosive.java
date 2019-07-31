@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * This class handles all explosive obstacles.
+ */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +14,16 @@ public class Explosive extends Obstacle{
     int numNeighbors;
     Obstacle[] neighborsToDestroy;
 
+    /**
+     *
+     * @param context Context of GameView.
+     * @param row Row of Brick.
+     * @param column Column of Brick.
+     * @param widthObstacle How large the explosive obstacle is .
+     * @param heightObstacle How high the explosive obstacle is.
+     * @param horzPadding Horizontal padding.
+     * @param vertPadding Vertical padding.
+     */
     public Explosive(Context context, int row, int column, int widthObstacle, int heightObstacle,
                           int horzPadding, int vertPadding) {
 
@@ -22,6 +36,15 @@ public class Explosive extends Obstacle{
         setBricksBitmap();
     }
 
+    /**
+     *
+     * @param potentialNeighbors Obstacles that are beside the explosive obstacle potentially to be destroyed
+     * @param numRows ??
+     * @param rowStart ??
+     * @param columnStart ??
+     * @param rowEnd ??
+     * @param columnEnd ??
+     */
     public void findNeighbors(Obstacle[] potentialNeighbors, int numRows,
                               int rowStart, int columnStart, int rowEnd, int columnEnd) {
 
@@ -37,6 +60,12 @@ public class Explosive extends Obstacle{
         }
     }
 
+    /**
+     *
+     * @param potentialNeighbors Obstacles that are beside the explosive obstacle potentially to be destroyed
+     * @param numRows
+     * @param numCols
+     */
     @Override
     public void setNeighbors(Obstacle[] potentialNeighbors, int numRows, int numCols) {
         int rowStart = this.row - 1;
@@ -59,6 +88,10 @@ public class Explosive extends Obstacle{
 
     }
 
+    /**
+     *
+     * @return Current obstacle that's set to exploded (invisible).
+     */
     @Override
     public Obstacle reduceDurability() {
         for(int i = 0; i < this.numNeighbors; i++) {
@@ -68,6 +101,9 @@ public class Explosive extends Obstacle{
         return this;
     }
 
+    /**
+     * Sets the bitmap for the explosive obstacle
+     */
     @Override
     public void setBricksBitmap(){
         // Sets the height of each obstacle's bitmap to 200 x 50 pixels
