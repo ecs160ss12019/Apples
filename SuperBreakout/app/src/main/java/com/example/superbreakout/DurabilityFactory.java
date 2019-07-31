@@ -1,5 +1,11 @@
 package com.example.superbreakout;
 
+
+/**
+ * This class acts a base class and engine to determine which durability for each level.
+ * Uses state-based refactoring
+ */
+
 import android.content.Context;
 
 public class DurabilityFactory {
