@@ -1,5 +1,13 @@
 package com.example.superbreakout;
 
+/**
+ * The ball class contains all the properties of the ball object in the game.
+ * It contains all movement related properties of the ball and the physics that come with it
+ *
+ * Code is based on the Pong game by Packt Publishing:
+ * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition
+ */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,19 +72,6 @@ public class Ball extends GameObject {
         rect.right = rect.left + width;
         rect.bottom = rect.top + height;
     }
-
-    /* This function generates a random integer
-     * in between @high and @low
-     *
-     * @high: upper bound of randomly generated integer
-     * @low : lower bound of randomly generated integer
-     */
-
-    /*
-    public int boundedRandomInt(int high, int low) {
-        Random generator = new Random();
-        return generator.nextInt(high - low) + low;
-    }*/
 
     /* This function sets the ball's velocity
      * at random Vy/Vx ratios and the magnitude
@@ -217,39 +212,50 @@ public class Ball extends GameObject {
         this.xVelocity = 0;
     }
 
-    // This function gets the horizontal center of the ball
+    /**
+     * @return Center of the ball.
+     */
     public float getMiddle() {
         return (this.getRect().right - this.getRect().left) / 2;
     }
 
-    // This function gets the rectangle object that represents the ball
+    /**
+     * @return Rect object of the ball.
+     */
     public RectF getRect() {
         return rect;
     }
 
+    /**
+     * @return Bitmap of the ball
+     */
     // This function returns the bitmap image of the ball
     public Bitmap getBallBitmap() { return ballBitmap; }
 
-    // This function reverses the vertical velocity and adds a little momentum to it
+    /**
+     * This function reverses the vertical velocity and adds a little momentum to it.
+     */
     public void reverseYVelocity() {
         yVelocity = -yVelocity;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
-    // This function reverses the horizontal velocity and adds a little momentum to it
+    /**
+     * This function reverses the horizontal velocity and adds a little momentum to it.
+     */
     public void reverseXVelocity() {
         xVelocity = -xVelocity;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
+    /**
+     * Add remaining upgrade cases
+     * implement a way to store list of upgrades.
+     * List of Effects should reset after each death/level.
+     *
+     * @param upgradeName Type of upgrade.
+     */
     public void applyUpgrade(String upgradeName) {
-
-        /*
-         * Add remaining upgrade cases
-         * implement a way to store list of upgrades
-         * List of Effects should reset after each death/level
-         */
-
         switch(upgradeName) {
             case "Explosion":
                 explosion = true;
@@ -260,6 +266,13 @@ public class Ball extends GameObject {
         }
     }
 
+
+    /**
+     * Add remaining downgrade cases
+     * implement a way to store list of downgrades.
+     * List of Effects should reset after each death/level.
+     * @param downgradeName Type of downgrade.
+     */
     public void applyDowngrade(String downgradeName) {
 
         switch(downgradeName) {
@@ -272,15 +285,24 @@ public class Ball extends GameObject {
         }
     }
 
-    // Setter for ball speed
-    // Might be needed for additional features (upgrades or downgrades to ball speed)
+    /**
+     * Setter for ball speed.
+     * Might be needed for additional features (upgrades or downgrades to ball speed).
+     * @param ballSpeed Speed of the ball.
+     */
     public void setBallSpeed(double ballSpeed) {
         this.speed = ballSpeed;
     }
 
+    /**
+     *
+     * @return Speed of the ball.
+     */
     public double getBallSpeed() { return this.speed; }
 
-    // Check if the ball hit the walls on the screen to change ball's trajectory
+    /**
+     *  Check if the ball hit the walls on the screen to change ball's trajectory
+     */
     public void checkWallBounce(){
         // Bounce the ball back when it hits the top of screen
         if (getRect().top < 0) {
@@ -301,6 +323,11 @@ public class Ball extends GameObject {
         }
     }
 
+    /**
+     * Checks if the ball hits the bat.
+     * @param bat The Bat object.
+     * @return True/False if the bat hits the ball.
+     */
     public boolean checkBallBatCollision(Bat bat){
         // Check for ball colliding with paddle
         if(this.intersect(bat)) {
@@ -321,20 +348,36 @@ public class Ball extends GameObject {
         return false;
     }
 
+    /**
+     *
+     * @return True/False if the ball goes out of the screen
+     */
     public boolean checkMissBall(){
         if (getRect().bottom > screenY) return true;
         return false;
     }
 
+    /**
+     *
+     * @return Status of the ball. Active colors the ball red, while inactive colors the ball grey.
+     */
     public boolean getActive(){ return active;}
 
+    /**
+     * Makes the current ball object active.
+     * Changes the bitmap of the ball object.
+     */
     public void makeActive(){
         active =  true;
+        
         // loads in asset and turns it into bitmaps
         ballBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball);
         ballBitmap = Bitmap.createScaledBitmap(ballBitmap,
                 bitmapDimensions.width, bitmapDimensions.height, true);
     }
 
+    /**
+     * If player misses the ball, ball stays deactivated.
+     */
     public void playerMissedBall(){ active = false;}
 }
