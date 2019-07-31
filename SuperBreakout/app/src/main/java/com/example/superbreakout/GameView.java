@@ -57,7 +57,7 @@ public class GameView extends SurfaceView implements Runnable {
     int densityDpi;
 
     Randomizer randomizer;
-    Bitmap backgroundImage;
+    Bitmap backgroundImage, backgroundLayer;
 
     // File to score highscores
     private SharedPreferences hiScores;
@@ -81,7 +81,8 @@ public class GameView extends SurfaceView implements Runnable {
         Resources res = getContext().getResources();
 
 
-        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.stars_texture);
+        backgroundLayer = BitmapFactory.decodeResource(res, R.drawable.galaxy);
         canvas = new Canvas();
 
         screenX = x;
@@ -173,7 +174,7 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
             // Gets resources for background images
-            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            // Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
             //Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
 
             // Gets background dimensions
@@ -181,6 +182,11 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
+
+            paint.setAlpha(200);
+            canvas.drawBitmap(backgroundLayer, null, dest, paint);
+
+            paint.setAlpha(255);
 
             drawBat();
             drawStage();
