@@ -1,5 +1,10 @@
 package com.example.superbreakout;
 
+/**
+ * This class manages the UI of the settings menu
+ * Gets input to determine which level the user chooses and slide controls.
+ */
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +17,7 @@ import android.widget.Switch;
 
 public class LevelMenu extends Activity {
     /**
-     * Values to be passed back to superBreakoutActivity
+     * Values to be passed back to superBreakoutActivity.
      */
     private int LevelIndicator = 0;
     private int SlideIndicator = 0;
@@ -23,6 +28,10 @@ public class LevelMenu extends Activity {
 
         setContentView(R.layout.level_menu);
 
+        /**
+         * These are button event handlers.
+         * Decides what level gets returned.
+         */
         final Button level1 = findViewById(R.id.level1);
         level1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -59,7 +68,7 @@ public class LevelMenu extends Activity {
         });
 
         /**
-         * If switch is checked, set the sliding indicator to one and zero otherwise
+         * If switch is checked, set the sliding indicator to one and zero otherwise.
          */
         final Switch slideSwitcher = findViewById(R.id.toggleSwitch);
         slideSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
