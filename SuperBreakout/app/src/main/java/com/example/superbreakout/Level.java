@@ -111,7 +111,7 @@ public abstract class Level {
         if (ball.hollow) {
             return hit;
         }
-        
+
         if (ball.getActive()) {
             hit = checkActiveCollision(ball);
         } else {
@@ -219,7 +219,22 @@ public abstract class Level {
         updateDebris(fps);
         checkDebrisCollision(bat, player);
         player.updateEffects(bat, balls[0]);
+        if(level == LevelFive.LEVEL_FIVE){ levelFiveFallBlock();};
 
+    }
+
+    // Level Five fall block feature where the block slowly gets closer to the paddle
+    private void levelFiveFallBlock(){
+        // 20% chance of moving down 1 unit
+        int rand = (int)(Math.random()*5) + 1;
+        if(rand == 1) {
+            for (Obstacle brick : bricks) {
+
+                RectF rect = brick.getRect();
+                rect.bottom += 1;
+                rect.top += 1;
+            }
+        }
     }
 
     public boolean atLeastOneBallAlive() {
