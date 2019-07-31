@@ -34,7 +34,6 @@
         android:text="Submit"
         android:layout_centerHorizontal="true"
         android:id="@+id/submit_button"
-        android:onClick="registerName"
         />
 
 </RelativeLayout>

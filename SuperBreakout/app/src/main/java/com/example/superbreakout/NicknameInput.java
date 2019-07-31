@@ -39,7 +39,5 @@ public class NicknameInput extends Activity {
         getWindow().setLayout((int) (width*.5), (int) (height*.8));
     }
 
-    public void registerName(){}
-
 }
 
