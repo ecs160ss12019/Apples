@@ -71,8 +71,8 @@ public class LevelFour extends Level{
         balls[0].makeActive();
 
         balls[1].setBallLocation(350,300,level);
-        balls[2].setBallLocation(1025,300,level);
-        balls[3].setBallLocation(750,300,level);
+        balls[2].setBallLocation(1450,300,level);
+        balls[3].setBallLocation(900,300,level);
 
     }
 }
