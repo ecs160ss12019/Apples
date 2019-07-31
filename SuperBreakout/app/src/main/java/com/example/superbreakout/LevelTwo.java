@@ -31,7 +31,7 @@ public class LevelTwo extends Level {
                 bricks[numBricks] = new DurabilityZero(context, row, column, brickWidth, brickHeight,
                         brickWidth/2, brickHeight/3);
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);
+                debris[numBricks] = new Debris(context, row , column, brickWidth, brickHeight, brickWidth/2, brickHeight/3);
                 String[] types = {"Harmful", "Upgrade", "Downgrade", "None"};
                 debris[numBricks].setDebrisType(types);
                 numBricks++;

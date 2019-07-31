@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import java.util.Random;
 
@@ -19,11 +22,17 @@ public class Debris {
 
     private boolean active; // If the debris is in frame or not
 
+    protected Bitmap debrisBitmap;
+    protected BitmapDimensions bitmapDimensions;
+    Context context;
+
     /*
      * Debris constructor that takes in the initial coordinates
      * of a destroyed obstacle.
      */
-    public Debris(int row, int column, int width, int height, int horzPadding, int vertPadding) {
+    public Debris(Context context, int row, int column, int width, int height, int horzPadding, int vertPadding) {
+
+        this.context = context;
 
         rect = new RectF( column * width + horzPadding,
                 row * height + vertPadding,
@@ -38,6 +47,8 @@ public class Debris {
         Random random = new Random();
         debrisType = types[random.nextInt(types.length)];
     }
+
+    public Bitmap getDebrisBitmap() { return debrisBitmap; }
 
     public RectF getRect() {
         return this.rect;
@@ -54,10 +65,36 @@ public class Debris {
     public void activate() {
         // Used once the ball hits an obstacle
         active = true;
-        rect.top = rect.top + rect.height()/2;
-        rect.left = rect.left + rect.width()/3;
-        rect.right = rect.right - rect.width()/3;
-        rect.bottom = rect.bottom - rect.height()/2;
+        float old_width = rect.width();
+        float old_height = rect.height();
+
+        rect.top = rect.top + old_height/8;
+        rect.left = rect.left + old_width/4;
+        rect.right = rect.right - old_width/4;
+        rect.bottom = rect.bottom - old_height/8;
+
+        setDebrisBitmap();
+
+    }
+
+    public void setDebrisBitmap() {
+        bitmapDimensions = new BitmapDimensions( (int)rect.width(), (int)rect.height() );
+        switch(debrisType) {
+            case "Harmful":
+                debrisBitmap = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.harmful);
+                break;
+            case "Upgrade":
+                debrisBitmap = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.upgrade);
+                break;
+            case "Downgrade":
+                debrisBitmap = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.downgrade);
+                break;
+        }
+        debrisBitmap = Bitmap.createScaledBitmap(debrisBitmap, bitmapDimensions.width,
+                bitmapDimensions.height, true);
     }
 
     public void deactivate() {

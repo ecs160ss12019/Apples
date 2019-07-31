@@ -17,6 +17,7 @@ public class Player {
     int lives;
     private List<Upgrade> activeUpgrades = new ArrayList<Upgrade>();
     private List<Downgrade> activeDowngrades = new ArrayList<Downgrade>();
+    String name;
 
     /**
      * Constructor to set lives of the player per stage.
@@ -120,6 +121,8 @@ public class Player {
      */
 
     public void resetEffects(String effectName, Bat bat, Ball ball) {
+
+        bat.stunTimer = 0;
 
         switch(effectName) {
             case "SpeedUp":

@@ -35,16 +35,31 @@
         </activity>
         <activity
             android:name="com.example.superbreakout.PauseMenuPopUp"
+            android:parentActivityName="com.example.superbreakout.SuperBreakoutActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>
         <activity
             android:name="com.example.superbreakout.SettingsMenuPopUp"
+            android:parentActivityName="com.example.superbreakout.PauseMenuPopUp"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>
         <activity
             android:name="com.example.superbreakout.LevelMenu"
+            android:parentActivityName="com.example.superbreakout.SuperBreakoutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+        </activity>
+        <activity
+            android:name="com.example.superbreakout.NicknameInput"
+            android:parentActivityName="com.example.superbreakout.SuperBreakoutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.pauseMenuTheme" >
+        </activity>
+        <activity
+            android:name="com.example.superbreakout.Leaderboard"
+            android:parentActivityName="com.example.superbreakout.PauseMenuPopUp"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.pauseMenuTheme" >
         </activity>

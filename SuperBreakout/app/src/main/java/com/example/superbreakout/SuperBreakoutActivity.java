@@ -1,6 +1,11 @@
 package com.example.superbreakout;
 
+/* Source:
+ * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ */
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Point;
@@ -14,6 +19,9 @@ import android.widget.RelativeLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SuperBreakoutActivity extends Activity {
 
@@ -27,6 +35,8 @@ public class SuperBreakoutActivity extends Activity {
     private static final int REQUEST_CODE_FOR_LEADERBOARD = 1; // code to confirm result returned from leaderboard intent
 
     FrameLayout game;
+    private SharedPreferences hiScores;
+    public static final String HI_SCORES = "HSFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +50,9 @@ public class SuperBreakoutActivity extends Activity {
         indicators.put("LevelIndicator", 1);
         indicators.put("SlideIndicator", 0);
 
-        superBreakoutGame = new GameView(this, size.x, size.y);
+        hiScores = getSharedPreferences(HI_SCORES, 0);
+
+        superBreakoutGame = new GameView(this, size.x, size.y, hiScores);
         game = new FrameLayout(this); // adds a frame to enclose superBreakoutGame
         game.addView(superBreakoutGame); // adds superBreakoutGame surfaceView to the frame
 
@@ -58,7 +70,7 @@ public class SuperBreakoutActivity extends Activity {
         /**
          * Creates a listener for the button so everytime the button is clicked, it runs this piece of code
          */
-        final Button StartGame = findViewById(R.id.startGame);
+         final Button StartGame = findViewById(R.id.startGame);
         StartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 /**
@@ -66,6 +78,9 @@ public class SuperBreakoutActivity extends Activity {
                  */
                 superBreakoutGame.levelIndicator = indicators.get("LevelIndicator");
                 superBreakoutGame.slideIndicator = indicators.get("SlideIndicator");
+
+                Intent inputNickname = new Intent(SuperBreakoutActivity.this, NicknameInput.class);
+                startActivityForResult(inputNickname, REQUEST_CODE_FOR_LEADERBOARD);
 
                 // Code here executes on main thread after user presses button
                 superBreakoutGame.startNewGame();
@@ -81,6 +96,25 @@ public class SuperBreakoutActivity extends Activity {
             }
         });
 
+        final Button leaderboard = findViewById(R.id.leaderboard);
+        leaderboard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent ldrbrd = new Intent(SuperBreakoutActivity.this, Leaderboard.class);
+                startActivity(ldrbrd);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                superBreakoutGame.player.name = data.getStringExtra("NickName");
+            }
+        }
     }
 
     public void onBackPressed(){

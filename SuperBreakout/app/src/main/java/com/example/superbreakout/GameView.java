@@ -1,6 +1,12 @@
 package com.example.superbreakout;
 
+/* Sources:
+ * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825\
+ * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ */
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +21,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.graphics.Typeface;
+import android.content.SharedPreferences;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import java.util.List;
 
@@ -34,6 +45,7 @@ public class GameView extends SurfaceView implements Runnable {
      */
     volatile boolean playing;
     boolean paused = true;
+    boolean gameOver = false;
 
     /**
      * Resolution of screen.
@@ -54,7 +66,11 @@ public class GameView extends SurfaceView implements Runnable {
     Rect dest;
     DisplayMetrics dm;
     int densityDpi;
-    Bitmap backgroundImage;
+
+    Bitmap backgroundImage, backgroundLayer;
+
+    // File to score highscores
+    private SharedPreferences hiScores;
 
     /**
      * Indicators to set slide and level.
@@ -73,24 +89,19 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
 
-    /**
-     *
-     * @param context Context of GameView.
-     * @param x Horizontal screen size.
-     * @param y Vertical screen size.
-     */
-    public GameView(Context context, int x, int y) {
+    public GameView(Context context, int x, int y, SharedPreferences hs) {
         super(context);
 
         ourHolder = getHolder();
         paint = new Paint();
-        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Pacifico.ttf");
+        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/origa___.ttf");
         paint.setTypeface(type);
 
         Resources res = getContext().getResources();
 
 
-        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.stars_texture);
+        backgroundLayer = BitmapFactory.decodeResource(res, R.drawable.galaxy);
         canvas = new Canvas();
 
         screenX = x;
@@ -98,6 +109,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         dm = context.getResources().getDisplayMetrics();
         densityDpi = dm.densityDpi;
+
+        hiScores = hs;
     }
 
     /**
@@ -187,7 +200,7 @@ public class GameView extends SurfaceView implements Runnable {
             // Lock the canvas ready to draw
             canvas = ourHolder.lockCanvas();
             // Gets resources for background images
-            Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
+            // Bitmap backgroundImage = BitmapFactory.decodeResource(res, R.drawable.hills_layer_1);
             //Bitmap clouds = BitmapFactory.decodeResource(res, R.drawable.clouds);
 
             // Gets background dimensions
@@ -196,10 +209,22 @@ public class GameView extends SurfaceView implements Runnable {
             // Draws background image
             canvas.drawBitmap(backgroundImage, null, dest, paint);
 
+            paint.setAlpha(200);
+            canvas.drawBitmap(backgroundLayer, null, dest, paint);
+
+            paint.setAlpha(255);
+
             drawBat();
             drawStage();
             drawStats();
             level.drawBall(canvas);
+
+            if(bat.stunTimer > 0) {
+                paint.setTextSize(100);
+                canvas.drawText("STUNNED", (screenX/2) - 280 , 680, paint);
+            }
+
+
             checkAndDrawWinScreen();
             // Draw everything to the screen
             if (!checkAndDrawEndGame()) {
@@ -276,8 +301,10 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setTextSize(200);
             paint.setARGB(255,144,12,12);
             canvas.drawText("Game Over!",
-                    screenX / 2 - densityDpi , (screenY / 2), paint);
+                    screenX / 2 - densityDpi - 340 , (screenY / 2), paint);
             ourHolder.unlockCanvasAndPost(canvas);
+
+            setHighScore();
 
             try {
                 // Wait 3 seconds then reset a new game
@@ -285,7 +312,9 @@ public class GameView extends SurfaceView implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             startNewGame();
+
             return true;
         }
         return false;
@@ -300,28 +329,28 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.argb(255, 8, 8, 8));
         paint.setTextSize(50);
 
-        // Score Text
-        canvas.drawText(
-                "Score: " + player.getScore()
-                , (densityDpi / 5)-49,180, paint);
+        // Levels Text
+        canvas.drawText("Level:  " + level.getLevel()
+                , (densityDpi / 5)-80, 40, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
-                , (densityDpi / 5)-40, 120, paint);
+                , (densityDpi / 5)-80, 90, paint);
 
-        // Levels Text
-        canvas.drawText("Level:  " + level.getLevel()
-                , (densityDpi / 5)-40, 60, paint);
+        // Score Text
+        canvas.drawText(
+                "Score: " + player.getScore()
+                , (densityDpi / 5)-80,140, paint);
 
         // Upgrade/Downgrade text
-        canvas.drawText("Effects:",(densityDpi/5)-40, 240, paint );
+        canvas.drawText("Effects:",(densityDpi/5)-80, 190, paint );
 
         List<Upgrade> playerUpgrades = player.getActiveUpgrades();
         List<Downgrade> playerDowngrades = player.getActiveDowngrades();
-        int y = 240;
+        int y = 190;
         for (int i = 0; i < playerUpgrades.size(); i++) {
-            y += 60;
-            canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-40, y, paint);
+            y += 50;
+            canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-80, y, paint);
         }
 
         for (int i = 0; i < playerDowngrades.size(); i++) {
@@ -338,6 +367,7 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setColor(getResources().getColor(R.color.colorAccent));
             canvas.drawText("You got home!", screenX / 2 - (densityDpi / 1.90f), screenY / 2 +
                     (densityDpi / 1), paint);
+            setHighScore();
         }
 
     }
@@ -358,4 +388,47 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
 
+    private void setHighScore() {
+        int currentScore = player.getScore();
+
+        SharedPreferences.Editor scoreEditor = hiScores.edit();
+        String scores = hiScores.getString("highScores", "");
+
+        if(scores.length() > 0) {
+            // there are existing scores
+            List<Score> scoreStrings = new ArrayList<Score>();
+            String[] exScores = scores.split("\\|"); // Split strings
+
+            // Add scores to the list in specified format
+            for(String eSc : exScores) {
+                String[] parts = eSc.split(" - ");
+                scoreStrings.add(new Score(parts[0], Integer.parseInt(parts[1])));
+            }
+
+            // Make a new score object with current player's score
+            Score newScore = new Score(player.name, currentScore);
+            System.out.println(newScore.playerName + " - " + newScore.scoreValue);
+            scoreStrings.add(newScore);
+
+            //Sort scores
+            Collections.sort(scoreStrings);
+
+            StringBuilder scoreString = new StringBuilder("");
+            for(int i = 0; i < scoreStrings.size(); i++) {
+                if(i >= 5) break; // we only store top 5 scores
+                if(i > 0) scoreString.append("|"); // separate different high scores
+                scoreString.append(scoreStrings.get(i).getScoreText());
+            }
+
+            scoreEditor.putString("highScores", scoreString.toString());
+            scoreEditor.commit();
+        }
+        else {
+            // There are no existing scores
+            scoreEditor.putString("highScores", "" + player.name + " - " + currentScore);
+            scoreEditor.commit();
+        }
+
+        return;
+    }
 }

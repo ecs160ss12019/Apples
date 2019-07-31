@@ -38,7 +38,7 @@ public class LevelOne extends Level {
                     bricks[numBricks].setInvisible();
                 }
                 // can possibly change this to spawnDebris()
-                debris[numBricks] = new Debris(row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
+                debris[numBricks] = new Debris(context, row , column, brickWidth, brickHeight, brickWidth, brickHeight/3);
                 String[] types = {"Harmful", "None", "None", "None"};
                 debris[numBricks].setDebrisType(types);
                 numBricks++;
