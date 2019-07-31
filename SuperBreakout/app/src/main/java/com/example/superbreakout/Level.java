@@ -111,49 +111,57 @@ public abstract class Level {
         if (ball.hollow) {
             return hit;
         }
-
-
+        
         if (ball.getActive()) {
-            for (int i = 0; i < bricksInLevel; i++) {
-                if (bricks[i].getVisibility()) {
-                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())
-                            || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
-                        FX.playFX();
+            hit = checkActiveCollision(ball);
+        } else {
+            checkInActiveCollision(ball);
+        }
+        return hit;
+    }
 
-                        if (bricks[i].getDurability() == 0) {
-                            bricks[i].setInvisible();
-                            hitObstacle();
-
-                            // Checks if there ball has an explosion upgrade
-                            if(ball.explosion) {
-                                // destroy left/right neighboring obstacles
-                                explodingBall(i);
-                            }
-
-                            if (!debris[i].getDebrisType().equals("None")) {
-                                debris[i].activate();
-                            }
-
-                        } else {
-                            bricks[i] = bricks[i].reduceDurability();
-                        }
-                        ballObstacleCollision(ball,bricks[i].getRect());
-                        hit = true;
-                    }
+    private void checkInActiveCollision(Ball ball){
+        for (int i = 0; i < bricksInLevel; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
+                    ballObstacleCollision(ball,bricks[i].getRect());
                 }
             }
-        } else {
-            for (int i = 0; i < bricksInLevel; i++) {
-                if (bricks[i].getVisibility()) {
-                    if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                        ballObstacleCollision(ball,bricks[i].getRect());
+        }
+    }
+
+    private boolean checkActiveCollision(Ball ball){
+        boolean hit = false;
+        for (int i = 0; i < bricksInLevel; i++) {
+            if (bricks[i].getVisibility()) {
+                if (RectF.intersects(bricks[i].getRect(), ball.getRect())
+                        || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
+                    FX.playFX();
+
+                    if (bricks[i].getDurability() == 0) {
+                        bricks[i].setInvisible();
+                        hitObstacle();
+
+                        // Checks if there ball has an explosion upgrade
+                        if(ball.explosion) {
+                            // destroy left/right neighboring obstacles
+                            explodingBall(i);
+                        }
+
+                        if (!debris[i].getDebrisType().equals("None")) {
+                            debris[i].activate();
+                        }
+
+                    } else {
+                        bricks[i] = bricks[i].reduceDurability();
                     }
+                    ballObstacleCollision(ball,bricks[i].getRect());
+                    hit = true;
                 }
             }
         }
         return hit;
     }
-
 
     public void checkDebrisCollision(Bat bat, Player player) {
         for (int i = 0; i < bricksInLevel; i++) {
