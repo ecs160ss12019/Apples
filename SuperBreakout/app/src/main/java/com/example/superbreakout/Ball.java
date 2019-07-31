@@ -32,9 +32,9 @@ public class Ball extends GameObject {
 
     private int LEVEL_ONE_SPEED = 8000;
     private int LEVEL_TWO_SPEED = 9000;
-    private int LEVEL_THREE_SPEED = 5000;
+    private int LEVEL_THREE_SPEED = 10000;
     private int LEVEL_FOUR_SPEED = 11000;
-    private int LEVEL_FIVE_SPEED = 7000;
+    private int LEVEL_FIVE_SPEED = 12000;
 
     // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
