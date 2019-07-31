@@ -5,11 +5,9 @@ package com.example.superbreakout;
  * Gets input to determine which level the user chooses and slide controls.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
