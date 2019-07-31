@@ -5,7 +5,7 @@ import android.content.Context;
 public class LevelFour extends Level{
 
     public static final int LEVEL_FOUR = 4;
-    public static final int BALLS_IN_LEVEL = 3;
+    public static final int BALLS_IN_LEVEL = 4;
 
     public LevelFour(int x, int y, Context currentContext){
         super(x,y, currentContext);
@@ -31,7 +31,7 @@ public class LevelFour extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 int rand = 1;
                 if(Randomizer.getRandBoolean()) {
-                    rand = Randomizer.getRandNumber(-1,2);
+                    rand = Randomizer.getRandNumber(-1,4);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,

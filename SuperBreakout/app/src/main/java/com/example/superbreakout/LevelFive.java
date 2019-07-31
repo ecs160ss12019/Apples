@@ -6,7 +6,7 @@ import android.content.Context;
 public class LevelFive extends Level{
 
     public static final int LEVEL_FIVE = 5;
-    public static final int BALLS_IN_LEVEL = 3;
+    public static final int BALLS_IN_LEVEL = 4;
 
     public LevelFive(int x, int y, Context currentContext){
         super(x,y, currentContext);
@@ -30,10 +30,7 @@ public class LevelFive extends Level{
         int numBricks = 0;
         for (int column = 0; column < columnsInLevel; column++) {
             for (int row = 0; row < rowsInLevel; row++) {
-                int rand = 1;
-                if(Randomizer.getRandBoolean()) {
-                    rand = Randomizer.getRandNumber(-1,2);
-                }
+                int rand = 0;
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
                         brickWidth/2, brickHeight/3,rand);
@@ -72,8 +69,8 @@ public class LevelFive extends Level{
         balls[0].makeActive();
 
         balls[1].setBallLocation(350,300,level);
-        balls[2].setBallLocation(1025,300,level);
-        balls[3].setBallLocation(750,300,level);
+        balls[2].setBallLocation(1450,300,level);
+        balls[3].setBallLocation(900,300,level);
 
     }
 }

@@ -62,8 +62,8 @@ public abstract class Level {
     }
 
     public void createPocket(int colStart, int rowStart, int rowsInLevel, Obstacle[] bricks, int width, int height) {
-        for(int column = colStart; column < colStart+width; column++) {
-            for (int row = rowStart; row < rowStart+height; row++) {
+        for (int column = colStart; column < colStart + width; column++) {
+            for (int row = rowStart; row < rowStart + height; row++) {
                 bricks[column * rowsInLevel + row].setInvisible();
             }
         }
@@ -74,35 +74,34 @@ public abstract class Level {
         RectF ballRect = ball.getRect();
 
         //colliding on the left side of obstacle
-        if((ballRect.right <= obstacle.left) && (ball.xVelocity > 0)) {
-            if((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
+        if ((ballRect.right <= obstacle.left) && (ball.xVelocity > 0)) {
+            if ((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
                 ball.reverseXVelocity();
                 ball.clearObstacleX(obstacle.left - ball.width);
             }
         }
         //colliding on the right side of obstacle
-        else if((ballRect.left >= obstacle.right) && (ball.xVelocity < 0)) {
-            if((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
+        else if ((ballRect.left >= obstacle.right) && (ball.xVelocity < 0)) {
+            if ((ballRect.bottom >= obstacle.top) || (ballRect.top <= obstacle.bottom)) {
                 ball.reverseXVelocity();
                 ball.clearObstacleX(obstacle.right);
             }
         }
         //colliding on the top side of the obstacle
-        else if((ballRect.bottom >= obstacle.top) && (ball.yVelocity > 0)){
-            if((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
+        else if ((ballRect.bottom >= obstacle.top) && (ball.yVelocity > 0)) {
+            if ((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
                 ball.reverseYVelocity();
                 ball.clearObstacleY(obstacle.top);
             }
-        }
-        else if((ballRect.top <= obstacle.bottom) && (ball.yVelocity < 0)) {
-            if((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
+        } else if ((ballRect.top <= obstacle.bottom) && (ball.yVelocity < 0)) {
+            if ((ballRect.right >= obstacle.left) || (ballRect.left <= obstacle.right)) {
                 ball.reverseYVelocity();
                 ball.clearObstacleY(obstacle.bottom + ball.height);
             }
         }
     }
 
-    public boolean checkCollision(Ball ball){
+    public boolean checkCollision(Ball ball) {
         boolean hit = false;
         // Check for ball colliding with a brick
 
@@ -120,17 +119,17 @@ public abstract class Level {
         return hit;
     }
 
-    private void checkInActiveCollision(Ball ball){
+    private void checkInActiveCollision(Ball ball) {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
                 if (RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-                    ballObstacleCollision(ball,bricks[i].getRect());
+                    ballObstacleCollision(ball, bricks[i].getRect());
                 }
             }
         }
     }
 
-    private boolean checkActiveCollision(Ball ball){
+    private boolean checkActiveCollision(Ball ball) {
         boolean hit = false;
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
@@ -143,7 +142,7 @@ public abstract class Level {
                         hitObstacle();
 
                         // Checks if there ball has an explosion upgrade
-                        if(ball.explosion) {
+                        if (ball.explosion) {
                             // destroy left/right neighboring obstacles
                             explodingBall(i);
                         }
@@ -155,7 +154,7 @@ public abstract class Level {
                     } else {
                         bricks[i] = bricks[i].reduceDurability();
                     }
-                    ballObstacleCollision(ball,bricks[i].getRect());
+                    ballObstacleCollision(ball, bricks[i].getRect());
                     hit = true;
                 }
             }
@@ -169,7 +168,7 @@ public abstract class Level {
                 if (debris[i].getActive()) {
                     if (RectF.intersects(debris[i].getRect(), balls[j].getRect())) {
                         // Checks ball/debris collision
-                        if(balls[j].getActive()) {
+                        if (balls[j].getActive()) {
                             debris[i].deactivate();
                         }
                     } else if (RectF.intersects(debris[i].getRect(), bat.getRect())) {
@@ -214,34 +213,46 @@ public abstract class Level {
                 }
             }
             balls[i].checkWallBounce();
+
         }
 
         updateDebris(fps);
         checkDebrisCollision(bat, player);
         player.updateEffects(bat, balls[0]);
-        if(level == LevelFive.LEVEL_FIVE){ levelFiveFallBlock();};
+        if (level == LevelFive.LEVEL_FIVE) {
+            levelFiveFallBlock(bat,player);
 
+        }
     }
 
     // Level Five fall block feature where the block slowly gets closer to the paddle
-    private void levelFiveFallBlock(){
-        // 20% chance of moving down 1 unit
-        int rand = (int)(Math.random()*5) + 1;
-        if(rand == 1) {
-            for (Obstacle brick : bricks) {
+    private void levelFiveFallBlock(Bat bat, Player player) {
+        for (Obstacle brick : bricks) {
 
-                RectF rect = brick.getRect();
-                rect.bottom += 1;
-                rect.top += 1;
-            }
+            RectF rect = brick.getRect();
+            rect.bottom += 1;
+            rect.top += 1;
+            if(levelFiveBrickBelow(brick,bat,player)){ break;}
         }
     }
+
+
 
     public boolean atLeastOneBallAlive() {
         for (Ball ball : balls) {
             if (ball.getActive()) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    protected boolean levelFiveBrickBelow(Obstacle brick, Bat bat, Player player){
+        RectF rect = brick.getRect();
+        if(rect.bottom >= bat.getRect().top){
+            player.missBrick(); // Reset consecutive hits
+            player.reduceLifeByOne();
+            return true;
         }
         return false;
     }
@@ -327,32 +338,32 @@ public abstract class Level {
 
     private void explodingBall(int index) {
 
-        if(index < (rowsInLevel * columnsInLevel) &&
+        if (index < (rowsInLevel * columnsInLevel) &&
                 index >= (rowsInLevel * columnsInLevel - rowsInLevel)) {
             // Bricks on the right-most column
 
             // Checks if there's a brick/pocket there
-            if(bricks[index-rowsInLevel].getVisibility()) {
-                bricks[index-rowsInLevel].setInvisible();
+            if (bricks[index - rowsInLevel].getVisibility()) {
+                bricks[index - rowsInLevel].setInvisible();
                 hitObstacle();
             }
-        } else if (index >= 0 && index <rowsInLevel) {
+        } else if (index >= 0 && index < rowsInLevel) {
             // Bricks on the left-most column
 
             //Checks if there's a brick/pocket there
-            if(bricks[index+rowsInLevel].getVisibility()) {
-                bricks[index+rowsInLevel].setInvisible();
+            if (bricks[index + rowsInLevel].getVisibility()) {
+                bricks[index + rowsInLevel].setInvisible();
                 hitObstacle();
             }
         } else {
             // Everything else in between
-            if(bricks[index+rowsInLevel].getVisibility()) {
-                bricks[index+rowsInLevel].setInvisible();
+            if (bricks[index + rowsInLevel].getVisibility()) {
+                bricks[index + rowsInLevel].setInvisible();
                 hitObstacle();
             }
 
-            if(bricks[index-rowsInLevel].getVisibility()) {
-                bricks[index-rowsInLevel].setInvisible();
+            if (bricks[index - rowsInLevel].getVisibility()) {
+                bricks[index - rowsInLevel].setInvisible();
                 hitObstacle();
             }
         }
