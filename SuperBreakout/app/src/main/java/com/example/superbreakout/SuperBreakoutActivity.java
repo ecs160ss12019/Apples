@@ -2,6 +2,9 @@ package com.example.superbreakout;
 
 /* Source:
  * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ *
+ * This class handles the view of the app.
+ * Code based on Pong game by Packt Publishing.
  */
 
 import android.content.Intent;

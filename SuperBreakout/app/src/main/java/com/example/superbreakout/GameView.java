@@ -3,6 +3,10 @@ package com.example.superbreakout;
 /* Sources:
  * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825\
  * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ *
+ * This class handles the view of the game.
+ * Renders the game.
+ * Code based on Pong game by Packt Publishing.
  */
 
 import android.content.Context;
@@ -388,6 +392,9 @@ public class GameView extends SurfaceView implements Runnable {
         canvas.drawBitmap(bat.getBatBitmap(), bat.getRect().left, bat.getRect().top, null);
     }
 
+    /**
+     * Sets the leaderboard score.
+     */
     private void setHighScore() {
         int currentScore = player.getScore();
 
@@ -431,4 +438,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         return;
     }
+
+
 }
