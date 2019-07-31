@@ -22,6 +22,12 @@ public class Ball extends GameObject {
     private boolean active;
     Context context;
 
+    private int LEVEL_ONE_SPEED = 8000;
+    private int LEVEL_TWO_SPEED = 9000;
+    private int LEVEL_THREE_SPEED = 5000;
+    private int LEVEL_FOUR_SPEED = 11000;
+    private int LEVEL_FIVE_SPEED = 7000;
+
     // Make it a 60 pixel x 60 pixel square
     private static final float ballWidth = 10;
     private static final float ballHeight = 10;
@@ -81,19 +87,19 @@ public class Ball extends GameObject {
     public void setRandomVelocity(int level) {
         switch (level) {
             case 1:
-                this.setBallSpeed(8000);
+                this.setBallSpeed(LEVEL_ONE_SPEED);
                 break;
             case 2:
-                this.setBallSpeed(9000);
+                this.setBallSpeed(LEVEL_TWO_SPEED);
                 break;
             case 3:
-                this.setBallSpeed(5000);
+                this.setBallSpeed(LEVEL_THREE_SPEED);
                 break;
             case 4:
-                this.setBallSpeed(11000);
+                this.setBallSpeed(LEVEL_FOUR_SPEED);
                 break;
             default:
-                this.setBallSpeed(7000);
+                this.setBallSpeed(LEVEL_FIVE_SPEED);
                 break;
         }
 
