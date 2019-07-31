@@ -330,7 +330,7 @@ public class GameView extends SurfaceView implements Runnable {
      */
     private void drawStats() {
         // Choose the brush color for drawing
-        paint.setColor(Color.argb(255, 8, 8, 8));
+        paint.setColor(Color.argb(255, 255, 255, 255));
         paint.setTextSize(50);
 
         // Levels Text
