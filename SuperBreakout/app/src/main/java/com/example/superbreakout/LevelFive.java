@@ -6,7 +6,7 @@ import android.content.Context;
 public class LevelFive extends Level{
 
     public static final int LEVEL_FIVE = 5;
-    public static final int BALLS_IN_LEVEL = 4;
+    public static final int BALLS_IN_LEVEL = 3;
 
     public LevelFive(int x, int y, Context currentContext){
         super(x,y, currentContext);
@@ -70,5 +70,10 @@ public class LevelFive extends Level{
             balls[i].reset(screenX,screenY,level);
         }
         balls[0].makeActive();
+
+        balls[1].setBallLocation(350,300,level);
+        balls[2].setBallLocation(1025,300,level);
+        balls[3].setBallLocation(750,300,level);
+
     }
 }
