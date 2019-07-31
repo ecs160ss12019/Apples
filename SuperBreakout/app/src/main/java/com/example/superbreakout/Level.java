@@ -46,21 +46,10 @@ public abstract class Level {
         // Draw the debris if active
         for (int i = 0; i < bricksInLevel; i++) {
             if (debris[i].getActive()) {
-                // Change paint color depending on debris type
-                switch (debris[i].getDebrisType()) {
-                    case "Harmful":
-                        paint.setColor(Color.argb(255, 255, 0, 0));
-                        break;
-                    case "Upgrade":
-                        paint.setColor(Color.argb(255, 0, 255, 0));
-                        break;
-                    case "Downgrade":
-                        paint.setColor(Color.argb(255, 0, 0, 255));
-                        break;
-                    default:
-                        break;
-                }
-                canvas.drawRect(debris[i].getRect(), paint);
+                canvas.drawBitmap(debris[i].getDebrisBitmap(),
+                        null,
+                        debris[i].getRect(),
+                        paint);
             }
         }
     }
