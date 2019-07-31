@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * This class handles the UI that pops up when the pause button is pressed in the game.
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 
 public class PauseMenuPopUp extends Activity {
+    /**
+     * Constructor of the UI of the pause menu,.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +29,9 @@ public class PauseMenuPopUp extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
+        /**
+         * Starts intent on click of the main menu button.
+         */
         final Button mainMenuButton = findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -31,6 +42,9 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
+        /**
+         * Starts intent on click of the leaderboard button.
+         */
         final Button leaderboardButton = findViewById(R.id.leaderboardButton);
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -42,6 +56,9 @@ public class PauseMenuPopUp extends Activity {
             }
         });
 
+        /**
+         * Dimensions of the UI.
+         */
         getWindow().setLayout((int) (width*.5), (int) (height*.8));
     }
 }
