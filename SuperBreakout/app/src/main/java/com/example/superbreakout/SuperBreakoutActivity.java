@@ -106,17 +106,6 @@ public class SuperBreakoutActivity extends Activity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                superBreakoutGame.player.name = data.getStringExtra("NickName");
-            }
-        }
-    }
-
     public void onBackPressed(){
         setContentView(R.layout.activity_main);
     }
@@ -185,5 +174,12 @@ public class SuperBreakoutActivity extends Activity {
                 indicators.put("SlideIndicator", data.getIntExtra("SI", 0));
             }
         }
+
+        if(requestCode == REQUEST_CODE_FOR_LEADERBOARD) {
+            if(resultCode == RESULT_OK) {
+                superBreakoutGame.player.name = data.getStringExtra("NickName");
+            }
+        }
+
     }
 }
