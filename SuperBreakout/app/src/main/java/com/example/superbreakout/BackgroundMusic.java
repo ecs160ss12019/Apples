@@ -2,7 +2,7 @@ package com.example.superbreakout;
 
 /**
  * Music by Eric Matyas
- *
+ * Creates and runs the service for running the background music.
  * Code is based from StackOverflow
  * Link: https://stackoverflow.com/questions/46838443/play-music-with-background-service
  */
@@ -17,20 +17,35 @@ public class BackgroundMusic extends Service {
     private static final String TAG = null;
     MediaPlayer player;
 
+    /**
+     * Initializes MediaPlayer.
+     * Loops the music.
+     * Sets the volume to 50 percent.
+     */
     @Override
     public void onCreate() {
         super.onCreate();
         player = MediaPlayer.create(this, R.raw.puzzledreams);
         player.setLooping(true);
-        player.setVolume(100,100);
+        player.setVolume(50,50);
     }
 
+    /**
+     * Starts the media player.
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         player.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
+    /**
+     * Stops the media player on closing the application.
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
