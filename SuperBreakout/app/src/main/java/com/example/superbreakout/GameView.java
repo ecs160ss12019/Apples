@@ -75,7 +75,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         ourHolder = getHolder();
         paint = new Paint();
-        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/Pacifico.ttf");
+        Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/origa___.ttf");
         paint.setTypeface(type);
 
         Resources res = getContext().getResources();
@@ -186,6 +186,13 @@ public class GameView extends SurfaceView implements Runnable {
             drawStage();
             drawStats();
             level.drawBall(canvas);
+
+            if(bat.stunTimer > 0) {
+                paint.setTextSize(100);
+                canvas.drawText("STUNNED", (screenX/2) - 280 , 680, paint);
+            }
+
+
             checkAndDrawWinScreen();
             // Draw everything to the screen
             if (!checkAndDrawEndGame()) {
@@ -248,7 +255,7 @@ public class GameView extends SurfaceView implements Runnable {
             paint.setTextSize(200);
             paint.setARGB(255,144,12,12);
             canvas.drawText("Game Over!",
-                    screenX / 2 - densityDpi , (screenY / 2), paint);
+                    screenX / 2 - densityDpi - 340 , (screenY / 2), paint);
             ourHolder.unlockCanvasAndPost(canvas);
 
             setHighScore();
@@ -272,38 +279,34 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.argb(255, 8, 8, 8));
         paint.setTextSize(50);
 
-        // Score Text
-        canvas.drawText(
-                "Score: " + player.getScore()
-                , (densityDpi / 5)-49,180, paint);
+        // Levels Text
+        canvas.drawText("Level:  " + level.getLevel()
+                , (densityDpi / 5)-80, 40, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
-                , (densityDpi / 5)-40, 120, paint);
+                , (densityDpi / 5)-80, 90, paint);
 
-        // Levels Text
-        canvas.drawText("Level:  " + level.getLevel()
-                , (densityDpi / 5)-40, 60, paint);
+        // Score Text
+        canvas.drawText(
+                "Score: " + player.getScore()
+                , (densityDpi / 5)-80,140, paint);
 
         // Upgrade/Downgrade text
-        canvas.drawText("Effects:",(densityDpi/5)-40, 240, paint );
+        canvas.drawText("Effects:",(densityDpi/5)-80, 190, paint );
 
         List<Upgrade> playerUpgrades = player.getActiveUpgrades();
         List<Downgrade> playerDowngrades = player.getActiveDowngrades();
-        int y = 240;
+        int y = 190;
         for (int i = 0; i < playerUpgrades.size(); i++) {
-            y += 60;
-            canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-40, y, paint);
+            y += 50;
+            canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-80, y, paint);
         }
 
         for (int i = 0; i < playerDowngrades.size(); i++) {
             y += 60;
             canvas.drawText(playerDowngrades.get(i).downgradeName, (densityDpi/5)-40, y, paint);
         }
-
-
-
-
 
     }
 

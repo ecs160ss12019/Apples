@@ -72,6 +72,8 @@ public class Player {
 
     public void resetEffects(String effectName, Bat bat, Ball ball) {
 
+        bat.stunTimer = 0;
+
         switch(effectName) {
             case "SpeedUp":
                 bat.setPaddleSpeed(bat.getPaddleSpeed()/2);
