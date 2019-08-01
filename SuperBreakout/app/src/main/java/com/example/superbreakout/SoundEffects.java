@@ -1,7 +1,9 @@
 package com.example.superbreakout;
 
 /**
- * This class hanldes the blipping sound effect when the ball hits an obstacle.
+ * This class handles the blipping sound effect when the ball hits an obstacle.
+ * Code based on Packt's book
+ * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
  */
 
 import android.content.Context;

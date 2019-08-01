@@ -5,6 +5,11 @@ package com.example.superbreakout;
  *
  * This class handles the view of the app.
  * Code based on Pong game by Packt Publishing.
+ *
+ * Code also based on StackOverflow:
+ * https://stackoverflow.com/questions/15689404/onactivityresult-method-not-being-called-android
+ * https://stackoverflow.com/questions/41295747/startactivityforresult-is-not-returning-data-to-parent-activity
+ * https://stackoverflow.com/questions/22553672/android-startactivityforresult-setresult-for-a-view-class-and-an-activity-cla
  */
 
 import android.content.Intent;

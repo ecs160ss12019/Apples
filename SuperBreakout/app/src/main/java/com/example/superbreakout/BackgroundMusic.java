@@ -5,6 +5,7 @@ package com.example.superbreakout;
  * Creates and runs the service for running the background music.
  * Code is based from StackOverflow
  * Link: https://stackoverflow.com/questions/46838443/play-music-with-background-service
+ * https://stackoverflow.com/questions/5215459/android-mediaplayer-setvolume-function
  */
 
 import android.app.Service;

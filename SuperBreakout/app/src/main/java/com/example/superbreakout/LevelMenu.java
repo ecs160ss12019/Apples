@@ -3,6 +3,13 @@ package com.example.superbreakout;
 /**
  * This class manages the UI of the settings menu
  * Gets input to determine which level the user chooses and slide controls.
+ *
+ * Code based on StackOverflow answers:
+ * https://stackoverflow.com/questions/37187189/multiple-onactivityresult-method-in-android
+ * https://stackoverflow.com/questions/15689404/onactivityresult-method-not-being-called-android
+ * https://stackoverflow.com/questions/41295747/startactivityforresult-is-not-returning-data-to-parent-activity
+ * https://stackoverflow.com/questions/22553672/android-startactivityforresult-setresult-for-a-view-class-and-an-activity-cla
+ * https://stackoverflow.com/questions/4649508/trigger-back-button-functionality-on-button-click-in-android
  */
 
 import android.app.Activity;
