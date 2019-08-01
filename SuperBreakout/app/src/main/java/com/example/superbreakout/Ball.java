@@ -236,7 +236,7 @@ public class Ball extends GameObject {
      * This function reverses the vertical velocity and adds a little momentum to it.
      */
     public void reverseYVelocity() {
-        yVelocity = -yVelocity;
+        yVelocity = -yVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 
@@ -244,7 +244,10 @@ public class Ball extends GameObject {
      * This function reverses the horizontal velocity and adds a little momentum to it.
      */
     public void reverseXVelocity() {
-        xVelocity = -xVelocity;
+        if(xVelocity > 0) //collision on right wall
+            xVelocity = -xVelocity - 50;
+        else //collision on left wall
+            xVelocity = -xVelocity + 50;
         this.normalizeVelocity(this.xVelocity, this.yVelocity);
     }
 

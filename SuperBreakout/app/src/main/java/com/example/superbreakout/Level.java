@@ -201,13 +201,15 @@ public abstract class Level {
                         }
 
                     } else {
+                        //If exploding obstacle
                         if(bricks[i].getDurability() == Explosive.DURABILITY_EXPLOSIVE){
+                            bricks[i] = bricks[i].reduceDurability();
                             bricks[i].setInvisible();
                             hitObstacle();
-                            int neighborsDestroyed = ((Explosive)bricks[i]).numNeighborsToDestroy();
-                            explodedObstacles(neighborsDestroyed);
+                            explodedObstacles();
+                        }else {
+                            bricks[i] = bricks[i].reduceDurability();
                         }
-                        bricks[i] = bricks[i].reduceDurability();
                     }
                     ballObstacleCollision(ball, bricks[i].getRect());
                     hit = true;
@@ -255,7 +257,6 @@ public abstract class Level {
             }
         }
     }
-
 
     /**
      * Updates the obstacles every time to check states of the objects.
@@ -384,9 +385,15 @@ public abstract class Level {
 
     /**
      * Reduces number of alive bricks by neighbors .
-     * @param neighbors
      */
-    private void explodedObstacles(int neighbors){ numAliveBricks -= neighbors; }
+    private void explodedObstacles(){
+        int numBricksAlive = 0;
+
+        for(Obstacle brick: bricks){
+            if(brick.getVisibility()) numBricksAlive++;
+        }
+        numAliveBricks = numBricksAlive;
+    }
 
 
     /**

@@ -35,7 +35,7 @@ public class LevelThree extends Level{
             for (int row = 0; row < rowsInLevel; row++) {
                 int randNumber = 0;
                 if(Randomizer.getRandBoolean()) {
-                    randNumber = Randomizer.getRandNumber(-1,3);
+                    randNumber = Randomizer.getRandNumber(-1,0);
                 }
                 bricks[numBricks] = durabilityFactory.getDurabilityObject(context, row,
                         column, brickWidth, brickHeight,
