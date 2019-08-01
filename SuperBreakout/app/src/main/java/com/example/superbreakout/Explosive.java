@@ -102,6 +102,21 @@ public class Explosive extends Obstacle{
     }
 
     /**
+     *
+     * @return num of neighbors that are alive
+     */
+    public int numNeighborsToDestroy(){
+        int numNeighbors = 0;
+        for(Obstacle brick: neighborsToDestroy){
+            if(brick.getVisibility()){
+                numNeighbors++;
+            }
+        }
+        return numNeighbors;
+    }
+
+
+    /**
      * Sets the bitmap for the explosive obstacle
      */
     @Override

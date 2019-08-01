@@ -184,9 +184,11 @@ public abstract class Level {
                         || ball.getRect().intersect(bricks[i].getRect()) || bricks[i].getRect().intersect(ball.getRect())) {
                     FX.playFX();
 
-                    if (bricks[i].getDurability() == 0) {
+                    if (bricks[i].getDurability() == DurabilityZero.DURABILITY_ZERO) {
                         bricks[i].setInvisible();
                         hitObstacle();
+
+                        // If obstacle was an explosive, decrease numberAlive by amount of surrounding obstacles
 
                         // Checks if there ball has an explosion upgrade
                         if (ball.explosion) {
@@ -199,6 +201,12 @@ public abstract class Level {
                         }
 
                     } else {
+                        if(bricks[i].getDurability() == Explosive.DURABILITY_EXPLOSIVE){
+                            bricks[i].setInvisible();
+                            hitObstacle();
+                            int neighborsDestroyed = ((Explosive)bricks[i]).numNeighborsToDestroy();
+                            explodedObstacles(neighborsDestroyed);
+                        }
                         bricks[i] = bricks[i].reduceDurability();
                     }
                     ballObstacleCollision(ball, bricks[i].getRect());
@@ -373,6 +381,13 @@ public abstract class Level {
     private void hitObstacle() {
         numAliveBricks--;
     }
+
+    /**
+     * Reduces number of alive bricks by neighbors .
+     * @param neighbors
+     */
+    private void explodedObstacles(int neighbors){ numAliveBricks -= neighbors; }
+
 
     /**
      *
