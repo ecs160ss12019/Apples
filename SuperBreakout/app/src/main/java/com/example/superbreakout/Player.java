@@ -146,8 +146,6 @@ public class Player {
             case "Hollow":
                 ball.hollow = false;
                 break;
-//            case "Confusion":
-//                break;
         }
     }
 

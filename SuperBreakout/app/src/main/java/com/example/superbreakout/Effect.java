@@ -60,7 +60,7 @@ class Downgrade extends Effect {
 
         // List of Downgrades
         String[] batDowngrades = {"SpeedDown", "SizeDown"};
-        String[] ballDowngrades = {"Hollow", "Confusion"};
+        String[] ballDowngrades = {"Hollow"};
         Random random = new Random();
 
         // Check if its a Ball or Bat downgrade
