@@ -20,6 +20,9 @@ Link to our repo:
 https://github.com/ecs160ss12019/Apples
 
 ## Sprint 1
+### Screenshots
+![screenshot_0](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint1.png)
+
 ## Sprint 2
 ### Screenshots
 ![screenshot_1](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/game.png)
