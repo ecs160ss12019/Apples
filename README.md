@@ -19,6 +19,19 @@ The player is a bat trapped in an alternate dimension and is trying to get back 
 Link to our repo: 
 https://github.com/ecs160ss12019/Apples
 
-## Screenshots 
+## Sprint 1
+## Sprint 2
+### Screenshots
 ![screenshot_1](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/game.png)
 ![screenshot 2](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/main-menu.png)
+
+## Sprint 3
+### Screenshots
+![screenshot_3](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-1.png)
+![screenshot_4](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-2.png)
+![screenshot_5](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-3.png)
+![screenshot_6](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-4.png)
+![screenshot_7](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-5.png)
+![screenshot_8](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-6.png)
+![screenshot_9](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint3-7.png)
+
