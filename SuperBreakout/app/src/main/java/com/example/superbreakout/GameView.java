@@ -225,6 +225,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             if(bat.stunTimer > 0) {
                 paint.setTextSize(100);
+                paint.setColor(Color.argb(255, 255, 255, 255));
                 canvas.drawText("STUNNED", (screenX/2) - 280 , 680, paint);
             }
 
@@ -335,31 +336,36 @@ public class GameView extends SurfaceView implements Runnable {
 
         // Levels Text
         canvas.drawText("Level:  " + level.getLevel()
-                , (densityDpi / 5)-80, 40, paint);
+                , (densityDpi / 5)-80, 500, paint);
 
         // Lives Text
         canvas.drawText("Lives:  " + player.getLives()
-                , (densityDpi / 5)-80, 90, paint);
+                , (densityDpi / 5)-80, 550, paint);
 
         // Score Text
         canvas.drawText(
                 "Score: " + player.getScore()
-                , (densityDpi / 5)-80,140, paint);
+                , (densityDpi / 5)-80,600, paint);
 
         // Upgrade/Downgrade text
-        canvas.drawText("Effects:",(densityDpi/5)-80, 190, paint );
+        canvas.drawText("Effects:",(densityDpi/5)-80, 650, paint );
+
+        paint.setColor(Color.argb(255, 255, 255, 255));
 
         List<Upgrade> playerUpgrades = player.getActiveUpgrades();
         List<Downgrade> playerDowngrades = player.getActiveDowngrades();
-        int y = 190;
+        int y = 650;
+
+        paint.setColor(Color.argb(255, 0, 255, 0));
         for (int i = 0; i < playerUpgrades.size(); i++) {
             y += 50;
             canvas.drawText(playerUpgrades.get(i).upgradeName, (densityDpi/5)-80, y, paint);
         }
 
+        paint.setColor(Color.argb(255, 255, 0, 0));
         for (int i = 0; i < playerDowngrades.size(); i++) {
-            y += 60;
-            canvas.drawText(playerDowngrades.get(i).downgradeName, (densityDpi/5)-40, y, paint);
+            y += 50;
+            canvas.drawText(playerDowngrades.get(i).downgradeName, (densityDpi/5)-80, y, paint);
         }
     }
 
