@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * Base class for handling the levels and their layouts.
+ */
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,6 +28,12 @@ public abstract class Level {
 
     SoundEffects FX;
 
+    /**
+     * Default Constructor.
+     * @param x Horizontal Screen Size.
+     * @param y Vertical Screen Size.
+     * @param currentContext GameView's context.
+     */
     public Level(int x, int y, Context currentContext) {
         screenX = x;
         screenY = y;
@@ -33,6 +43,11 @@ public abstract class Level {
         FX = new SoundEffects(context);
     }
 
+    /**
+     * Draws the obstacle objects.
+     * @param canvas Canvas object from GameView.
+     * @param paint Paint from GameView.
+     */
     public void draw(Canvas canvas, Paint paint) {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
@@ -53,6 +68,9 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Creates explosion if explosive obstacle is hit.
+     */
     public void initializeExplosion() {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i] instanceof Explosive) {
@@ -61,6 +79,15 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Creates empty spaces in between obstacles for each of the levels.
+     * @param colStart
+     * @param rowStart
+     * @param rowsInLevel
+     * @param bricks
+     * @param width
+     * @param height
+     */
     public void createPocket(int colStart, int rowStart, int rowsInLevel, Obstacle[] bricks, int width, int height) {
         for (int column = colStart; column < colStart + width; column++) {
             for (int row = rowStart; row < rowStart + height; row++) {
@@ -69,6 +96,12 @@ public abstract class Level {
         }
     }
 
+
+    /**
+     * Detects the collision between obstacles and the ball(s).
+     * @param ball Each ball object
+     * @param obstacle Each obstacle object.
+     */
     public void ballObstacleCollision(Ball ball, RectF obstacle) {
 
         RectF ballRect = ball.getRect();
@@ -101,6 +134,11 @@ public abstract class Level {
         }
     }
 
+    /**
+     *
+     * @param ball
+     * @return
+     */
     public boolean checkCollision(Ball ball) {
         boolean hit = false;
         // Check for ball colliding with a brick
@@ -119,6 +157,10 @@ public abstract class Level {
         return hit;
     }
 
+    /**
+     *
+     * @param ball
+     */
     private void checkInActiveCollision(Ball ball) {
         for (int i = 0; i < bricksInLevel; i++) {
             if (bricks[i].getVisibility()) {
@@ -129,6 +171,11 @@ public abstract class Level {
         }
     }
 
+    /**
+     *
+     * @param ball
+     * @return
+     */
     private boolean checkActiveCollision(Ball ball) {
         boolean hit = false;
         for (int i = 0; i < bricksInLevel; i++) {
@@ -202,6 +249,12 @@ public abstract class Level {
     }
 
 
+    /**
+     * Updates the obstacles every time to check states of the objects.
+     * @param fps the screen refresh rate
+     * @param bat The bat object.
+     * @param player Our player object, which contains stats.
+     */
     public void update(long fps, Bat bat, Player player) {
         for (int i = 0; i < ballsInLevel; i++) {
             balls[i].update(fps);
@@ -225,7 +278,11 @@ public abstract class Level {
         }
     }
 
-    // Level Five fall block feature where the block slowly gets closer to the paddle
+    /**
+     * Level Five fall block feature where the block slowly gets closer to the paddle
+     * @param bat The bat object.
+     * @param player Our player object, which contains stats.
+     */
     private void levelFiveFallBlock(Bat bat, Player player) {
         for (Obstacle brick : bricks) {
 
@@ -268,6 +325,10 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Draws the ball(s) on the screen.
+     * @param canvas Canvas from GameView.
+     */
     public void drawBall(Canvas canvas) {
         for (int i = 0; i < ballsInLevel; i++) {
             canvas.drawBitmap(balls[i].getBallBitmap(),
@@ -277,34 +338,63 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Resets the levels.
+     */
     public void resetLevel() {
         balls[0].makeActive();
         balls[0].reset(screenX, screenY, level);
     }
 
+    /**
+     * Reset the effects of the player.
+     * @param player
+     * @param bat
+     */
     public void resetEffects(Player player, Bat bat) {
         player.clearEffects(bat, balls[0]);
     }
 
+    /**
+     * Creates all the balls for that specific level.
+     * @param context Context from GameView.
+     * @param screenX Horizontal screen size.
+     * @param screenY Vertical screen size.
+     */
     public void createBalls(Context context, int screenX, int screenY) {
         balls = new Ball[ballsInLevel];
         balls[0] = new Ball(context, screenX, screenY);
         resetLevel();
     }
 
+    /**
+     * Reduces number of alive bricks.
+     */
     private void hitObstacle() {
         numAliveBricks--;
     }
 
+    /**
+     *
+     * @return If level is completed or not.
+     */
     public boolean levelCompleted() {
         if (numAliveBricks == 0) return true;
         else return false;
     }
 
+    /**
+     *
+     * @return Current level object.
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * Updates the debris falling.
+     * @param fps
+     */
     private void updateDebris(long fps) {
         // Updates the position of all active debris
         for (int i = 0; i < bricksInLevel; i++) {
@@ -314,6 +404,12 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Applies the upgrade to the ball or the bat.
+     * @param ug
+     * @param ball Ball object.
+     * @param bat Bat object.
+     */
     private void applyUpgrade(Upgrade ug, Ball ball, Bat bat) {
         switch (ug.getEffectTarget()) {
             case "Ball":
@@ -325,6 +421,12 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Applies the downgrade to the ball or bat.
+     * @param dg
+     * @param ball
+     * @param bat
+     */
     private void applyDowngrade(Downgrade dg, Ball ball, Bat bat) {
         switch (dg.getEffectTarget()) {
             case "Ball":
@@ -336,6 +438,10 @@ public abstract class Level {
         }
     }
 
+    /**
+     * Activates the explosion for the ball.
+     * @param index
+     */
     private void explodingBall(int index) {
 
         if (index < (rowsInLevel * columnsInLevel) &&

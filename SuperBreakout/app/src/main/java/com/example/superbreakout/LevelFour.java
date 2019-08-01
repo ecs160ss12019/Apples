@@ -1,5 +1,9 @@
 package com.example.superbreakout;
 
+/**
+ * Level layout for level four.
+ */
+
 import android.content.Context;
 
 public class LevelFour extends Level{

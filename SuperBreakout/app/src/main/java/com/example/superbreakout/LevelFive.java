@@ -1,5 +1,8 @@
 package com.example.superbreakout;
 
+/**
+ * Level layout for level five.
+ */
 
 import android.content.Context;
 
