@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
     >
 
     <TextView
@@ -79,14 +80,15 @@
         android:id="@+id/controlText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/level3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:layout_below="@+id/level3"
         android:gravity="center"
-        android:textSize="30sp"
+        android:text="Controls"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Controls" />
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 
     <TextView
@@ -94,12 +96,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/controlText"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:text="Slide"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF" />
 
     <Switch
         android:id="@+id/toggleSwitch"
