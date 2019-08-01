@@ -249,9 +249,7 @@ public class Ball extends GameObject {
     }
 
     /**
-     * Add remaining upgrade cases
-     * implement a way to store list of upgrades.
-     * List of Effects should reset after each death/level.
+     * This function changes variables depending on upgrade
      *
      * @param upgradeName Type of upgrade.
      */
@@ -268,9 +266,8 @@ public class Ball extends GameObject {
 
 
     /**
-     * Add remaining downgrade cases
-     * implement a way to store list of downgrades.
-     * List of Effects should reset after each death/level.
+     * This function changes variables depedning on downgrade
+     *
      * @param downgradeName Type of downgrade.
      */
     public void applyDowngrade(String downgradeName) {
@@ -278,9 +275,6 @@ public class Ball extends GameObject {
         switch(downgradeName) {
             case "Hollow":
                 hollow = true;
-                break;
-            case "Slow":
-                // Implement code
                 break;
         }
     }
