@@ -22,6 +22,14 @@ https://github.com/ecs160ss12019/Apples
 ## Citation
 Tiles and ball images - https://opengameart.org/content/breakout-brick-breaker-tile-set-free
 
+Background images - https://zintoki.itch.io/space-breaker
+
+images - https://steamcommunity.com/market/listings/753/400020-Super%20Breakout
+                  
+Music by Eric Matyas - https://soundimage.org/sci-fi/
+
+Sound Effects - http://soundbible.com/1682-Robot-Blip.html
+
 ## Sprint 1
 ### Screenshots
 ![screenshot_0](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint1.png)
