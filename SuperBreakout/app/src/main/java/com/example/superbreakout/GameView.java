@@ -3,10 +3,15 @@ package com.example.superbreakout;
 /* Sources:
  * https://code.tutsplus.com/tutorials/android-sdk-create-an-arithmetic-game-high-scores-and-state-data--mobile-18825\
  * https://github.com/PacktPublishing/Learning-Java-by-Building-Android-Games-Second-Edition/tree/master/Chapter11
+ * https://zintoki.itch.io/space-breaker
+ * https://steamcommunity.com/market/listings/753/400020-Super%20Breakout
  *
  * This class handles the view of the game.
  * Renders the game.
  * Code based on Pong game by Packt Publishing.
+ *
+ * Background image from on itch.io.
+ * Menu image from Steam.
  */
 
 import android.content.Context;
