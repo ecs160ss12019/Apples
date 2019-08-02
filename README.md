@@ -30,6 +30,8 @@ Music by Eric Matyas - https://soundimage.org/sci-fi/
 
 Sound Effects - http://soundbible.com/1682-Robot-Blip.html
 
+Debris images - https://thewisehedgehog.itch.io/thip
+
 ## Sprint 1
 ### Screenshots
 ![screenshot_0](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint1.png)
