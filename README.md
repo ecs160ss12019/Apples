@@ -19,6 +19,9 @@ The player is a bat trapped in an alternate dimension and is trying to get back 
 Link to our repo: 
 https://github.com/ecs160ss12019/Apples
 
+## Citation
+Tiles and ball images - https://opengameart.org/content/breakout-brick-breaker-tile-set-free
+
 ## Sprint 1
 ### Screenshots
 ![screenshot_0](https://raw.githubusercontent.com/ecs160ss12019/Apples/master/sprint1.png)
