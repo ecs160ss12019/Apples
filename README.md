@@ -24,7 +24,7 @@ Tiles and ball images - https://opengameart.org/content/breakout-brick-breaker-t
 
 Background images - https://zintoki.itch.io/space-breaker
 
-                  - https://steamcommunity.com/market/listings/753/400020-Super%20Breakout
+images - https://steamcommunity.com/market/listings/753/400020-Super%20Breakout
                   
 Music by Eric Matyas - https://soundimage.org/sci-fi/
 
